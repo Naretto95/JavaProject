@@ -1,2 +1,2 @@
 # JavaProject
-aaaaaaaa
+Game type RPG created with Java.
