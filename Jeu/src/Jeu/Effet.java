@@ -4,5 +4,5 @@ public enum Effet {
 	Etourdissement,
 	Poison,
 	GainDeVie,
-	GainExperience,
+	GainDegats,
 }

@@ -3,6 +3,6 @@ package Jeu;
 public enum Race {
 	Orc,
 	Humain,
-	dragon,
+	Dragon,
 	Nain
 }

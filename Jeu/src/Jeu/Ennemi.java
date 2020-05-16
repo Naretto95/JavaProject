@@ -14,6 +14,26 @@ public class Ennemi extends Entité {
 		if (this.getCategorie()==Jeu.Categorie.Boss) {
 			this.setVie(this.getVie()*2);	
 		}
+		switch (this.getRace()) {
+		case Orc:
+			this.setEnMain(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
+			break;
+			
+		case Humain:
+			this.setEnMain(new Arme(TypeArme.EpéeCourte,this.getNiveau()));
+			break;
+			
+		case Dragon:
+			this.setEnMain(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
+			break;
+			
+		case Nain:
+			this.setEnMain(new Arme(TypeArme.Arc,this.getNiveau()));
+			break;
+
+		default:
+			break;
+		}
 	}
 	
 	public Categorie getCategorie() {

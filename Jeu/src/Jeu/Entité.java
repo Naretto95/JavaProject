@@ -30,28 +30,95 @@ public class Entité {
 	public void DegatsReçues(Arme _Arme){
 		this.setVie(this.getVie()-_Arme.getDegats());
 		if (this.getVie()<=0) {
-			this.setEtat(EtatEntité.Mort);		
+			this.setEtat(EtatEntité.Mort);
 		}
 	}
 	
-	public void Attaque(Entité _Entité, Arme _Arme) { // notion de portée
+	public void Attaque(Entité _Entité, Arme _Arme){
 		boolean etourdis = new Random().nextInt(5)==0;
 		boolean rater = new Random().nextInt(5)==0;
 		if (this.getEtat()==EtatEntité.Vivant) {
 			if (etourdis==true && rater==false) {
-				_Entité.DegatsReçues(_Arme);
-				_Entité.setEtat(EtatEntité.Etourdis);
-				_Arme.setDurabilité(_Arme.getDurabilité()-1);
-				if (_Arme.getDurabilité()<=0) {
-					_Arme.setEtat(false);
+				if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= _Arme.getPortée() ) {
+					_Entité.DegatsReçues(_Arme);
+					_Entité.setEtat(EtatEntité.Etourdis);
+					_Arme.setDurabilité(_Arme.getDurabilité()-1);
+					if (_Arme.getDurabilité()<=0) {
+						_Arme.setEtat(false);
+					}
 				}
 			}else {
 				if (rater==false) {
-					_Entité.DegatsReçues(_Arme);
-					_Arme.setDurabilité(_Arme.getDurabilité()-1);
+					if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée()) {
+						_Entité.DegatsReçues(_Arme);
+						_Arme.setDurabilité(_Arme.getDurabilité()-1);
+						if (_Arme.getDurabilité()<=0) {
+							_Arme.setEtat(false);
+						}
+					}
+				}
+			}
+			if (this instanceof Joueur && _Entité instanceof Ennemi) {
+				if (_Entité.getEtat()==EtatEntité.Mort) {
+					((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
+					((Joueur)this).levelup();
 				}
 			}
 		}
+	}
+	
+	public void Utiliser(Entité _Entité) {
+		if (this.getEtat()==EtatEntité.Vivant) {
+			if (this.enMain instanceof Arme) {
+				Attaque(_Entité,(Arme)this.enMain);
+			}else {
+				if (this.enMain instanceof Potion) {
+					switch (((Potion)this.enMain).getEffet()) {
+					case Etourdissement:
+						if (_Entité.getPositionX() == this.getPositionX()) {
+							this.Empoisonner(_Entité);
+						}else {
+							if (_Entité.getPositionY() == this.getPositionY()) {
+								this.Empoisonner(_Entité);
+							}
+						}
+						break;
+						
+					case Poison:
+						if (_Entité.getPositionX() == this.getPositionX()) {
+							this.Empoisonner(_Entité);
+						}else {
+							if (_Entité.getPositionY() == this.getPositionY()) {
+								this.Empoisonner(_Entité);
+							}
+						}
+						break;
+						
+					case GainDeVie :
+						if (_Entité instanceof Joueur) {
+							if (this.getVie()<this.getNiveau()*100) {
+								this.setVie(this.getNiveau()*100);
+							}
+						}
+						break;
+						
+					case GainDegats :
+						// A REMPLIR
+						break;
+						
+					default:
+						break;
+					}
+					_Entité.Empoisonnement((Potion)this.enMain);
+					((Potion)this.enMain).setEtat(false);
+				}
+			}
+		}
+	}
+	
+	public void Empoisonner(Entité _Entité) {
+		_Entité.Empoisonnement((Potion)this.enMain);
+		((Potion)this.enMain).setEtat(false);
 	}
 	
 	
@@ -70,11 +137,6 @@ public class Entité {
 		default:
 			break;
 		}
-	}
-	
-	public void Empoisonner(Entité _Entité,Potion _Potion) {
-		_Entité.Empoisonnement(_Potion);
-		_Potion.setEtat(false);
 	}
 	
 	public int getVie() {
