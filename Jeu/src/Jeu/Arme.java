@@ -9,45 +9,39 @@ public class Arme extends Item {
 	private int Amélioré;
 	
 	public Arme(TypeArme _Type, int _Niveau ){
+		super(true,_Niveau,false);
 		switch (_Type) {
 		case EpéeLongue:
 			this.setDegats(_Niveau * 5);
 			this.setDurabilité(20);
-			this.setEtat(true);
 			this.setType(_Type);
 			this.setAmélioré(0);
 			this.setPortée(2);
-			this.setNiveau(_Niveau);
 			break;
 			
 		case EpéeCourte:
 			this.setDegats(_Niveau * 3);
 			this.setDurabilité(10);
-			this.setEtat(true);
 			this.setType(_Type);
 			this.setAmélioré(0);
 			this.setPortée(1);
-			this.setNiveau(_Niveau);
 			break;
 		
 		case Arc:
 			this.setDegats(_Niveau * 2);
 			this.setDurabilité(15);
-			this.setEtat(true);
 			this.setType(_Type);
 			this.setAmélioré(0);
 			this.setPortée(10);
-			this.setNiveau(_Niveau);
 			break;
 		
 		case Main:
+			this.setRamassé(true);
 			this.setDegats(_Niveau * 1);
 			this.setDurabilité(9999999);
-			this.setEtat(true);
 			this.setType(_Type);
 			this.setAmélioré(0);
 			this.setPortée(1);
-			this.setNiveau(_Niveau);
 			break;
 			
 		default:

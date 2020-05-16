@@ -9,6 +9,7 @@ public class Joueur extends Entité {
 	
 	public Joueur(String _Nom, int _Niveau, int _PositionX, int PositionY) {
 		super(_Niveau, _PositionX,PositionY);
+		this.setEnMain(new Arme(TypeArme.Main,_Niveau));
 		this.setNom(_Nom);
 		this.setExperience(0);
 	}
@@ -37,14 +38,18 @@ public class Joueur extends Entité {
 				break;
 				
 			case GainDeVie :
-				if (this.getVie()<this.getNiveau()*100) {
-					this.setVie(this.getNiveau()*100);
+				if (_Entité.getPositionX() == this.getPositionX() && _Entité.getPositionY() == this.getPositionY()) {
+					if (this.getVie()<this.getNiveau()*100) {
+						this.setVie(this.getNiveau()*100);
+					}
 				}
 				break;
 				
 			case GainExperience:
-				this.setExperience(this.getExperience()+_Potion.getNiveau()*10);
-				this.levelup();
+				if (_Entité.getPositionX() == this.getPositionX() && _Entité.getPositionY() == this.getPositionY()) {
+					this.setExperience(this.getExperience()+_Potion.getNiveau()*10);
+					this.levelup();
+				}
 				break;
 			default:
 				break;
@@ -54,7 +59,7 @@ public class Joueur extends Entité {
 	
 	public void levelup() {
 		if (this.getExperience()>this.getNiveau()*100) {
-			this.setNiveau(this.getNiveau()+1);;
+			this.setNiveau(this.getNiveau()+1);
 			this.setExperience(this.getExperience()-this.getNiveau()*100);
 		}
 	}
@@ -68,7 +73,7 @@ public class Joueur extends Entité {
 				if (cle.getType()==TypeRessource.Fer) {
 					if (valeur>=5) {
 						_Arme.Ameliorer();
-						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-3);
+						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-5);
 					}			
 				}
 				break;
@@ -104,6 +109,7 @@ public class Joueur extends Entité {
 		    if (cle==_Item){
 		    	if (valeur<3) {
 					this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)+1);
+					cle.setRamassé(true);
 				}				
 			}
 		}
@@ -112,8 +118,8 @@ public class Joueur extends Entité {
 	public void Bouger(int guauche, int droite, int bas, int haut){
 		this.setPositionX(this.getPositionX()+droite);
 		this.setPositionX(this.getPositionX()-guauche);
-		this.setPositionX(this.getPositionY()+haut);
-		this.setPositionX(this.getPositionY()-bas);
+		this.setPositionY(this.getPositionY()+haut);
+		this.setPositionY(this.getPositionY()-bas);
 		
 	}
 	

@@ -34,7 +34,7 @@ public class Entité {
 		}
 	}
 	
-	public void Attaque(Entité _Entité, Arme _Arme) {
+	public void Attaque(Entité _Entité, Arme _Arme) { // notion de portée
 		boolean etourdis = new Random().nextInt(5)==0;
 		boolean rater = new Random().nextInt(5)==0;
 		if (this.getEtat()==EtatEntité.Vivant) {
@@ -42,6 +42,9 @@ public class Entité {
 				_Entité.DegatsReçues(_Arme);
 				_Entité.setEtat(EtatEntité.Etourdis);
 				_Arme.setDurabilité(_Arme.getDurabilité()-1);
+				if (_Arme.getDurabilité()<=0) {
+					_Arme.setEtat(false);
+				}
 			}else {
 				if (rater==false) {
 					_Entité.DegatsReçues(_Arme);
@@ -71,6 +74,7 @@ public class Entité {
 	
 	public void Empoisonner(Entité _Entité,Potion _Potion) {
 		_Entité.Empoisonnement(_Potion);
+		_Potion.setEtat(false);
 	}
 	
 	public int getVie() {

@@ -5,8 +5,7 @@ public class Potion extends Item {
 	private Effet Effet;
 	
 	public Potion(Effet _Effet, int _Niveau) {
-		this.setEtat(true);
-		this.setNiveau(_Niveau);
+		super(true,_Niveau,false);
 		this.setEffet(_Effet);
 	}
 	
