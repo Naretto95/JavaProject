@@ -82,11 +82,13 @@ public class Joueur extends Entité {
 		    	if (valeur>1) {
 		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
 		    		this.setEnMain(new Item(true,(this.getEnMain()).getNiveau(),true));
+		    		cle.setRamassé(false);
 		    		//TOMBE SUR LA CASE
 				}else {
 					if (valeur==1) {
 						this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
 						this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
+						cle.setRamassé(false);
 						//TOMBE SUR LA CASE
 					}
 				}
@@ -101,8 +103,9 @@ public class Joueur extends Entité {
 		    Integer valeur = entry.getValue();
 		    if (cle==_Item){
 		    	if (valeur<3) {
-					this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)+1);
-					cle.setRamassé(true);
+		    		if (cle.getNiveau()<=this.getNiveau()) {
+		    			this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)+1);
+					}
 				}				
 			}
 		}

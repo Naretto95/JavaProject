@@ -48,37 +48,39 @@ public class Entité {
 	}
 	
 	public void Attaque(Entité _Entité, Arme _Arme){
-		boolean etourdis = new Random().nextInt(5)==0;
-		boolean rater = new Random().nextInt(5)==0;
-			if (etourdis==true && rater==false) {
-				if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= _Arme.getPortée() ) {
-					_Entité.DegatsReçues(_Arme);
-					_Entité.setEtat(EtatEntité.Etourdis);
-					_Arme.setDurabilité(_Arme.getDurabilité()-1);
-					if (_Arme.getDurabilité()<=0) {
-						_Arme.setEtat(false);
-						this.ActualiserInventaire();
-					}
-				}
-			}else {
-				if (rater==false) {
-					if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée()) {
+		if (_Arme.getDurabilité()>0) {
+			boolean etourdis = new Random().nextInt(5)==0;
+			boolean rater = new Random().nextInt(5)==0;
+				if (etourdis==true && rater==false) {
+					if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée() && _Entité.getPositionY()==this.getPositionY() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= _Arme.getPortée() && _Entité.getPositionX()==this.getPositionX() ) {
 						_Entité.DegatsReçues(_Arme);
+						_Entité.setEtat(EtatEntité.Etourdis);
 						_Arme.setDurabilité(_Arme.getDurabilité()-1);
 						if (_Arme.getDurabilité()<=0) {
 							_Arme.setEtat(false);
 							this.ActualiserInventaire();
 						}
 					}
+				}else {
+					if (rater==false) {
+						if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée() && _Entité.getPositionY()==this.getPositionY() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= _Arme.getPortée() && _Entité.getPositionX()==this.getPositionX() ) {
+							_Entité.DegatsReçues(_Arme);
+							_Arme.setDurabilité(_Arme.getDurabilité()-1);
+							if (_Arme.getDurabilité()<=0) {
+								_Arme.setEtat(false);
+								this.ActualiserInventaire();
+							}
+						}
+					}
 				}
-			}
-			if (this instanceof Joueur && _Entité instanceof Ennemi) {
-				if (_Entité.getEtat()==EtatEntité.Mort) {
-					((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
-					((Joueur)this).levelup();
-					//IL FAUT DELETE LENNEMI
+				if (this instanceof Joueur && _Entité instanceof Ennemi) {
+					if (_Entité.getEtat()==EtatEntité.Mort) {
+						((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
+						((Joueur)this).levelup();
+						//IL FAUT DELETE LENNEMI
+					}
 				}
-			}
+		}
 	}
 	
 	public void ChangerItem(Item _Item) {
@@ -105,14 +107,26 @@ public class Entité {
 			for(Entry<Item, Integer> entry : this.getInventaireItem().entrySet()) {
 				Item cle = entry.getKey();
 			    Integer valeur = entry.getValue();
-			    if (cle==this.enMain) {
-			    	if (valeur>0) {
-			    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
-			    		this.setEnMain(new Item(true,(this.enMain).getNiveau(),true));
-					}else {
-						this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
-					}
+			    if (cle instanceof Arme && this.enMain instanceof Arme && valeur>0) {
+			    	if (((Arme) cle).getType()==((Arme)this.enMain).getType()) {
+				    	if (valeur>1) {
+				    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
+				    		this.setEnMain(new Arme(((Arme)this.enMain).getType(),((Arme)this.enMain).getNiveau()));
+						}else {
+							this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
+						}
 				}
+			}
+			    if (cle instanceof Potion && this.enMain instanceof Potion && valeur>0) {
+			    	if (((Potion) cle).getEffet()==((Potion)this.enMain).getEffet()) {
+				    	if (valeur>0) {
+				    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
+				    		this.setEnMain(new Potion(((Potion)this.enMain).getEffet(),((Potion)this.enMain).getNiveau()));
+						}else {
+							this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
+						}
+				}
+			}
 			    
 			}
 			
@@ -147,8 +161,16 @@ public class Entité {
 						break;
 						
 					case GainDeVie :
-							if (this.getVie()<this.getVie()*100) {
-								this.setVie(this.getVie()*100);
+							if (this.getVie()<this.getNiveau()*100) {
+								if (((Potion)this.enMain).getNiveau()+this.getVie() <= this.getNiveau()*100) {
+									this.setVie(((Potion)this.enMain).getNiveau()+this.getVie());
+									((Potion)this.enMain).setEtat(false);
+									this.ActualiserInventaire();								
+								}else {
+									this.setVie(this.getNiveau()*100);
+									((Potion)this.enMain).setEtat(false);
+									this.ActualiserInventaire();
+								}
 						}
 						break;
 						
@@ -160,7 +182,9 @@ public class Entité {
 								if (((Arme) cle).getType() != TypeArme.Main) {
 									if (valeur>0) {
 										this.setEnMain(new Arme(((Arme) cle).getType(),((Arme) cle).getNiveau()));
-										((Arme)this.getEnMain()).setDegats(((Arme)this.getEnMain()).getDegats()+10);
+										((Arme)this.getEnMain()).setDegats(((Arme)this.getEnMain()).getDegats()+((Potion)this.enMain).getNiveau()*2);
+										((Potion)this.enMain).setEtat(false);
+										this.ActualiserInventaire();
 									}
 								}
 							}
@@ -171,8 +195,6 @@ public class Entité {
 					default:
 						break;
 					}
-					_Entité.Empoisonnement((Potion)this.enMain);
-					((Potion)this.enMain).setEtat(false);
 				}
 			}
 		}

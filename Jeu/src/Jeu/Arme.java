@@ -37,7 +37,7 @@ public class Arme extends Item {
 		
 		case Main:
 			this.setRamassé(true);
-			this.setDegats(_Niveau * 1);
+			this.setDegats(_Niveau*1);
 			this.setDurabilité(9999999);
 			this.setType(_Type);
 			this.setAmélioré(0);
