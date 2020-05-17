@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Stack;
 
 public class Case {
-	private static Integer VIDE = new Integer(0);
+	public static Integer VIDE = new Integer(0);
 	
 	private Object contenu;
 	private Stack<Item> items;
