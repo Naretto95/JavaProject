@@ -1,4 +1,4 @@
-
+package Jeu;
 public class Coordonnee {
 	private int abscisse;
 	private int ordonnee;
