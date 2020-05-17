@@ -5,7 +5,7 @@ import java.util.Stack;
 
 public class Case {
 	
-	private Entité entite;
+	private Object contenu;
 	private Stack<Item> items;
 	private Stack<Ressource> ressources;
 	
@@ -47,11 +47,12 @@ public class Case {
 			this.addItem(items.pop());
 		}
 	}
-	public Entité getEntite() {
-		return entite;
+
+	public Object getContenu() {
+		return contenu;
 	}
 
-	public void setEntite(Entité entite) {
-		this.entite = entite;
+	public void setContenu(Object contenu) {
+		this.contenu = contenu;
 	}
 }
