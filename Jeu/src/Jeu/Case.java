@@ -1,15 +1,21 @@
+
 package Jeu;
 
 import java.util.ArrayList;
 import java.util.Stack;
 
 public class Case {
+	private static Integer VIDE = new Integer(0);
 	
 	private Object contenu;
 	private Stack<Item> items;
 	private Stack<Ressource> ressources;
 	
-	public Case() {}
+	public Case() {
+		this.contenu = VIDE;
+		this.items = new Stack<Item>();
+		this.ressources = new Stack<Ressource>();
+	}
 	
 	public void addItem(Item item) {
 		this.items.push(item);
