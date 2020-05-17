@@ -18,6 +18,15 @@ public class Joueur extends Entité {
 		if (this.getExperience()>this.getNiveau()*100) {
 			this.setNiveau(this.getNiveau()+1);
 			this.setExperience(this.getExperience()-this.getNiveau()*100);
+			for(Entry<Item, Integer> entry : this.getInventaireItem().entrySet()) {
+				Item cle = entry.getKey();
+			    if (cle instanceof Arme) {
+					if (((Arme) cle).getType()==TypeArme.Main) {
+						((Arme) cle).setDegats(this.getNiveau() * 1);
+					}
+				}
+			   
+			}   
 		}
 	}
 	
@@ -62,6 +71,27 @@ public class Joueur extends Entité {
 			default:
 				break;
 			}
+		}
+	}
+	
+	public void Jeter() {
+		for(Entry<Item, Integer> entry : this.getInventaireItem().entrySet()) {
+			Item cle = entry.getKey();
+		    Integer valeur = entry.getValue();
+		    if (cle==this.getEnMain()) {
+		    	if (valeur>1) {
+		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
+		    		this.setEnMain(new Item(true,(this.getEnMain()).getNiveau(),true));
+		    		//TOMBE SUR LA CASE
+				}else {
+					if (valeur==1) {
+						this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
+						this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
+						//TOMBE SUR LA CASE
+					}
+				}
+			}
+		    
 		}
 	}
 	
