@@ -78,19 +78,30 @@ public class Joueur extends Entité {
 		for(Entry<Item, Integer> entry : this.getInventaireItem().entrySet()) {
 			Item cle = entry.getKey();
 		    Integer valeur = entry.getValue();
-		    if (cle==this.getEnMain()) {
+		    if (cle instanceof Arme && this.getEnMain() instanceof Arme && valeur>0 && ((Arme) cle).getType()==((Arme)this.getEnMain()).getType()) {
 		    	if (valeur>1) {
 		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
-		    		this.setEnMain(new Item(true,(this.getEnMain()).getNiveau(),true));
+		    		this.setEnMain(new Arme(((Arme)this.getEnMain()).getType(),((Arme)this.getEnMain()).getNiveau()));
 		    		cle.setRamassé(false);
 		    		//TOMBE SUR LA CASE
 				}else {
-					if (valeur==1) {
 						this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
 						this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
 						cle.setRamassé(false);
 						//TOMBE SUR LA CASE
-					}
+				}
+			}
+		    if (cle instanceof Potion && this.getEnMain() instanceof Potion && valeur>0 && ((Potion) cle).getEffet()==((Potion)this.getEnMain()).getEffet()) {
+		    	if (valeur>1) {
+		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
+		    		this.setEnMain(new Potion(((Potion)this.getEnMain()).getEffet(),((Potion)this.getEnMain()).getNiveau()));
+		    		cle.setRamassé(false);
+		    		//TOMBE SUR LA CASE
+				}else {
+						this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
+						this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
+						cle.setRamassé(false);
+						//TOMBE SUR LA CASE
 				}
 			}
 		    
@@ -103,9 +114,7 @@ public class Joueur extends Entité {
 		    Integer valeur = entry.getValue();
 		    if (cle==_Item){
 		    	if (valeur<3) {
-		    		if (cle.getNiveau()<=this.getNiveau()) {
-		    			this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)+1);
-					}
+		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)+1);
 				}				
 			}
 		}

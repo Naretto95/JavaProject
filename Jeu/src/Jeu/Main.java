@@ -13,28 +13,9 @@ public static void main(String[] args) {
 	System.out.println(heros.getVie());
 	monstre.Utiliser(heros);
 	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
+
 	//monstre.ChangerItem(new Arme(TypeArme.Main,monstre.getNiveau()));
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
-	System.out.println(heros.getVie());
-	monstre.Utiliser(heros);
+
 	System.out.println("durabilite"+((Arme)monstre.getEnMain()).getDurabilité());
 	System.out.println(monstre.getInventaireItem());
 	heros.setEtat(EtatEntité.Vivant);

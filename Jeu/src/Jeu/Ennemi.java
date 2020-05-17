@@ -27,7 +27,7 @@ public class Ennemi extends Entité {
 			
 		case Humain:
 			this.setEnMain(new Arme(TypeArme.EpéeCourte,this.getNiveau()));
-			this.getInventaireItem().put(new Arme(TypeArme.EpéeCourte,this.getNiveau()),1);
+			this.getInventaireItem().put(new Arme(TypeArme.EpéeCourte,this.getNiveau()),3);
 			this.getInventaireRessource().put(new Ressource(TypeRessource.Bois),2);
 			this.getInventaireItem().put(new Potion(Effet.GainDeVie,this.getNiveau()),1);
 			break;

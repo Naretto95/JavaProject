@@ -90,11 +90,15 @@ public class Entité {
 			    Integer valeur = entry.getValue();
 			    if (cle instanceof Arme && _Item instanceof Arme && valeur>0) {
 					if (((Arme) cle).getType()==((Arme)_Item).getType()) {
+						this.getInventaireItem().put(this.enMain,this.getInventaireItem().get(new Arme(((Arme)this.enMain).getType(),((Arme)this.enMain).getNiveau())));
+						this.getInventaireItem().remove(new Arme(((Arme)this.enMain).getType(),((Arme)this.enMain).getNiveau()));
 						this.setEnMain(cle);
 					}
 				}
 			    if (cle instanceof Potion && _Item instanceof Potion && valeur>0) {
 					if (((Potion) cle).getEffet()==((Potion)_Item).getEffet()) {
+						this.getInventaireItem().put(this.enMain,this.getInventaireItem().get(new Potion(((Potion)this.enMain).getEffet(),((Potion)this.enMain).getNiveau())));
+						this.getInventaireItem().remove(new Potion(((Potion)this.enMain).getEffet(),((Potion)this.enMain).getNiveau()));
 						this.setEnMain(cle);
 					}
 				}
@@ -113,16 +117,18 @@ public class Entité {
 				    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
 				    		this.setEnMain(new Arme(((Arme)this.enMain).getType(),((Arme)this.enMain).getNiveau()));
 						}else {
+							this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
 							this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
 						}
 				}
 			}
 			    if (cle instanceof Potion && this.enMain instanceof Potion && valeur>0) {
 			    	if (((Potion) cle).getEffet()==((Potion)this.enMain).getEffet()) {
-				    	if (valeur>0) {
+				    	if (valeur>1) {
 				    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
 				    		this.setEnMain(new Potion(((Potion)this.enMain).getEffet(),((Potion)this.enMain).getNiveau()));
 						}else {
+							this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
 							this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
 						}
 				}
