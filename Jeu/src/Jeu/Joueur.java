@@ -69,30 +69,38 @@ public class Joueur extends Entité {
 	
 	public void Jeter() {
 		if (this.getEnMain() instanceof Arme) {
-			for (int i = 0; i < this.getInventaireArme().size(); i++) {
-				if ((Arme)this.getEnMain()==this.getInventaireArme().get(i)) {
-					for (int j = 0; j < this.getInventaireArme().size(); j++) {
-						if (this.getInventaireArme().get(i).getType()==this.getInventaireArme().get(j).getType()) {
-							this.setEnMain(this.getInventaireArme().get(j));
-							break;
-						}
-						this.setEnMain(this.getInventaireArme().get(0));
-					}
-					this.getInventaireArme().remove(i);
+			if (((Arme)this.getEnMain()).getType()!=TypeArme.Main) {
+				for (int i = 0; i < this.getInventaireArme().size(); i++) {
+					if (((Arme)this.getEnMain()).getType()==this.getInventaireArme().get(i).getType()) {
+							for (int j = i+1; j < this.getInventaireArme().size(); j++) {
+								if (this.getInventaireArme().get(j).getType()==this.getInventaireArme().get(i).getType()) {
+										this.setEnMain(this.getInventaireArme().get(j));
+										break;
+								}
+							}
+							if ((Arme)this.getEnMain()==this.getInventaireArme().get(i)) {
+								this.setEnMain(this.getInventaireArme().get(0));
+							}
+							this.getInventaireArme().remove(i);
+							// JETER SUR LA CASE
 				}
+			}
 			}
 		}
 		if (this.getEnMain() instanceof Potion) {
 			for (int i = 0; i < this.getInventairePotion().size(); i++) {
-				if ((Potion)this.getEnMain()==this.getInventairePotion().get(i)) {
-					for (int j = 0; j < this.getInventairePotion().size(); j++) {
-						if (this.getInventairePotion().get(i).getEffet()==this.getInventairePotion().get(j).getEffet()) {
-							this.setEnMain(this.getInventairePotion().get(j));
-							break;
-						}
-						this.setEnMain(this.getInventaireArme().get(0));
-					}
-					this.getInventairePotion().remove(i);
+					if (((Potion)this.getEnMain()).getEffet()==this.getInventairePotion().get(i).getEffet()) {
+							for (int j = i+1; j < this.getInventairePotion().size(); j++) {
+								if (this.getInventairePotion().get(j).getEffet()==this.getInventairePotion().get(i).getEffet()) {
+										this.setEnMain(this.getInventairePotion().get(j));
+										break;
+								}
+							}
+							if ((Potion)this.getEnMain()==this.getInventairePotion().get(i)) {
+								this.setEnMain(this.getInventaireArme().get(0));
+							}
+							this.getInventairePotion().remove(i);
+							// JETER SUR LA CASE
 				}
 			}
 		}
@@ -108,6 +116,7 @@ public class Joueur extends Entité {
 					}
 				}
 				if (accum<3) {
+					((Arme)_Item).setRamassé(true);
 					this.getInventaireArme().add((Arme)_Item);
 				}
 			}
@@ -118,6 +127,7 @@ public class Joueur extends Entité {
 					}
 				}
 				if (accum<3) {
+					((Potion)_Item).setRamassé(true);
 					this.getInventairePotion().add((Potion)_Item);
 				}
 			}
