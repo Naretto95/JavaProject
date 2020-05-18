@@ -18,15 +18,8 @@ public class Joueur extends Entité {
 		if (this.getExperience()>this.getNiveau()*100) {
 			this.setNiveau(this.getNiveau()+1);
 			this.setExperience(this.getExperience()-this.getNiveau()*100);
-			for(Entry<Item, Integer> entry : this.getInventaireItem().entrySet()) {
-				Item cle = entry.getKey();
-			    if (cle instanceof Arme) {
-					if (((Arme) cle).getType()==TypeArme.Main) {
-						((Arme) cle).setDegats(this.getNiveau() * 1);
-					}
-				}
-			   
-			}   
+			this.getInventaireArme().get(0).setDegats(this.getNiveau());
+			this.getInventaireArme().get(0).setNiveau(this.getNiveau());
 		}
 	}
 	
@@ -44,7 +37,7 @@ public class Joueur extends Entité {
 			case EpéeLongue:
 				if (cle.getType()==TypeRessource.Fer) {
 					if (valeur>=5) {
-						_Arme.Ameliorer();
+						_Arme.Ameliorer(this);
 						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-5);
 					}			
 				}
@@ -53,7 +46,7 @@ public class Joueur extends Entité {
 			case EpéeCourte:
 				if (cle.getType()==TypeRessource.Fer) {
 					if (valeur>=3) {
-						_Arme.Ameliorer();
+						_Arme.Ameliorer(this);
 						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-3);
 					}			
 				}
@@ -62,7 +55,7 @@ public class Joueur extends Entité {
 			case Arc:
 				if (cle.getType()==TypeRessource.Bois) {
 					if (valeur>=3) {
-						_Arme.Ameliorer();
+						_Arme.Ameliorer(this);
 						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-3);
 					}			
 				}
@@ -75,47 +68,58 @@ public class Joueur extends Entité {
 	}
 	
 	public void Jeter() {
-		for(Entry<Item, Integer> entry : this.getInventaireItem().entrySet()) {
-			Item cle = entry.getKey();
-		    Integer valeur = entry.getValue();
-		    if (cle instanceof Arme && this.getEnMain() instanceof Arme && valeur>0 && ((Arme) cle).getType()==((Arme)this.getEnMain()).getType()) {
-		    	if (valeur>1) {
-		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
-		    		this.setEnMain(new Arme(((Arme)this.getEnMain()).getType(),((Arme)this.getEnMain()).getNiveau()));
-		    		cle.setRamassé(false);
-		    		//TOMBE SUR LA CASE
-				}else {
-						this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
-						this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
-						cle.setRamassé(false);
-						//TOMBE SUR LA CASE
+		if (this.getEnMain() instanceof Arme) {
+			for (int i = 0; i < this.getInventaireArme().size(); i++) {
+				if ((Arme)this.getEnMain()==this.getInventaireArme().get(i)) {
+					for (int j = 0; j < this.getInventaireArme().size(); j++) {
+						if (this.getInventaireArme().get(i).getType()==this.getInventaireArme().get(j).getType()) {
+							this.setEnMain(this.getInventaireArme().get(j));
+							break;
+						}
+						this.setEnMain(this.getInventaireArme().get(0));
+					}
+					this.getInventaireArme().remove(i);
 				}
 			}
-		    if (cle instanceof Potion && this.getEnMain() instanceof Potion && valeur>0 && ((Potion) cle).getEffet()==((Potion)this.getEnMain()).getEffet()) {
-		    	if (valeur>1) {
-		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
-		    		this.setEnMain(new Potion(((Potion)this.getEnMain()).getEffet(),((Potion)this.getEnMain()).getNiveau()));
-		    		cle.setRamassé(false);
-		    		//TOMBE SUR LA CASE
-				}else {
-						this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)-1);
-						this.setEnMain(new Arme(TypeArme.Main, this.getNiveau()));
-						cle.setRamassé(false);
-						//TOMBE SUR LA CASE
+		}
+		if (this.getEnMain() instanceof Potion) {
+			for (int i = 0; i < this.getInventairePotion().size(); i++) {
+				if ((Potion)this.getEnMain()==this.getInventairePotion().get(i)) {
+					for (int j = 0; j < this.getInventairePotion().size(); j++) {
+						if (this.getInventairePotion().get(i).getEffet()==this.getInventairePotion().get(j).getEffet()) {
+							this.setEnMain(this.getInventairePotion().get(j));
+							break;
+						}
+						this.setEnMain(this.getInventaireArme().get(0));
+					}
+					this.getInventairePotion().remove(i);
 				}
 			}
-		    
 		}
 	}
 	
 	public void Ramasser(Item _Item) {
-		for(Entry<Item, Integer> entry : this.getInventaireItem().entrySet()) {
-			Item cle = entry.getKey();
-		    Integer valeur = entry.getValue();
-		    if (cle==_Item){
-		    	if (valeur<3) {
-		    		this.getInventaireItem().put(cle,this.getInventaireItem().get(cle)+1);
-				}				
+		int accum=0;
+		if (_Item.getNiveau()<=this.getNiveau()) {
+			if (_Item instanceof Arme) {
+				for (int i = 0; i < this.getInventaireArme().size(); i++) {
+					if (this.getInventaireArme().get(i).getType()==((Arme)_Item).getType()) {
+						accum++;
+					}
+				}
+				if (accum<3) {
+					this.getInventaireArme().add((Arme)_Item);
+				}
+			}
+			if (_Item instanceof Potion) {
+				for (int i = 0; i < this.getInventairePotion().size(); i++) {
+					if (this.getInventairePotion().get(i).getEffet()==((Potion)_Item).getEffet()) {
+						accum++;
+					}
+				}
+				if (accum<3) {
+					this.getInventairePotion().add((Potion)_Item);
+				}
 			}
 		}
 	}
