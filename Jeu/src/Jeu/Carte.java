@@ -22,10 +22,10 @@ public class Carte {
 		int nbLigne = saisieCarte.length;
 		int nbColonne = saisieCarte[0].length;
 		this.fenetreEcran=new FenetreEcran(0,0,this.largeurFenetreJeu,this.hauteurFenetreJeu,nbColonne*this.largeurCasePixel-this.largeurFenetreJeu,nbLigne*this.hauteurCasePixel-this.hauteurFenetreJeu);
-		this.listeImagesElementsJeu= new HashMap<String,Image>();
+		this.listeImagesElementsJeu= new HashMap<String,Image>(); 
 		File repImages = new File(repertoireImages);
 		for (String s : repImages.list()) {
-			this.listeImagesElementsJeu.put(s,new Image("file:" + repertoireImages + "/" + s));
+			this.listeImagesElementsJeu.put(s,new Image("file:" + repertoireImages + "/" + s,largeurCasePixel,hauteurCasePixel,false,true));
 		}
 		this.imagesCasesCarte = new ArrayList<ArrayList<Image>>();
 		for (int i =0;i<nbLigne;i++) {
