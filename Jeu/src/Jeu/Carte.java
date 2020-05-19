@@ -28,15 +28,19 @@ public class Carte {
 			this.listeImagesElementsJeu.put(s,new Image("file:" + repertoireImages + "/" + s,largeurCasePixel,hauteurCasePixel,false,true));
 		}
 		this.imagesCasesCarte = new ArrayList<ArrayList<Image>>();
+		this.casesCarte = new ArrayList<ArrayList<Case>>();
 		for (int i =0;i<nbLigne;i++) {
 			imagesCasesCarte.add(new ArrayList<Image>());
 			casesCarte.add(new ArrayList<Case>());
 			for(int j = 0 ; j<nbColonne;j++) {
 				imagesCasesCarte.get(i).add(this.listeImagesElementsJeu.get(saisieCarte[i][j]));
 				switch(saisieCarte[i][j]) {
-				case "mur":
+				case "brique.png":
 					casesCarte.get(i).add(new Case(Case.OBSTACLE));
 					break;
+				case "water.png":
+					casesCarte.get(i).add(new Case(Case.OBSTACLE));
+					break;	
 				case "porte":
 					casesCarte.get(i).add(new Case(Case.PORTE));
 					break;
@@ -58,6 +62,10 @@ public class Carte {
 
 	public FenetreEcran getFenetreEcran() {
 		return fenetreEcran;
+	}
+
+	public ArrayList<ArrayList<Image>> getImagesCasesCarte() {
+		return imagesCasesCarte;
 	}
 	
 }
