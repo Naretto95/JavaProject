@@ -76,31 +76,58 @@ public class Entité {
 		if (this.getEtat()==EtatEntité.Vivant) {
 			if (_Item instanceof Arme) {
 				for (int i = 0; i < this.getInventaireArme().size(); i++) {
-					if (this.getInventaireArme().get(i).getType()==((Arme)this.enMain).getType()) {
-						for (int j = 0; j < this.getInventaireArme().size(); j++) {
-							if (this.getInventaireArme().get(j).getType()==((Arme)this.enMain).getType() && this.getInventaireArme().get(j)!=(Arme)this.enMain && ((Arme)_Item).getType()==((Arme)this.enMain).getType()) {
-								this.enMain=this.getInventaireArme().get(j);
-								this.getInventaireArme().set(j,this.getInventaireArme().get(i));
-								this.getInventaireArme().set(i,(Arme)this.enMain);
-							}
-							else {
-								if (this.getInventaireArme().get(j).getType()==((Arme)_Item).getType() && this.getInventaireArme().get(j)!=(Arme)this.enMain) {
+					if (this.enMain instanceof Arme) {
+						if (this.getInventaireArme().get(i).getType()==((Arme)this.enMain).getType()) {
+							for (int j = 0; j < this.getInventaireArme().size(); j++) {
+								if (this.getInventaireArme().get(j).getType()==((Arme)this.enMain).getType() && this.getInventaireArme().get(j)!=(Arme)this.enMain && ((Arme)_Item).getType()==((Arme)this.enMain).getType()) {
 									this.enMain=this.getInventaireArme().get(j);
-									break;
+									this.getInventaireArme().set(j,this.getInventaireArme().get(i));
+									this.getInventaireArme().set(i,(Arme)this.enMain);
+								}
+								else {
+									if (this.getInventaireArme().get(j).getType()==((Arme)_Item).getType() && this.getInventaireArme().get(j)!=(Arme)this.enMain) {
+										this.enMain=this.getInventaireArme().get(j);
+										break;
+									}
 								}
 							}
+							break;
 						}
-						break;
+					}else {
+						for (int j = 0; j < this.getInventaireArme().size(); j++) {
+							if (this.getInventaireArme().get(j).getType()==((Arme)_Item).getType()) {
+								this.enMain=this.getInventaireArme().get(j);
+							}
+						}
 					}
 				}
 			}
 			if (_Item instanceof Potion) {
 				for (int i = 0; i < this.getInventairePotion().size(); i++) {
-					if (this.getInventairePotion().get(i).getEffet()==((Potion)_Item).getEffet()) {
-						this.enMain=this.getInventairePotion().get(i);
-						break;
+					if (this.enMain instanceof Potion) {
+						if (this.getInventairePotion().get(i).getEffet()==((Potion)this.enMain).getEffet()) {
+							for (int j = 0; j < this.getInventairePotion().size(); j++) {
+								if (this.getInventairePotion().get(j).getEffet()==((Potion)this.enMain).getEffet() && this.getInventairePotion().get(j)!=(Potion)this.enMain && ((Potion)_Item).getEffet()==((Potion)this.enMain).getEffet()) {
+									this.enMain=this.getInventairePotion().get(j);
+									this.getInventairePotion().set(j,this.getInventairePotion().get(i));
+									this.getInventairePotion().set(i,(Potion)this.enMain);
+								}
+								else {
+									if (this.getInventairePotion().get(j).getEffet()==((Potion)_Item).getEffet() && this.getInventairePotion().get(j)!=(Potion)this.enMain) {
+										this.enMain=this.getInventairePotion().get(j);
+										break;
+									}
+								}
+							}
+							break;
+						}
+					}else {
+						for (int j = 0; j < this.getInventairePotion().size(); j++) {
+							if (this.getInventairePotion().get(j).getEffet()==((Potion)_Item).getEffet()) {
+								this.enMain=this.getInventairePotion().get(j);
+							}
+						}
 					}
-					
 				}
 			}
 		}
@@ -109,12 +136,11 @@ public class Entité {
 	public void ActualiserInventaire(){
 		if (this.enMain instanceof Arme) {
 			for (int i = 0; i < this.getInventaireArme().size(); i++) {
-					if (((Arme)this.enMain).getType()==this.getInventaireArme().get(i).getType()) {
+					if (((Arme)this.enMain)==this.getInventaireArme().get(i)) {
 						if (this.enMain.isEtat()==false) {
-							for (int j = i+1; j < this.getInventaireArme().size(); j++) {
-								if (this.getInventaireArme().get(j).getType()==this.getInventaireArme().get(i).getType()) {
+							for (int j = 0; j < this.getInventaireArme().size(); j++) {
+								if (this.getInventaireArme().get(j).getType()==this.getInventaireArme().get(i).getType() && this.getInventaireArme().get(j)!=(Arme)this.enMain) {
 										this.enMain=this.getInventaireArme().get(j);
-										break;
 								}
 							}
 							if ((Arme)this.enMain==this.getInventaireArme().get(i)) {
@@ -130,12 +156,11 @@ public class Entité {
 		}
 		if (this.enMain instanceof Potion) {
 			for (int i = 0; i < this.getInventairePotion().size(); i++) {
-					if (((Potion)this.enMain).getEffet()==this.getInventairePotion().get(i).getEffet()) {
+					if (((Potion)this.enMain)==this.getInventairePotion().get(i)) {
 						if (this.enMain.isEtat()==false) {
 							for (int j = i+1; j < this.getInventairePotion().size(); j++) {
-								if (this.getInventairePotion().get(j).getEffet()==this.getInventairePotion().get(i).getEffet()) {
+								if (this.getInventairePotion().get(j).getEffet()==this.getInventairePotion().get(i).getEffet()&& this.getInventairePotion().get(j)!=(Potion)this.enMain) {
 										this.enMain=this.getInventairePotion().get(j);
-										break;
 								}
 							}
 							if ((Potion)this.enMain==this.getInventairePotion().get(i)) {
@@ -226,7 +251,7 @@ public class Entité {
 			this.setEtat(EtatEntité.Etourdis);
 			break;
 		case Poison:
-			this.setVie(this.getVie()-_Potion.getNiveau()*10);//iciiiii
+			this.setVie(this.getVie()-_Potion.getNiveau()*10);
 			if (this.getVie()<=0) {
 				this.setEtat(EtatEntité.Mort);
 			}
