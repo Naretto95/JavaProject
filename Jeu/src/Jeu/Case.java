@@ -6,6 +6,8 @@ import java.util.Stack;
 
 public class Case {
 	public static Integer VIDE = new Integer(0);
+	public static Integer OBSTACLE = new Integer(1);
+	public static Integer PORTE = new Integer(2);
 	
 	private Object contenu;
 	private Stack<Item> items;
