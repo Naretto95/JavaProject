@@ -11,6 +11,27 @@ public class Case {
 	private Stack<Item> items;
 	private Stack<Ressource> ressources;
 	
+	
+	public Case(Stack<Item> items,Stack<Ressource> ressources) {
+		this.contenu=VIDE;
+		this.items = items;
+		this.ressources = ressources;
+	}
+	
+	
+	public Case(Object contenu,Stack<Item> items,Stack<Ressource> ressources) {
+		this.contenu=contenu;
+		this.items = items;
+		this.ressources = ressources;
+	}
+	
+	
+	public Case(Object contenu) {
+		this.contenu=contenu;
+		this.items = new Stack<Item>();
+		this.ressources = new Stack<Ressource>();
+	}
+	
 	public Case() {
 		this.contenu = VIDE;
 		this.items = new Stack<Item>();
