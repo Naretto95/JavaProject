@@ -46,35 +46,27 @@ public class Entité {
 	
 	public void Attaque(Entité _Entité, Arme _Arme){
 		if (_Arme.getDurabilité()>0) {
-			boolean etourdis = new Random().nextInt(5)==0;
 			boolean rater = new Random().nextInt(5)==0;
-				if (etourdis==true && rater==false) {
+				if (rater==false) {
+					boolean etourdis = new Random().nextInt(5)==0;
 					if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée() && _Entité.getPositionY()==this.getPositionY() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= _Arme.getPortée() && _Entité.getPositionX()==this.getPositionX() ) {
 						_Entité.DegatsReçues(_Arme);
-						_Entité.setEtat(EtatEntité.Etourdis);
+						if (etourdis==true) {
+							_Entité.setEtat(EtatEntité.Etourdis);
+						}
 						_Arme.setDurabilité(_Arme.getDurabilité()-1);
 						if (_Arme.getDurabilité()<=0) {
 							_Arme.setEtat(false);
 						}
 						this.ActualiserInventaire();
 					}
-				}else {
-					if (rater==false) {
-						if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée() && _Entité.getPositionY()==this.getPositionY() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= _Arme.getPortée() && _Entité.getPositionX()==this.getPositionX() ) {
-							_Entité.DegatsReçues(_Arme);
-							_Arme.setDurabilité(_Arme.getDurabilité()-1);
-							if (_Arme.getDurabilité()<=0) {
-								_Arme.setEtat(false);
-							}
-							this.ActualiserInventaire();
-						}
-					}
 				}
 				if (this instanceof Joueur && _Entité instanceof Ennemi) {
 					if (_Entité.getEtat()==EtatEntité.Mort) {
 						((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
 						((Joueur)this).levelup();
-						//IL FAUT DELETE LENNEMI
+						((Ennemi)_Entité).Jeter();
+						_Entité=null;
 					}
 				}
 		}

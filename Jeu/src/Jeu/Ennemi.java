@@ -53,6 +53,17 @@ public class Ennemi extends Entité {
 		}
 	}
 	
+	public void Jeter() {
+		for (int i = 0; i < this.getInventaireArme().size(); i++) {
+			if (this.getInventaireArme().get(i).getType()!=TypeArme.Main) {
+				//AJOUTER A LA CASE
+			}
+		}
+		for (int i = 0; i < this.getInventairePotion().size(); i++) {
+			//AJOUTER A LA CASE
+		}
+	}
+	
 	public Categorie getCategorie() {
 		return Categorie;
 	}
