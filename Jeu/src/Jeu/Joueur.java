@@ -67,7 +67,45 @@ public class Joueur extends Entité {
 		}
 	}
 	
-	public void Jeter() {
+	public void ReparerArme(Arme _Arme) {
+		for(Entry<Ressource, Integer> entry : this.getInventaireRessource().entrySet()) {
+		    Ressource cle = entry.getKey();
+		    Integer valeur = entry.getValue();
+		    switch (_Arme.getType()) {
+			case EpéeLongue:
+				if (cle.getType()==TypeRessource.Fer) {
+					if (valeur>=2) {
+						_Arme.Reparer(this);
+						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-2);
+					}			
+				}
+				break;
+				
+			case EpéeCourte:
+				if (cle.getType()==TypeRessource.Fer) {
+					if (valeur>=1) {
+						_Arme.Reparer(this);
+						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-1);
+					}			
+				}
+				break;
+				
+			case Arc:
+				if (cle.getType()==TypeRessource.Bois) {
+					if (valeur>=1) {
+						_Arme.Reparer(this);
+						this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)-1);
+					}			
+				}
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+	
+	public Item Jeter() {
 		if (this.getEnMain() instanceof Arme) {
 			if (((Arme)this.getEnMain()).getType()!=TypeArme.Main) {
 				for (int i = 0; i < this.getInventaireArme().size(); i++) {
@@ -81,8 +119,7 @@ public class Joueur extends Entité {
 							if ((Arme)this.getEnMain()==this.getInventaireArme().get(i)) {
 								this.setEnMain(this.getInventaireArme().get(0));
 							}
-							this.getInventaireArme().remove(i);
-							// JETER SUR LA CASE
+							return this.getInventaireArme().remove(i);
 				}
 			}
 			}
@@ -99,11 +136,11 @@ public class Joueur extends Entité {
 							if ((Potion)this.getEnMain()==this.getInventairePotion().get(i)) {
 								this.setEnMain(this.getInventaireArme().get(0));
 							}
-							this.getInventairePotion().remove(i);
-							// JETER SUR LA CASE
+							return this.getInventairePotion().remove(i);
 				}
 			}
 		}
+		return null;
 	}
 	
 	public void Ramasser(Item _Item) {
