@@ -36,7 +36,7 @@ public class Carte {
 				imagesCasesCarte.get(i).add(this.listeImagesElementsJeu.get(saisieCarte[i][j]));
 				switch(saisieCarte[i][j]) {
 				case "brique.png":
-					casesCarte.get(i).add(new Case(Case.OBSTACLE));
+					casesCarte.get(i).add(new Case(Case.VIDE));
 					break;
 				case "water.png":
 					casesCarte.get(i).add(new Case(Case.OBSTACLE));
@@ -92,6 +92,14 @@ public class Carte {
 
 	public ArrayList<ArrayList<Image>> getImagesCasesCarte() {
 		return imagesCasesCarte;
+	}
+
+	public int getLargeurCasePixel() {
+		return largeurCasePixel;
+	}
+
+	public int getHauteurCasePixel() {
+		return hauteurCasePixel;
 	}
 	
 }
