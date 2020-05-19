@@ -11,12 +11,24 @@ public static void main(String[] args) {
 	System.out.println(heros.getInventaireArme());
 	heros.Ramasser(new Arme(TypeArme.Arc,1));
 	heros.getInventaireArme().add(new Arme(TypeArme.Arc,5));
+	heros.getInventaireArme().add(new Arme(TypeArme.Arc,6));
 	System.out.println(heros.getInventaireArme());
-	heros.ChangerItem(new Arme(TypeArme.Arc,1));
-	heros.Jeter();
+	heros.Utiliser(monstre);
 	System.out.println(heros.getInventaireArme());
 	System.out.println(heros.getEnMain());
-	heros.Jeter();
+	heros.ChangerItem(new Arme(TypeArme.Arc,1));
+	System.out.println(heros.getInventaireArme());
+	System.out.println(heros.getEnMain());
+	heros.ChangerItem(new Arme(TypeArme.Arc,1));
+	System.out.println(heros.getInventaireArme());
+	System.out.println(heros.getEnMain());
+	heros.ChangerItem(new Arme(TypeArme.Arc,1));
+	System.out.println(heros.getInventaireArme());
+	System.out.println(heros.getEnMain());
+	heros.ChangerItem(new Arme(TypeArme.Arc,1));
+	System.out.println(heros.getInventaireArme());
+	System.out.println(heros.getEnMain());
+	heros.ChangerItem(new Arme(TypeArme.Arc,1));
 	System.out.println(heros.getInventaireArme());
 	System.out.println(heros.getEnMain());
 }

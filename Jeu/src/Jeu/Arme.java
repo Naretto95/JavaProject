@@ -120,7 +120,7 @@ public class Arme extends Item {
 	}
 	
 	public String toString() {
-		return ""+this.getType()+" "+this.getNiveau() +" "+this.getDurabilité();
+		return "Type:"+this.getType()+" Niveau:"+this.getNiveau() +" Durabilité:"+this.getDurabilité();
 	}
 	
 

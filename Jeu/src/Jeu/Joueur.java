@@ -67,6 +67,12 @@ public class Joueur extends Entité {
 		}
 	}
 	
+	public void Reparer() {
+		if (this.getEnMain() instanceof Arme) {
+			ReparerArme((Arme)this.getEnMain());
+		}
+	}
+	
 	public void ReparerArme(Arme _Arme) {
 		for(Entry<Ressource, Integer> entry : this.getInventaireRessource().entrySet()) {
 		    Ressource cle = entry.getKey();
@@ -119,6 +125,7 @@ public class Joueur extends Entité {
 							if ((Arme)this.getEnMain()==this.getInventaireArme().get(i)) {
 								this.setEnMain(this.getInventaireArme().get(0));
 							}
+							this.getInventaireArme().get(i).setRamassé(false);
 							return this.getInventaireArme().remove(i);
 				}
 			}
@@ -136,6 +143,7 @@ public class Joueur extends Entité {
 							if ((Potion)this.getEnMain()==this.getInventairePotion().get(i)) {
 								this.setEnMain(this.getInventaireArme().get(0));
 							}
+							this.getInventairePotion().get(i).setRamassé(false);
 							return this.getInventairePotion().remove(i);
 				}
 			}

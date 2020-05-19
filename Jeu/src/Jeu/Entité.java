@@ -77,13 +77,21 @@ public class Entité {
 			if (_Item instanceof Arme) {
 				for (int i = 0; i < this.getInventaireArme().size(); i++) {
 					if (this.getInventaireArme().get(i).getType()==((Arme)this.enMain).getType()) {
-						this.getInventaireArme().set(i,(Arme)this.enMain);
-					}else {
-						if (this.getInventaireArme().get(i).getType()==((Arme)_Item).getType()) {
-							this.enMain=this.getInventaireArme().get(i);
-							break;
+						for (int j = 0; j < this.getInventaireArme().size(); j++) {
+							if (this.getInventaireArme().get(j).getType()==((Arme)this.enMain).getType() && this.getInventaireArme().get(j)!=(Arme)this.enMain && ((Arme)_Item).getType()==((Arme)this.enMain).getType()) {
+								this.enMain=this.getInventaireArme().get(j);
+								this.getInventaireArme().set(j,this.getInventaireArme().get(i));
+								this.getInventaireArme().set(i,(Arme)this.enMain);
+							}
+							else {
+								if (this.getInventaireArme().get(j).getType()==((Arme)_Item).getType() && this.getInventaireArme().get(j)!=(Arme)this.enMain) {
+									this.enMain=this.getInventaireArme().get(j);
+									break;
+								}
+							}
 						}
-					}				
+						break;
+					}
 				}
 			}
 			if (_Item instanceof Potion) {
@@ -201,6 +209,14 @@ public class Entité {
 		_Entité.Empoisonnement((Potion)this.enMain);
 		((Potion)this.enMain).setEtat(false);
 		this.ActualiserInventaire();
+		if (this instanceof Joueur && _Entité instanceof Ennemi) {
+			if (_Entité.getEtat()==EtatEntité.Mort) {
+				((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
+				((Joueur)this).levelup();
+				((Ennemi)_Entité).Jeter();
+				_Entité=null;
+			}
+		}
 	}
 	
 	
