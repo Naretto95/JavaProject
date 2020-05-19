@@ -53,6 +53,30 @@ public class Carte {
 		
 	}
 	
+	public boolean mettreEntite(Entité entite,int i , int j) {
+		Case _case = this.getCase(i, j);
+		if (_case.getContenu()==Case.VIDE) {
+			_case.setContenu(entite);
+			entite.setPositionX(i);
+			entite.setPositionY(j);
+			if (entite instanceof Joueur) {
+				Joueur joueur = (Joueur) entite;
+				Item item = _case.getItem();
+				while(item!=null/* && joueur.Ramasser(item)*/ ) {
+					item = _case.getItem(); 
+				}	
+				if (item!=null) {_case.addItem(item);}
+				Ressource ressource = _case.getRessource();
+				while(ressource!=null/* && joueur.Ramasser(ressource)*/ ) {
+					ressource = _case.getRessource(); 
+				}	
+				if (ressource!=null) {_case.addRessource(ressource);}
+			}
+			return true;
+		}
+		return false;
+	}
+	
 	public Case getCase(int i, int j) {
 		if (i<this.casesCarte.size() && j<this.casesCarte.get(i).size()) {
 			return this.casesCarte.get(i).get(j);
