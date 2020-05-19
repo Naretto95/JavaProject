@@ -56,6 +56,8 @@ public class Carte {
 	public boolean mettreEntite(Entité entite,int i , int j) {
 		Case _case = this.getCase(i, j);
 		if (_case.getContenu()==Case.VIDE) {
+			Case _caseDepart = this.getCase(entite.getPositionX(), entite.getPositionY());
+			_caseDepart.setContenu(Case.VIDE);
 			_case.setContenu(entite);
 			entite.setPositionX(i);
 			entite.setPositionY(j);
