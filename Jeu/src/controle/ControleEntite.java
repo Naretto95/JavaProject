@@ -20,13 +20,14 @@ public abstract class ControleEntite {
 
 	protected int positionXPixel;
 	protected int positionYPixel;
-	protected int vitesse=1;
+	protected int vitesse=10;
 	protected int hauteurPixelEntite;
 	protected int largeurPixelEntite;
 	protected int deltaXHitBox=0;
 	protected int deltaYHitBox=0;
 	protected int paddingX;
 	protected int paddingY;
+	protected int facteurTaille=2;
 
 	
 	public ControleEntite(String feuilleDeSpriteEntite,Carte carte, GraphicsContext gc,Entité entite,int hauteurPixelEntite,int largeurPixelEntite) {
@@ -39,8 +40,8 @@ public abstract class ControleEntite {
 		this.carte.mettreEntite(entite, this.entite.getPositionY(), this.entite.getPositionX());
 		this.positionXPixel=((this.entite.getPositionX())*this.carte.getLargeurCasePixel()) - this.carte.getFenetreEcran().getPosXPixelEcran();
 		this.positionYPixel=((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran();
-		this.paddingX=0;
-		this.paddingY=0;
+		this.paddingX=5;
+		this.paddingY=20;
 	}
 
 	public int getPositionXPixel() {

@@ -120,16 +120,16 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		switch(keycode) {
 		//pour le joueur qui se déplace dans plusieurs directions il faut adapter l'image au sens du mouvement
 		case RIGHT:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,925,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite,this.largeurPixelEntite,this.hauteurPixelEntite);
+			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,925,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		case LEFT:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,660,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite,this.largeurPixelEntite,this.hauteurPixelEntite);
+			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,660,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		case UP:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,785,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite,this.largeurPixelEntite,this.hauteurPixelEntite);
+			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,785,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		case DOWN:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,530,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite,this.largeurPixelEntite,this.hauteurPixelEntite);
+			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,530,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		default:
 			break;
