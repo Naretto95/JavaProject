@@ -29,7 +29,7 @@ public class Entité {
 		this.setInventaireRessource(_InventaireRessource);
 		this.setPositionX(_PositionX);
 		this.setPositionY(PositionY);
-		this.setVie(_Niveau*100);
+		this.setVie(3);
 		this.getInventaireArme().add(new Arme(TypeArme.Main,this.getNiveau()));
 		this.getInventaireRessource().put(new Ressource(TypeRessource.Cle),0);
 		this.getInventaireRessource().put(new Ressource(TypeRessource.Bois),0);
@@ -59,14 +59,6 @@ public class Entité {
 							_Arme.setEtat(false);
 						}
 						this.ActualiserInventaire();
-					}
-				}
-				if (this instanceof Joueur && _Entité instanceof Ennemi) {
-					if (_Entité.getEtat()==EtatEntité.Mort) {
-						((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
-						((Joueur)this).levelup();
-						((Ennemi)_Entité).Jeter();
-						_Entité=null;
 					}
 				}
 		}
@@ -179,7 +171,17 @@ public class Entité {
 	public void Utiliser(Entité _Entité) {
 		if (this.getEtat()==EtatEntité.Vivant) {
 			if (this.enMain instanceof Arme) {
-				Attaque(_Entité,(Arme)this.enMain);
+				if (_Entité.getEtat()==EtatEntité.Vivant || _Entité.getEtat()==EtatEntité.Etourdis) {
+					Attaque(_Entité,(Arme)this.enMain);
+					if (this instanceof Joueur && _Entité instanceof Ennemi) {
+						if (_Entité.getEtat()==EtatEntité.Mort) {
+							((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
+							((Joueur)this).levelup();
+							((Ennemi)_Entité).Jeter();
+							_Entité=null;
+						}
+					}
+				}
 			}else {
 				if (this.enMain instanceof Potion) {
 					switch (((Potion)this.enMain).getEffet()) {
@@ -194,10 +196,8 @@ public class Entité {
 						break;
 						
 					case Poison:
-						if (_Entité.getPositionX() == this.getPositionX()) {
-							this.Empoisonner(_Entité);
-						}else {
-							if (_Entité.getPositionY() == this.getPositionY()) {
+						if (_Entité.getEtat()==EtatEntité.Vivant || _Entité.getEtat()==EtatEntité.Etourdis) {
+							if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= 3 && _Entité.getPositionY()==this.getPositionY() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= 3 && _Entité.getPositionX()==this.getPositionX() ) {
 								this.Empoisonner(_Entité);
 							}
 						}
