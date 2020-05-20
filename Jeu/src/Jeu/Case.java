@@ -6,10 +6,33 @@ import java.util.Stack;
 
 public class Case {
 	public static Integer VIDE = new Integer(0);
+	public static Integer OBSTACLE = new Integer(1);
+	public static Integer PORTE = new Integer(2);
 	
 	private Object contenu;
 	private Stack<Item> items;
 	private Stack<Ressource> ressources;
+	
+	
+	public Case(Stack<Item> items,Stack<Ressource> ressources) {
+		this.contenu=VIDE;
+		this.items = items;
+		this.ressources = ressources;
+	}
+	
+	
+	public Case(Object contenu,Stack<Item> items,Stack<Ressource> ressources) {
+		this.contenu=contenu;
+		this.items = items;
+		this.ressources = ressources;
+	}
+	
+	
+	public Case(Object contenu) {
+		this.contenu=contenu;
+		this.items = new Stack<Item>();
+		this.ressources = new Stack<Ressource>();
+	}
 	
 	public Case() {
 		this.contenu = VIDE;
@@ -24,10 +47,16 @@ public class Case {
 		this.ressources.push(ressource);
 	}
 	public Item getItem() {
-		return this.items.pop();		
+		if (!this.items.isEmpty()) {
+			return this.items.pop();
+		}
+		return null;
 	}
 	public Ressource getRessource() {
-		return this.ressources.pop();
+		if(!this.ressources.isEmpty()) {
+			return this.ressources.pop();
+		}
+		return null;
 	}
 	public ArrayList<Ressource> getAllRessources() {
 		ArrayList<Ressource> allRessources = new ArrayList<Ressource>();
