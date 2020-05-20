@@ -59,8 +59,8 @@ public class Carte {
 			Case _caseDepart = this.getCase(entite.getPositionX(), entite.getPositionY());
 			_caseDepart.setContenu(Case.VIDE);
 			_case.setContenu(entite);
-			entite.setPositionX(i);
-			entite.setPositionY(j);
+			entite.setPositionX(j);
+			entite.setPositionY(i);
 			if (entite instanceof Joueur) {
 				Joueur joueur = (Joueur) entite;
 				Item item = _case.getItem();
