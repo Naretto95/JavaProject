@@ -13,8 +13,8 @@ public class Carte {
 	private Map<String,Image> listeImagesElementsJeu;
 	private ArrayList<ArrayList<Case>> casesCarte;
 	private FenetreEcran fenetreEcran;
-	private int largeurCasePixel=50;
-	private int hauteurCasePixel=50;
+	private int largeurCasePixel=100;
+	private int hauteurCasePixel=100;
 	private int hauteurFenetreJeu=1000;
 	private int largeurFenetreJeu=1000;
 	
