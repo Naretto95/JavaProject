@@ -64,12 +64,12 @@ public class Carte {
 			if (entite instanceof Joueur) {
 				Joueur joueur = (Joueur) entite;
 				Item item = _case.getItem();
-				while(item!=null/* && joueur.Ramasser(item)*/ ) {
+				while(item!=null && joueur.Ramasser(item)) {
 					item = _case.getItem(); 
 				}	
 				if (item!=null) {_case.addItem(item);}
 				Ressource ressource = _case.getRessource();
-				while(ressource!=null/* && joueur.Ramasser(ressource)*/ ) {
+				while(ressource!=null && joueur.Ramasser(ressource)) {
 					ressource = _case.getRessource(); 
 				}	
 				if (ressource!=null) {_case.addRessource(ressource);}
