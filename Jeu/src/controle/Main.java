@@ -24,15 +24,6 @@ public class Main extends Application{
 		Canvas canvas = new Canvas(1000,1000);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
-		/*
-		HashMap<Coordonnee,Case> carte = new HashMap<Coordonnee,Case>();
-		
-		
-		Joueur joueur = new Joueur("Bob",50,250,-250);
-		ControleJoueur ctlJoueur = new ControleJoueur(carte,joueur,gc);
-		new Thread(ctlJoueur).start();
-	*/
-		
 		String[][] saisieMain = 
 			{{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"},
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"},
@@ -59,11 +50,14 @@ public class Main extends Application{
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"},
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"},
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"}};
+		
 		Carte carte = new Carte("images",saisieMain);
 		Joueur joueur = new Joueur("Bob",50,6,3);
-		ControleJoueur ctlJoueur = new ControleJoueur(carte,joueur,gc);
+		ControleJoueur ctlJoueur = new ControleJoueur("link.png",carte,joueur,gc,120,120);
 		new Thread(ctlJoueur).start();
-		System.out.println(carte.getCase(13, 6).getContenu().toString());
+		
+		
+		
 		BorderPane borderpane = new BorderPane();
 		borderpane.setCenter(canvas);
         Scene scene = new Scene(borderpane);
