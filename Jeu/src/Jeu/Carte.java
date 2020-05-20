@@ -39,7 +39,7 @@ public class Carte {
 					casesCarte.get(i).add(new Case(Case.VIDE));
 					break;
 				case "water.png":
-					casesCarte.get(i).add(new Case(Case.VIDE));
+					casesCarte.get(i).add(new Case(Case.OBSTACLE));
 					break;	
 				case "porte":
 					casesCarte.get(i).add(new Case(Case.PORTE));
