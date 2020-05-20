@@ -47,10 +47,16 @@ public class Case {
 		this.ressources.push(ressource);
 	}
 	public Item getItem() {
-		return this.items.pop();		
+		if (!this.items.isEmpty()) {
+			return this.items.pop();
+		}
+		return null;
 	}
 	public Ressource getRessource() {
-		return this.ressources.pop();
+		if(!this.ressources.isEmpty()) {
+			return this.ressources.pop();
+		}
+		return null;
 	}
 	public ArrayList<Ressource> getAllRessources() {
 		ArrayList<Ressource> allRessources = new ArrayList<Ressource>();
