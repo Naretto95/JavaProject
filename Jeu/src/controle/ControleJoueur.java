@@ -19,19 +19,21 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	
 	
 	private Joueur joueur;
+	private KeyCode lastDirection=KeyCode.DOWN;
 	private int distMinBordEcranX=50;
 	private int distMinBordEcranY=50;	
+	private int speed=10;
 	
 
 	public ControleJoueur(String feuilleDeSpriteEntite,Carte carte, Joueur joueur, GraphicsContext gc,int hauteurPixelEntite,int largeurPixelEntite){
 		super(feuilleDeSpriteEntite,carte,gc,(Entité) joueur,hauteurPixelEntite,largeurPixelEntite);
 		this.joueur = joueur;
 		afficheCarte();
-		afficheJoueur(KeyCode.RIGHT);
+		afficheJoueur(KeyCode.DOWN,0);
 	}
 	
 	
-	//gestion des input clavier pour le joueur 
+	//gestion des input clavier pour le joueur
 	public void handle(KeyEvent event){
 		//si on appuye sur une touche
 		if (event.getEventType()==KeyEvent.KEY_PRESSED) {
@@ -39,18 +41,25 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			case UP:
 				avanceB=false;
 				avanceH=true;
+				this.lastDirection=KeyCode.UP;
 				break;
 			case DOWN:
 				avanceH=false;
 				avanceB=true;
+				this.lastDirection=KeyCode.DOWN;
 				break;
 			case LEFT:
 				avanceD=false;
 				avanceG=true;
+				this.lastDirection=KeyCode.LEFT;
 				break;
 			case RIGHT:
 				avanceG=false;
 				avanceD=true;
+				this.lastDirection=KeyCode.RIGHT;
+				break;
+			case S:
+				vitesse=speed;
 				break;
 			default:
 				break;
@@ -72,9 +81,15 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 				case RIGHT:
 					avanceD=false;
 					break;
+				case S:
+					vitesse=5;
 				default:
 					break;
 		
+			}
+			if (!(this.avanceG||this.avanceD||this.avanceH||this.avanceB)) {
+				afficheCarte();
+				afficheJoueur(this.lastDirection,0);
 			}
 		}
 	}
@@ -111,25 +126,26 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			break;
 		}
 		System.out.println("je suis en case :"+this.joueur.getPositionY()+" ,"+this.joueur.getPositionX());
+		System.out.println("Ma nouvelle position est "+this.getPositionXPixel()+","+this.getPositionYPixel());
 	}
 	
 	
-	public void afficheJoueur(KeyCode keycode) {
+	public void afficheJoueur(KeyCode keycode,int bouge) {
 		//l'affichage des entites est variable pour chaque feuille de Sprite qui lui correspond
-		indiceSprite=(indiceSprite+1)%10;//on change l'image affichée par celle qui suit dans la feuille
+		indiceSprite=(indiceSprite+1);//on change l'image affichée par celle qui suit dans la feuille
 		switch(keycode) {
 		//pour le joueur qui se déplace dans plusieurs directions il faut adapter l'image au sens du mouvement
 		case RIGHT:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,925,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			gc.drawImage(this.feuilleDeSpriteEntite,(((indiceSprite%10)*bouge+4)%10)*this.largeurPixelEntite,925,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		case LEFT:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,660,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			gc.drawImage(this.feuilleDeSpriteEntite,(indiceSprite%10)*bouge*this.largeurPixelEntite,660,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		case UP:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,785,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			gc.drawImage(this.feuilleDeSpriteEntite,(indiceSprite%10)*bouge*this.largeurPixelEntite,785,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		case DOWN:
-			gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,530,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			gc.drawImage(this.feuilleDeSpriteEntite,(indiceSprite%10)*bouge*this.largeurPixelEntite,530,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
 			break;
 		default:
 			break;
@@ -166,7 +182,6 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	public void changerPositionPixel(int deltaXPixel, int deltaYPixel) {
 		this.setPositionXPixel(this.getPositionXPixel()+deltaXPixel);
 		this.setPositionYPixel(this.getPositionYPixel()+deltaYPixel);
-		System.out.println("Ma nouvelle position est "+this.getPositionXPixel()+","+this.getPositionYPixel());
 	}
 
 	public void update(Observable o, Object arg) {
@@ -183,23 +198,24 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			if(this.avanceD) {
 				deplacer(KeyCode.RIGHT);
 				afficheCarte();
-				afficheJoueur(KeyCode.RIGHT);
+				afficheJoueur(KeyCode.RIGHT,1);
 			}
 			if(this.avanceH) {
 				deplacer(KeyCode.UP);
 				afficheCarte();
-				afficheJoueur(KeyCode.UP);
+				afficheJoueur(KeyCode.UP,1);
 			}
 			if(this.avanceB) {
 				deplacer(KeyCode.DOWN);
 				afficheCarte();
-				afficheJoueur(KeyCode.DOWN);
+				afficheJoueur(KeyCode.DOWN,1);
 			}
 			if(this.avanceG) {
 				deplacer(KeyCode.LEFT);
 				afficheCarte();
-				afficheJoueur(KeyCode.LEFT);
+				afficheJoueur(KeyCode.LEFT,1);
 			}
+			
 		}
 	}
 	
