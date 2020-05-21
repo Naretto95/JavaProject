@@ -16,11 +16,11 @@ public abstract class ControleEntite {
 	protected boolean avanceG = false;
 	protected boolean avanceH = false;
 	protected boolean avanceB = false;
-	protected double indiceSprite=0;
+	protected int indiceSprite=0;
 
 	protected int positionXPixel;
 	protected int positionYPixel;
-	protected int vitesse=10;
+	protected int vitesse=5;
 	protected int hauteurPixelEntite;
 	protected int largeurPixelEntite;
 	protected int deltaXHitBox=0;
@@ -58,5 +58,9 @@ public abstract class ControleEntite {
 
 	public void setPositionYPixel(int positionYPixel) {
 		this.positionYPixel = positionYPixel;
+	}
+
+	public Entité getEntite() {
+		return entite;
 	}
 }
