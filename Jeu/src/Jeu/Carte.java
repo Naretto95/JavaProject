@@ -13,8 +13,8 @@ public class Carte {
 	private Map<String,Image> listeImagesElementsJeu;
 	private ArrayList<ArrayList<Case>> casesCarte;
 	private FenetreEcran fenetreEcran;
-	private int largeurCasePixel=100;
-	private int hauteurCasePixel=100;
+	private int largeurCasePixel=50;
+	private int hauteurCasePixel=50;
 	private int hauteurFenetreJeu=1000;
 	private int largeurFenetreJeu=1000;
 	
@@ -40,8 +40,14 @@ public class Carte {
 					break;
 				case "water.png":
 					casesCarte.get(i).add(new Case(Case.OBSTACLE));
-					break;	
-				case "porte":
+					break;
+				case "plancher.jpg":
+					casesCarte.get(i).add(new Case(Case.VIDE));
+					break;
+				case "tiles.png":
+					casesCarte.get(i).add(new Case(Case.OBSTACLE));
+					break;
+				case "door.png":
 					casesCarte.get(i).add(new Case(Case.PORTE));
 					break;
 				default:

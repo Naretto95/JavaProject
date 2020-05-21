@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Observable;
 import java.util.Random;
 
-public class Entité {
+public class Entité extends Observable{
+	
+	public static Integer VIE_MODIFIEE = new Integer(0);
+	public static Integer EST_MORT = new Integer(1);
 	
 	private int Vie;
 	private int PositionX;
@@ -39,8 +43,12 @@ public class Entité {
 	
 	public void DegatsReçues(Arme _Arme){
 		this.setVie(this.getVie()-_Arme.getDegats());
+		this.setChanged();
+		this.notifyObservers(Entité.VIE_MODIFIEE);
 		if (this.getVie()<=0) {
 			this.setEtat(EtatEntité.Mort);
+			this.setChanged();
+			this.notifyObservers(Entité.EST_MORT);
 		}
 	}
 	
