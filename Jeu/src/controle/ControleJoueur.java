@@ -5,7 +5,6 @@ import java.util.Observable;
 import java.util.Observer;
 
 import Jeu.Carte;
-import Jeu.Case;
 import Jeu.Entité;
 import Jeu.Joueur;
 import javafx.event.EventHandler;
@@ -151,37 +150,6 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			break;
 		}
 
-	}
-	
-	public boolean detecteCollision(int rect1x,int rect1y, int rect1w, int rect1h,int rect2x,int rect2y, int rect2w, int rect2h) {
-		return ((rect1x +paddingX< rect2x + rect2w) && (rect1x-paddingX + rect1w > rect2x) && ( rect1y+paddingY < rect2y + rect2h) && ( rect1h + rect1y > rect2y));
-	}
-	public boolean detecteCollisionCaseMouvement(int i, int j,int deltaX, int deltaY) {
-		if(i>=0 && j>=0 && i<this.carte.getImagesCasesCarte().size() && j<this.carte.getImagesCasesCarte().get(i).size()) {
-			return detecteCollision(this.getPositionXPixel()+deltaX,this.getPositionYPixel()+deltaY,this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel(),j*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),i*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel()) && (this.carte.getCase(i, j).getContenu()!=Case.VIDE);
-		}
-		return true;
-	}
-	public boolean detecteCollisionsMouvement(int deltaX,int deltaY) {
-		//soit deltax est nul soit deltay est nul
-		if (deltaX>0) {
-			return (detecteCollisionCaseMouvement(this.joueur.getPositionY()-1,this.joueur.getPositionX()+1,deltaX,deltaY) ||detecteCollisionCaseMouvement(this.joueur.getPositionY(),this.joueur.getPositionX()+1,deltaX,deltaY)||detecteCollisionCaseMouvement(this.joueur.getPositionY()+1,this.joueur.getPositionX()+1,deltaX,deltaY));
-		}
-		if (deltaX<0) {
-			return (detecteCollisionCaseMouvement(this.joueur.getPositionY()-1,this.joueur.getPositionX()-1,deltaX,deltaY) ||detecteCollisionCaseMouvement(this.joueur.getPositionY(),this.joueur.getPositionX()-1,deltaX,deltaY)||detecteCollisionCaseMouvement(this.joueur.getPositionY()+1,this.joueur.getPositionX()-1,deltaX,deltaY));
-		}
-		if (deltaY>0) {
-			return (detecteCollisionCaseMouvement(this.joueur.getPositionY()+1,this.joueur.getPositionX()-1,deltaX,deltaY) ||detecteCollisionCaseMouvement(this.joueur.getPositionY()+1,this.joueur.getPositionX(),deltaX,deltaY)||detecteCollisionCaseMouvement(this.joueur.getPositionY()+1,this.joueur.getPositionX()+1,deltaX,deltaY));
-		}
-		if (deltaY<0) {
-			return (detecteCollisionCaseMouvement(this.joueur.getPositionY()-1,this.joueur.getPositionX()-1,deltaX,deltaY) ||detecteCollisionCaseMouvement(this.joueur.getPositionY()-1,this.joueur.getPositionX(),deltaX,deltaY)||detecteCollisionCaseMouvement(this.joueur.getPositionY()-1,this.joueur.getPositionX()+1,deltaX,deltaY));
-		}
-		return true;
-	}
-	
-	public void changerPositionPixel(int deltaXPixel, int deltaYPixel) {
-		this.setPositionXPixel(this.getPositionXPixel()+deltaXPixel);
-		this.setPositionYPixel(this.getPositionYPixel()+deltaYPixel);
 	}
 
 	public void update(Observable o, Object arg) {
