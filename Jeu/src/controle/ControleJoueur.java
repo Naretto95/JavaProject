@@ -99,25 +99,25 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 
 		switch (kc) {
 		case UP:
-			if (!detecteCollisionsMouvement(0,-vitesse)) {this.changerPositionPixel(0, -vitesse);}
+			if (!detecteCollisionsMouvement(0,-vitesse) && this.getPositionYPixel()-this.distMinBordEcranY-vitesse>0) {this.changerPositionPixel(0, -vitesse);}
 			if(this.carte.getFenetreEcran().getPosYPixelEcran()+this.getPositionYPixel()+this.carte.getHauteurCasePixel()/2<(this.joueur.getPositionY())*this.carte.getHauteurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY()-1, this.joueur.getPositionX());
 			}
 			break;
 		case DOWN:
-			if (!detecteCollisionsMouvement(0,vitesse)) {this.changerPositionPixel(0, vitesse);}
+			if (!detecteCollisionsMouvement(0,vitesse) && this.getPositionYPixel()+this.distMinBordEcranY+vitesse<this.carte.getFenetreEcran().getHauteurPixelEcran()) {this.changerPositionPixel(0, vitesse);}
 			if(this.carte.getFenetreEcran().getPosYPixelEcran()+this.getPositionYPixel()+this.carte.getHauteurCasePixel()/2>(this.joueur.getPositionY()+1)*this.carte.getHauteurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY()+1, this.joueur.getPositionX());
 			}
 			break;
 		case LEFT:
-			if (!detecteCollisionsMouvement(-vitesse,0)) {this.changerPositionPixel(-vitesse, 0);}
+			if (!detecteCollisionsMouvement(-vitesse,0) && this.getPositionXPixel()-this.distMinBordEcranX-vitesse>0) {this.changerPositionPixel(-vitesse, 0);}
 			if(this.carte.getFenetreEcran().getPosXPixelEcran()+this.getPositionXPixel()+this.carte.getLargeurCasePixel()/2<(this.joueur.getPositionX())*this.carte.getLargeurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY(), this.joueur.getPositionX()-1);
 			}
 			break;
 		case RIGHT:
-			if (!detecteCollisionsMouvement(vitesse,0)) {this.changerPositionPixel(vitesse, 0);}
+			if (!detecteCollisionsMouvement(vitesse,0) && this.getPositionXPixel()+this.distMinBordEcranX+vitesse<this.carte.getFenetreEcran().getLargeurPixelEcran()) {this.changerPositionPixel(vitesse, 0);}
 			if(this.carte.getFenetreEcran().getPosXPixelEcran()+this.getPositionXPixel()+this.carte.getLargeurCasePixel()/2>(this.joueur.getPositionX()+1)*this.carte.getLargeurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY(), this.joueur.getPositionX()+1);
 			}
