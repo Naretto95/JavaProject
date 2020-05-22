@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
 
+import Jeu.Arme;
 import Jeu.Carte;
+import Jeu.Ennemi;
 import Jeu.Entité;
+import Jeu.Item;
 import Jeu.Joueur;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
@@ -18,10 +21,12 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	
 	
 	private Joueur joueur;
+	private boolean attaque = false;
 	private KeyCode lastDirection=KeyCode.DOWN;
-	private int distMinBordEcranX=50;
-	private int distMinBordEcranY=50;	
+	private int distMinBordEcranX=20;
+	private int distMinBordEcranY=20;	
 	private int speed=10;
+	private int distance = 0;
 	
 
 	public ControleJoueur(String feuilleDeSpriteEntite,Carte carte, Joueur joueur, GraphicsContext gc,int hauteurPixelEntite,int largeurPixelEntite){
@@ -37,6 +42,10 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		//si on appuye sur une touche
 		if (event.getEventType()==KeyEvent.KEY_PRESSED) {
 			switch(event.getCode()) {
+			case SPACE:
+				attaque=true;
+				this.distance = this.attaque();
+				break;
 			case UP:
 				avanceB=false;
 				avanceH=true;
@@ -68,6 +77,9 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		//si on relache la touche
 		if (event.getEventType()==KeyEvent.KEY_RELEASED) {
 			switch (event.getCode()) {
+				case SPACE:
+					attaque=false;
+					break;
 				case UP:
 					avanceH=false;
 					break;
@@ -104,7 +116,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			}
 			break;
 		case DOWN:
-			if (!detecteCollisionsMouvement(0,vitesse) && this.getPositionYPixel()+this.distMinBordEcranY+vitesse<this.carte.getFenetreEcran().getHauteurPixelEcran()) {this.changerPositionPixel(0, vitesse);}
+			if (!detecteCollisionsMouvement(0,vitesse) && this.getPositionYPixel()+this.carte.getHauteurCasePixel()+this.distMinBordEcranY+vitesse<this.carte.getFenetreEcran().getHauteurPixelEcran()) {this.changerPositionPixel(0, vitesse);}
 			if(this.carte.getFenetreEcran().getPosYPixelEcran()+this.getPositionYPixel()+this.carte.getHauteurCasePixel()/2>(this.joueur.getPositionY()+1)*this.carte.getHauteurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY()+1, this.joueur.getPositionX());
 			}
@@ -116,7 +128,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			}
 			break;
 		case RIGHT:
-			if (!detecteCollisionsMouvement(vitesse,0) && this.getPositionXPixel()+this.distMinBordEcranX+vitesse<this.carte.getFenetreEcran().getLargeurPixelEcran()) {this.changerPositionPixel(vitesse, 0);}
+			if (!detecteCollisionsMouvement(vitesse,0) && this.getPositionXPixel()+this.carte.getLargeurCasePixel()+this.distMinBordEcranX+vitesse<this.carte.getFenetreEcran().getLargeurPixelEcran()) {this.changerPositionPixel(vitesse, 0);}
 			if(this.carte.getFenetreEcran().getPosXPixelEcran()+this.getPositionXPixel()+this.carte.getLargeurCasePixel()/2>(this.joueur.getPositionX()+1)*this.carte.getLargeurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY(), this.joueur.getPositionX()+1);
 			}
@@ -126,6 +138,84 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		}
 		System.out.println("je suis en case :"+this.joueur.getPositionY()+" ,"+this.joueur.getPositionX());
 		System.out.println("Ma nouvelle position est "+this.getPositionXPixel()+","+this.getPositionYPixel());
+	}
+	
+	public int attaque() {
+		Item itemEnMain = this.joueur.getEnMain();
+			int portee=0;
+			if (itemEnMain instanceof Arme) {portee= ((Arme) itemEnMain).getPortée();}
+			int distance = 0;
+			while (distance <= portee) {
+				switch(this.lastDirection) {
+				case UP:
+					if (this.joueur.getPositionY()-1-distance>-1) {
+					Object objet1 = this.carte.getCase(this.joueur.getPositionY()-1-distance, this.joueur.getPositionX()).getContenu();
+					if (objet1 instanceof Ennemi) {
+						this.joueur.Utiliser((Entité) objet1);
+						return distance;
+					}
+					else {distance++;}
+					}
+					else {return -1;}
+					break;
+				case DOWN:
+					if (this.joueur.getPositionY()+1+distance<this.carte.getImagesCasesCarte().size()) {
+					Object objet2 = this.carte.getCase(this.joueur.getPositionY()+1+distance, this.joueur.getPositionX()).getContenu();
+					if (objet2 instanceof Ennemi) {
+						this.joueur.Utiliser((Entité) objet2);
+						return distance;
+					}
+					else {distance++;}
+					}
+					else {return -1;}
+					break;
+				case RIGHT:
+					if (this.joueur.getPositionX()+1+distance<this.carte.getImagesCasesCarte().get(this.joueur.getPositionY()).size()) {
+					Object objet3 = this.carte.getCase(this.joueur.getPositionY(), this.joueur.getPositionX()+1+distance).getContenu();
+					if (objet3 instanceof Ennemi) {
+						this.joueur.Utiliser((Entité) objet3);
+						return distance; 
+					}
+					else {distance++;}
+					}
+					else {return -1;}
+					break;
+				case LEFT:
+					if (this.joueur.getPositionX()-1-distance>-1) {
+					Object objet4 = this.carte.getCase(this.joueur.getPositionY(), this.joueur.getPositionX()-1-distance).getContenu();
+					if (objet4 instanceof Ennemi) {
+						this.joueur.Utiliser((Entité) objet4);
+						return distance; 
+					}
+					else {distance++;}
+					}else  {return -1;}
+					break;
+				default:
+					break;
+				}
+			}
+		return -1;
+	}
+	
+	public void afficheAttaque() {
+		if (this.distance>-1) {
+		switch (this.lastDirection) {
+		case UP:
+			gc.drawImage(this.feuilleDeSpriteEntite,879,1402,237,222,(this.joueur.getPositionX())*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),(this.joueur.getPositionY()-1-distance)*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+			break;
+		case DOWN:
+			gc.drawImage(this.feuilleDeSpriteEntite,879,1402,237,222,(this.joueur.getPositionX())*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),(this.joueur.getPositionY()+1+distance)*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+			break;
+		case LEFT:
+			gc.drawImage(this.feuilleDeSpriteEntite,879,1402,237,222,(this.joueur.getPositionX()-1-distance)*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),(this.joueur.getPositionY())*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+			break;
+		case RIGHT:
+			gc.drawImage(this.feuilleDeSpriteEntite,879,1402,237,222,(this.joueur.getPositionX()+1+distance)*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran()+20,(this.joueur.getPositionY())*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+			break;
+		default:
+			break;
+		}
+		}
 	}
 	
 	
@@ -162,6 +252,11 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 				Thread.sleep(25);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
+			}
+			if (this.attaque) {
+				afficheCarte();
+				afficheJoueur(this.lastDirection,0);
+				afficheAttaque();
 			}
 			if(this.avanceD) {
 				deplacer(KeyCode.RIGHT);
