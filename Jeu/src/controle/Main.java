@@ -52,9 +52,9 @@ public class Main extends Application{
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"},
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"}};
 		
-		Carte carte = new Carte("images",saisieMain);
+		Carte carte = new Carte("images",saisieMain,canvas.getWidth(),canvas.getHeight());
 		Joueur joueur = new Joueur("Bob",50,6,3);
-		ControleJoueur ctlJoueur = new ControleJoueur("link.png",carte,joueur,gc,120,120);
+		ControleJoueur ctlJoueur = new ControleJoueur("link2.png",carte,joueur,gc,120,120);
 		ControleBarreDeVie ctlbdv = new ControleBarreDeVie(ctlJoueur,15);
 		fenetreJeu.getChildren().add(ctlbdv);
 		new Thread(ctlJoueur).start();
