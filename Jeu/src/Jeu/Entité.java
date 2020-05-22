@@ -43,8 +43,6 @@ public class Entité extends Observable{
 	
 	public void DegatsReçues(Arme _Arme){
 		this.setVie(this.getVie()-_Arme.getDegats());
-		this.setChanged();
-		this.notifyObservers(Entité.VIE_MODIFIEE);
 		if (this.getVie()<=0) {
 			this.setEtat(EtatEntité.Mort);
 			this.setChanged();
@@ -276,6 +274,8 @@ public class Entité extends Observable{
 	
 	public void setVie(int vie) {
 		Vie = vie;
+		this.setChanged();
+		this.notifyObservers(Entité.VIE_MODIFIEE);
 	}
 
 	public int getPositionX() {

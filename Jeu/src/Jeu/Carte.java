@@ -18,7 +18,9 @@ public class Carte {
 	private int hauteurFenetreJeu=1000;
 	private int largeurFenetreJeu=1000;
 	
-	public Carte(String repertoireImages, String[][] saisieCarte) {
+	public Carte(String repertoireImages, String[][] saisieCarte,double largeurFenetreJeu,double hauteurFenetreJeu) {
+		this.largeurFenetreJeu=(int) largeurFenetreJeu;
+		this.hauteurFenetreJeu=(int) hauteurFenetreJeu;
 		int nbLigne = saisieCarte.length;
 		int nbColonne = saisieCarte[0].length;
 		this.fenetreEcran=new FenetreEcran(0,0,this.largeurFenetreJeu,this.hauteurFenetreJeu,nbColonne*this.largeurCasePixel-this.largeurFenetreJeu,nbLigne*this.hauteurCasePixel-this.hauteurFenetreJeu);
