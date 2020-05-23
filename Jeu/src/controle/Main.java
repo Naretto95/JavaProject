@@ -4,7 +4,9 @@ import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Entité;
 import Jeu.Joueur;
+import Jeu.Ressource;
 import Jeu.TypeArme;
+import Jeu.TypeRessource;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -60,6 +62,7 @@ public class Main extends Application{
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"}};
 		
 		Carte carte = new Carte("images",saisieMain,canvas.getWidth(),canvas.getHeight());
+		carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Cle));
 		Joueur joueur = new Joueur("Bob",50,6,3);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		ControleJoueur ctlJoueur = new ControleJoueur("link2.png",carte,joueur,gc,120,120);

@@ -15,8 +15,8 @@ public class Case implements Observer{
 	private Object contenu;
 	private Stack<Item> items;
 	private Stack<Ressource> ressources;
-	
-	
+
+
 	public Case(Stack<Item> items,Stack<Ressource> ressources) {
 		this.contenu=VIDE;
 		this.items = items;

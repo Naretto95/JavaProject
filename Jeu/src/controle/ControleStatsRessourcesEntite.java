@@ -63,6 +63,7 @@ public class ControleStatsRessourcesEntite extends GridPane implements Observer{
 					break;
 				}
 			}
+			this.entite.addObserver(this);
 		}
 
 
