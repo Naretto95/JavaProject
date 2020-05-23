@@ -1,12 +1,17 @@
 package controle;
 
+import java.util.Observable;
+import java.util.Observer;
+
 import Jeu.Carte;
 import Jeu.Case;
 import Jeu.Entité;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 
-public abstract class ControleEntite {
+public abstract class ControleEntite extends Observable implements Observer{
+	
+	public static Integer A_BOUGE = new Integer(10);
 	
 	protected Entité entite;
 	protected Carte carte;
@@ -76,6 +81,15 @@ public abstract class ControleEntite {
 	public void changerPositionPixel(int deltaXPixel, int deltaYPixel) {
 		this.setPositionXPixel(this.getPositionXPixel()+deltaXPixel);
 		this.setPositionYPixel(this.getPositionYPixel()+deltaYPixel);
+		this.setChanged();
+		this.notifyObservers(ControleEntite.A_BOUGE);
+	}
+	
+
+	@Override
+	public void update(Observable o, Object arg) {
+		
+		
 	}
 
 	public int getPositionXPixel() {
