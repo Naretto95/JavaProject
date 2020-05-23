@@ -11,6 +11,7 @@ public class Entité extends Observable{
 	
 	public static Integer VIE_MODIFIEE = new Integer(0);
 	public static Integer EST_MORT = new Integer(1);
+	public static Integer RESSOURCES_MODIFIEES = new Integer(2);
 	
 	private int Vie;
 	private int PositionX;

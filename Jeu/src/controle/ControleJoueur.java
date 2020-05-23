@@ -46,27 +46,27 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 				attaque=true;
 				this.distance = this.attaque();
 				break;
-			case UP:
+			case Z:
 				avanceB=false;
 				avanceH=true;
 				this.lastDirection=KeyCode.UP;
 				break;
-			case DOWN:
+			case S:
 				avanceH=false;
 				avanceB=true;
 				this.lastDirection=KeyCode.DOWN;
 				break;
-			case LEFT:
+			case Q:
 				avanceD=false;
 				avanceG=true;
 				this.lastDirection=KeyCode.LEFT;
 				break;
-			case RIGHT:
+			case D:
 				avanceG=false;
 				avanceD=true;
 				this.lastDirection=KeyCode.RIGHT;
 				break;
-			case S:
+			case SHIFT:
 				vitesse=speed;
 				break;
 			default:
@@ -80,19 +80,19 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 				case SPACE:
 					attaque=false;
 					break;
-				case UP:
+				case Z:
 					avanceH=false;
 					break;
-				case DOWN:
+				case S:
 					avanceB=false;
 					break;
-				case LEFT:
+				case Q:
 					avanceG=false;
 					break;
-				case RIGHT:
+				case D:
 					avanceD=false;
 					break;
-				case S:
+				case SHIFT:
 					vitesse=5;
 				default:
 					break;

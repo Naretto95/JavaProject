@@ -66,6 +66,8 @@ public class Joueur extends Entité {
 				break;
 			}
 		}
+		this.setChanged();
+		this.notifyObservers(Entité.RESSOURCES_MODIFIEES);
 	}
 	
 	public void Reparer() {
@@ -189,6 +191,8 @@ public class Joueur extends Entité {
 			    if (((Ressource)_Objet).getType()==cle.getType()) {
 			    	cle.setRamassé(true);
 			    	this.getInventaireRessource().put(cle,this.getInventaireRessource().get(cle)+1);
+			    	this.setChanged();
+			    	this.notifyObservers(Entité.RESSOURCES_MODIFIEES);
 			    	return true;
 				}
 			}
