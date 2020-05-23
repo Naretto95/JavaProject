@@ -12,6 +12,7 @@ public class Entité extends Observable{
 	public static Integer VIE_MODIFIEE = new Integer(0);
 	public static Integer EST_MORT = new Integer(1);
 	public static Integer RESSOURCES_MODIFIEES = new Integer(2);
+	public static Integer CHANGEMENT_ITEM = new Integer(3);
 	
 	private int Vie;
 	private int PositionX;
@@ -130,6 +131,8 @@ public class Entité extends Observable{
 				}
 			}
 		}
+		this.setChanged();
+		this.notifyObservers(CHANGEMENT_ITEM);
 	}
 	
 	public void ActualiserInventaire(){

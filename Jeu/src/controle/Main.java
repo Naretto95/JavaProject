@@ -1,7 +1,11 @@
 package controle;
 
+import Jeu.Arme;
 import Jeu.Carte;
+import Jeu.Entité;
 import Jeu.Joueur;
+import Jeu.Objet;
+import Jeu.TypeArme;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -60,13 +64,15 @@ public class Main extends Application{
 		Joueur joueur = new Joueur("Bob",50,6,3);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		ControleJoueur ctlJoueur = new ControleJoueur("link2.png",carte,joueur,gc,120,120);
+		ControleInventaireItemsEntite ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
 		ControleBarreDeVie ctlbdv = new ControleBarreDeVie(ctlJoueur,15);
 		ControleBarreDeVie ctlbdv2 = new ControleBarreDeVie(ctlJoueur,50,950,100);
 		ControleStatsRessourcesEntite ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
-		
+		joueur.Ramasser(new Arme(TypeArme.EpéeCourte,1));
 		fenetreJeuBis.getChildren().add(ctlbdv);
 		fenetreJeuBis.getChildren().add(ctlbdv2);
 		fenetreJeu.getChildren().add(ctlSRE);
+		fenetreJeu.getChildren().add(ctlInventaireJoueur);
 		
 		new Thread(ctlJoueur).start();
 		
