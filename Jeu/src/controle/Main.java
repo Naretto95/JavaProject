@@ -4,7 +4,6 @@ import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Entité;
 import Jeu.Joueur;
-import Jeu.Objet;
 import Jeu.TypeArme;
 import javafx.application.Application;
 import javafx.scene.Group;

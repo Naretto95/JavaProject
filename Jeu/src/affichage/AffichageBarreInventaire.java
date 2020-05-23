@@ -5,25 +5,20 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.GridPane;
-import javafx.scene.paint.Color;
 
 public class AffichageBarreInventaire extends GridPane{
 	
 		public static double zoom=0;
-		public static Image epeeLongue = new Image("file:epeelongue.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image epeeCourte = new Image("file:epeecourte.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image vide = new Image("file:casevide.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image arc = new Image("file:arc.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image main = new Image("file:main.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image potionVie = new Image("file:potionvie.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image potionPoison = new Image("file:potionpoison.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image potionArme = new Image("file:potiongaindegats.png",50+50*zoom,50+50*zoom,false,true);
-		public static Image potionEtourdi = new Image("file:potionetourdi.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image epeeLongue = new Image("file:imagesitems/epeelongue.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image epeeCourte = new Image("file:imagesitems/epeecourte.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image vide = new Image("file:imagesitems/casevide.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image arc = new Image("file:imagesitems/arc.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image main = new Image("file:imagesitems/main.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image potionVie = new Image("file:imagesitems/potionvie.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image potionPoison = new Image("file:imagesitems/potionpoison.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image potionArme = new Image("file:imagesitems/potiongaindegats.png",50+50*zoom,50+50*zoom,false,true);
+		public static Image potionEtourdi = new Image("file:imagesitems/potionetourdi.png",50+50*zoom,50+50*zoom,false,true);
 		
 
 		private ImageView caseEpeeCourte = new ImageView(AffichageBarreInventaire.vide);
@@ -37,7 +32,7 @@ public class AffichageBarreInventaire extends GridPane{
 		
 		public AffichageBarreInventaire(){
 			this.add(caseArmeEnMain, 1, 1);
-			this.setMargin(this.getChild(1,1), new Insets(0,20,0,0));
+			GridPane.setMargin(this.getChild(1,1), new Insets(0,20,0,0));
 			this.add(this.caseArc, 2, 1);
 			this.add(this.caseEpeeCourte, 3, 1);
 			this.add(this.caseEpeeLongue, 4, 1);
@@ -126,7 +121,7 @@ public class AffichageBarreInventaire extends GridPane{
 		    ObservableList<Node> childrens = this.getChildren();
 
 		    for (Node node : childrens) {
-		        if(this.getRowIndex(node) == row && this.getColumnIndex(node) == column) {
+		        if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == column) {
 		            result = node;
 		            break;
 		        }
