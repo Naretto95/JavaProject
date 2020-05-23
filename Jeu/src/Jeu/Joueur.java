@@ -66,6 +66,8 @@ public class Joueur extends Entité {
 				break;
 			}
 		}
+		this.setChanged();
+		this.notifyObservers(Entité.RESSOURCES_MODIFIEES);
 	}
 	
 	public void Reparer() {
