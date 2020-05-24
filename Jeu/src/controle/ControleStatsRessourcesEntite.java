@@ -17,10 +17,10 @@ import javafx.scene.text.Text;
 public class ControleStatsRessourcesEntite extends GridPane implements Observer{
 
 		private Entité entite;	
-		private ImageView cle = new ImageView(new Image("file:cle.png",50,50,false,true));
-		private ImageView or = new ImageView(new Image("file:or.png",50,50,false,true));
-		private ImageView fer = new ImageView(new Image("file:fer.png",50,50,false,true));
-		private ImageView bois = new ImageView(new Image("file:bois.png",50,50,false,true));
+		private ImageView cle = new ImageView(new Image("file:imagesitems/cle.png",50,50,false,true));
+		private ImageView or = new ImageView(new Image("file:imagesitems/or.png",50,50,false,true));
+		private ImageView fer = new ImageView(new Image("file:imagesitems/fer.png",50,50,false,true));
+		private ImageView bois = new ImageView(new Image("file:imagesitems/bois.png",50,50,false,true));
 		private Text nbCle=new Text("0");
 		private Text nbOr=new Text("0");
 		private Text nbFer=new Text("0");
@@ -63,6 +63,7 @@ public class ControleStatsRessourcesEntite extends GridPane implements Observer{
 					break;
 				}
 			}
+			this.entite.addObserver(this);
 		}
 
 

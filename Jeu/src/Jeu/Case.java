@@ -11,12 +11,13 @@ public class Case implements Observer{
 	public static Integer VIDE = new Integer(0);
 	public static Integer OBSTACLE = new Integer(1);
 	public static Integer PORTE = new Integer(2);
+	public static Integer OUVERTURE_PORTE= new Integer(30);
 	
 	private Object contenu;
 	private Stack<Item> items;
 	private Stack<Ressource> ressources;
-	
-	
+
+
 	public Case(Stack<Item> items,Stack<Ressource> ressources) {
 		this.contenu=VIDE;
 		this.items = items;
@@ -121,6 +122,9 @@ public class Case implements Observer{
 			}else {
 				System.out.println("Il y a un problème avec le dépot de l'inventaire de ce défunt");
 			}
+		}
+		if (arg.equals(OUVERTURE_PORTE)) {
+			this.setContenu(VIDE);
 		}
 	}
 }

@@ -168,6 +168,8 @@ public class Joueur extends Entité {
 					if (accum<3) {
 						((Arme)((Item)_Objet)).setRamassé(true);
 						this.getInventaireArme().add((Arme)((Item)_Objet));
+						this.setChanged();
+						this.notifyObservers(Entité.CHANGEMENT_ITEM);
 						return true;
 					}
 				}
@@ -180,6 +182,8 @@ public class Joueur extends Entité {
 					if (accum<3) {
 						((Potion)((Item)_Objet)).setRamassé(true);
 						this.getInventairePotion().add((Potion)((Item)_Objet));
+						this.setChanged();
+						this.notifyObservers(Entité.CHANGEMENT_ITEM);
 						return true;
 					}
 				}
