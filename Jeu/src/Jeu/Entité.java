@@ -328,6 +328,8 @@ public class Entité extends Observable{
 
 	public void setInventaireRessource(Map<Ressource, Integer> inventaireRessource) {
 		InventaireRessource = inventaireRessource;
+		this.setChanged();
+		this.notifyObservers(RESSOURCES_MODIFIEES);
 	}
 
 	public List<Arme> getInventaireArme() {

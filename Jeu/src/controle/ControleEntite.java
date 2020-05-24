@@ -4,6 +4,7 @@ import java.util.Observable;
 import java.util.Observer;
 
 import Jeu.Carte;
+import Jeu.Carte.Porte;
 import Jeu.Case;
 import Jeu.Entité;
 import javafx.scene.canvas.GraphicsContext;
@@ -56,7 +57,9 @@ public abstract class ControleEntite extends Observable implements Observer{
 	
 	public boolean detecteCollisionCaseMouvement(int i, int j,int deltaX, int deltaY) {
 		if(i>=0 && j>=0 && i<this.carte.getImagesCasesCarte().size() && j<this.carte.getImagesCasesCarte().get(i).size()) {
-			return detecteCollision(this.getPositionXPixel()+deltaX,this.getPositionYPixel()+deltaY,this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel(),j*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),i*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel()) && (this.carte.getCase(i, j).getContenu()!=Case.VIDE);
+			Case caseR = this.carte.getCase(i, j);
+			if (caseR.getContenu() instanceof Porte) {this.setChanged();this.notifyObservers(caseR.getContenu());}
+			return detecteCollision(this.getPositionXPixel()+deltaX,this.getPositionYPixel()+deltaY,this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel(),j*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),i*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel()) && (caseR.getContenu()!=Case.VIDE);
 		}
 		return true;
 	}
