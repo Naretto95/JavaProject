@@ -77,11 +77,10 @@ public class Main extends Application{
 		fenetreJeuBis.getChildren().add(ctlbdv);
 		fenetreJeuBis.getChildren().add(ctlbdv2);
 		fenetreJeu.getChildren().add(ctlSRE);
-		fenetreJeu.getChildren().add(ctlInventaireJoueur);
-		FlowPane bouton = new FlowPane();
-		bouton.getChildren().add(ctlOP);
-		bouton.setAlignment(Pos.CENTER_RIGHT);
-		fenetreJeu.getChildren().add(bouton);
+		FlowPane fp = new FlowPane();
+		fp.getChildren().addAll(ctlOP,ctlInventaireJoueur);
+		fp.setAlignment(Pos.BOTTOM_RIGHT);
+		fenetreJeu.getChildren().add(fp);
 
         new Thread(ctlJoueur).start();
         Scene scene = new Scene(fenetreJeu);
