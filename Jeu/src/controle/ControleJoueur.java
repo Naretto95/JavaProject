@@ -1,9 +1,5 @@
 package controle;
 
-import java.util.ArrayList;
-import java.util.Observable;
-import java.util.Observer;
-
 import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Ennemi;
@@ -12,28 +8,25 @@ import Jeu.Item;
 import Jeu.Joueur;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 
 
-public class ControleJoueur extends ControleEntite implements EventHandler<KeyEvent>,Observer,Runnable{
+public class ControleJoueur extends ControleEntite implements EventHandler<KeyEvent>,Runnable{
 	
 	
 	private Joueur joueur;
-	private boolean attaque = false;
 	private KeyCode lastDirection=KeyCode.DOWN;
 	private int distMinBordEcranX=20;
 	private int distMinBordEcranY=20;	
 	private int speed=10;
 	private int distance = 0;
-	
+	private int bouge=0;
+	private boolean attaqueEnCours=false;
 
 	public ControleJoueur(String feuilleDeSpriteEntite,Carte carte, Joueur joueur, GraphicsContext gc,int hauteurPixelEntite,int largeurPixelEntite){
 		super(feuilleDeSpriteEntite,carte,gc,(Entité) joueur,hauteurPixelEntite,largeurPixelEntite);
 		this.joueur = joueur;
-		afficheCarte();
-		afficheJoueur(KeyCode.DOWN,0);
 	}
 	
 	
@@ -43,25 +36,54 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		if (event.getEventType()==KeyEvent.KEY_PRESSED) {
 			switch(event.getCode()) {
 			case SPACE:
-				attaque=true;
+				bouge=0;
+				this.attaqueEnCours=true;
+				avanceB=false;
+				avanceD=false;
+				avanceG=false;
+				avanceH=false;
 				this.distance = this.attaque();
+				if (!this.attaqueEnCours) {
+				new Thread(new Runnable() {
+
+					@Override
+					public void run() {
+						// TODO Auto-generated method stub
+						int i = 0;
+						while(i<10) {
+							try {
+								Thread.sleep(100);
+							} catch (InterruptedException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							afficheAttaque();
+							i++;
+						}
+						attaqueEnCours=false;
+					}}).start();
+				}
 				break;
 			case Z:
+				bouge=1;
 				avanceB=false;
 				avanceH=true;
 				this.lastDirection=KeyCode.UP;
 				break;
 			case S:
+				bouge=1;
 				avanceH=false;
 				avanceB=true;
 				this.lastDirection=KeyCode.DOWN;
 				break;
 			case Q:
+				bouge=1;
 				avanceD=false;
 				avanceG=true;
 				this.lastDirection=KeyCode.LEFT;
 				break;
 			case D:
+				bouge=1;
 				avanceG=false;
 				avanceD=true;
 				this.lastDirection=KeyCode.RIGHT;
@@ -78,7 +100,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		if (event.getEventType()==KeyEvent.KEY_RELEASED) {
 			switch (event.getCode()) {
 				case SPACE:
-					attaque=false;
+					bouge=1;
 					break;
 				case Z:
 					avanceH=false;
@@ -99,8 +121,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		
 			}
 			if (!(this.avanceG||this.avanceD||this.avanceH||this.avanceB)) {
-				afficheCarte();
-				afficheJoueur(this.lastDirection,0);
+				this.bouge=0;
 			}
 		}
 	}
@@ -241,9 +262,6 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		}
 
 	}
-
-	public void update(Observable o, Object arg) {
-	}
 	
 	public void run() {
 		//le thread qui execute les mouvements en fonction de l'état des variables : avanceH,avanceB,avanceG,avanceD
@@ -253,42 +271,29 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-			if (this.attaque) {
-				afficheCarte();
-				afficheJoueur(this.lastDirection,0);
-				afficheAttaque();
-			}
 			if(this.avanceD) {
 				deplacer(KeyCode.RIGHT);
-				afficheCarte();
-				afficheJoueur(KeyCode.RIGHT,1);
 			}
 			if(this.avanceH) {
 				deplacer(KeyCode.UP);
-				afficheCarte();
-				afficheJoueur(KeyCode.UP,1);
 			}
 			if(this.avanceB) {
 				deplacer(KeyCode.DOWN);
-				afficheCarte();
-				afficheJoueur(KeyCode.DOWN,1);
 			}
 			if(this.avanceG) {
 				deplacer(KeyCode.LEFT);
-				afficheCarte();
-				afficheJoueur(KeyCode.LEFT,1);
 			}
 			
 		}
 	}
-	
-	
-	public void afficheCarte() {
-		ArrayList<ArrayList<Image>> imagesCasesCarte = carte.getImagesCasesCarte();
-		for (int i = 0 ; i < imagesCasesCarte.size();i++) {
-			for (int j = 0 ; j < imagesCasesCarte.get(i).size();j++) {
-				gc.drawImage(imagesCasesCarte.get(i).get(j), this.carte.getHauteurCasePixel()*j, this.carte.getLargeurCasePixel()*i);
-			}
-		}
+
+
+	public KeyCode getLastDirection() {
+		return lastDirection;
+	}
+
+
+	public int getBouge() {
+		return bouge;
 	}
 }
