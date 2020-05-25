@@ -1,5 +1,4 @@
 package jeu;
-import java.util.HashMap;
 import java.util.Timer;
 public class Partie {
 	private Timer Duree;
