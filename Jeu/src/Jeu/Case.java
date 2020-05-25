@@ -90,6 +90,10 @@ public class Case implements Observer{
 	public Object getContenu() {
 		return contenu;
 	}
+	
+	public boolean hasStaff() {
+		return (!this.items.isEmpty())||(!this.ressources.isEmpty());
+	}
 
 	public void setContenu(Object contenu) {
 		if (this.getContenu() instanceof Entité) {
