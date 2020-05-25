@@ -15,25 +15,26 @@ public class ControleEnnemi extends ControleEntite implements Observer {
 
         super(feuilleDeSpriteEntite, carte, gc, entite, hauteurPixelEntite, largeurPixelEntite);
        // ControleCarte.afficheCarte();
+        this.entite.addObserver(this);
 
     }
 
 
     public void afficheEnnemi() {
-    	if (this.entite.getEtat()==EtatEntité.Vivant) {
+    	if (!this.entite.getEtat().equals(EtatEntité.Mort))
     		gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,0,
-                    this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel()-20,
-                    this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite-40,
-                    this.largeurPixelEntite+40,this.hauteurPixelEntite+40);
-    	}
-        
-
-
+                    this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel()-5,
+                    this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite-15,
+                    this.largeurPixelEntite+10,this.hauteurPixelEntite+15);
+    
     }
 
 
     @Override
     public void update(Observable o, Object arg) {
+    	if (arg.equals(Entité.EST_MORT)) {
+			this.entite.deleteObservers();
+    	}
 
     }
 

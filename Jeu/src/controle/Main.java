@@ -88,14 +88,14 @@ public class Main extends Application{
 	@Override
 	public void start(Stage arg0) throws Exception {
 		// TODO Auto-generated method stub
-		StackPane fenetreJeu = new StackPane();
-		Group fenetreJeuBis = new Group();
+		StackPane MainPane = new StackPane();
+		Group GroupCanvasEtLifeBar = new Group();
 		
 		
 		Canvas canvas = new Canvas(1000,1000);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		fenetreJeuBis.getChildren().add(canvas);
-		fenetreJeu.getChildren().add(fenetreJeuBis);
+		GroupCanvasEtLifeBar.getChildren().add(canvas);
+		MainPane.getChildren().add(GroupCanvasEtLifeBar);
 		
 		String[][] saisieMain = 
 			{{"brique.png","brique.png","plancher.jpg","plancher.jpg","plancher.jpg","plancher.jpg","plancher.jpg","plancher.jpg","tiles.png","plancher.jpg","plancher.jpg","plancher.jpg","plancher.jpg","plancher.jpg","plancher.jpg","brique.png","brique.png","brique.png","brique.png","brique.png"},
@@ -124,27 +124,27 @@ public class Main extends Application{
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"},
 			{"brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png","brique.png"}};
 		
-		Carte carte = new Carte("images",saisieMain,canvas.getWidth(),canvas.getHeight(),fenetreJeu);
+		Carte carte = new Carte("images",saisieMain,canvas.getWidth(),canvas.getHeight());
 		ControleCarte ctlCarte = new ControleCarte(carte,gc);
 		carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Cle));
-		Joueur joueur = new Joueur("Bob",50,6,3);
-		Ennemi ennemi = new Ennemi(50,16,5,Categorie.Boss,Race.Humain);
+		Joueur joueur = new Joueur("Bob",21,6,3);
+		Ennemi ennemi = new Ennemi(20,16,5,Categorie.Boss,Race.Nain);
 		ControleEnnemi ctlEnnemi = new ControleEnnemi("imagesmonstres/zombie.png",carte,gc,ennemi,32,32);
 		
 		ControleJoueur ctlJoueur = new ControleJoueur("link2.png",carte,joueur,gc,120,120);
 		ControleOuverturePorte ctlOP = new ControleOuverturePorte((ControleEntite)ctlJoueur);
 		ControleInventaireItemsEntite ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
 		ControleBarreDeVie ctlbdv2 = new ControleBarreDeVie(ctlJoueur,50,950,100);
-		ControleBarreDeVie ctlbdvEnnemi = new ControleBarreDeVie(ctlEnnemi,ctlEnnemi.getPositionXPixel()-20,ctlEnnemi.getPositionYPixel()-30,10);
-		fenetreJeuBis.getChildren().add(ctlbdvEnnemi);
+		ControleBarreDeVie ctlbdvEnnemi = new ControleBarreDeVie(ctlEnnemi,ctlEnnemi.getPositionXPixel()-20,ctlEnnemi.getPositionYPixel()-20,10);
+		GroupCanvasEtLifeBar.getChildren().add(ctlbdvEnnemi);
 		ControleStatsRessourcesEntite ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
 		joueur.Ramasser(new Arme(TypeArme.EpéeCourte,1));
-		fenetreJeuBis.getChildren().add(ctlbdv2);
-		fenetreJeu.getChildren().add(ctlSRE);
+		GroupCanvasEtLifeBar.getChildren().add(ctlbdv2);
+		MainPane.getChildren().add(ctlSRE);
 		FlowPane fp = new FlowPane();
 		fp.getChildren().addAll(ctlOP,ctlInventaireJoueur);
 		fp.setAlignment(Pos.BOTTOM_RIGHT);
-		fenetreJeu.getChildren().add(fp);
+		MainPane.getChildren().add(fp);
 
         new Thread(ctlJoueur).start();
         new Thread(new Runnable() {
@@ -163,7 +163,7 @@ public class Main extends Application{
 					ctlEnnemi.afficheEnnemi();
 				}
 			}}).start();
-        Scene scene = new Scene(fenetreJeu);
+        Scene scene = new Scene(MainPane);
         scene.getStylesheets().add("file:css/styles.css");
 		arg0.addEventFilter(KeyEvent.ANY,ctlJoueur);
         arg0.setScene(scene);

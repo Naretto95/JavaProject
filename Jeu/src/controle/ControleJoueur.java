@@ -157,8 +157,6 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		default:
 			break;
 		}
-		System.out.println("je suis en case :"+this.joueur.getPositionY()+" ,"+this.joueur.getPositionX());
-		System.out.println("Ma nouvelle position est "+this.getPositionXPixel()+","+this.getPositionYPixel());
 	}
 	
 	public int attaque() {

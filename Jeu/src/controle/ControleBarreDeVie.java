@@ -71,11 +71,10 @@ public class ControleBarreDeVie  extends Group implements Observer{
 			life.setY(this.ctlEntite.getPositionYPixel()+3-20);
 		}
 		if (arg.equals(Entité.EST_MORT)) {
-			/*
+			
 			this.ctlEntite.getEntite().deleteObservers();
 			this.ctlEntite.deleteObservers();
-			this.setVisible(false);
-			*/
+			this.getChildren().removeAll(this.life,this.barBorder,this.unlife);
 		}
 	}
 
