@@ -49,6 +49,7 @@ public abstract class ControleEntite extends Observable implements Observer{
 		this.positionYPixel=((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran();
 		this.paddingX=5;
 		this.paddingY=20;
+		this.entite.addObserver(this);
 	}
 	
 	public boolean detecteCollision(int rect1x,int rect1y, int rect1w, int rect1h,int rect2x,int rect2y, int rect2w, int rect2h) {
@@ -91,8 +92,6 @@ public abstract class ControleEntite extends Observable implements Observer{
 
 	@Override
 	public void update(Observable o, Object arg) {
-		
-		
 	}
 
 	public int getPositionXPixel() {

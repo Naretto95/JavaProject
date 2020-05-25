@@ -10,7 +10,6 @@ import java.util.Observer;
 
 import controle.ControleEntite;
 import javafx.scene.image.Image;
-import javafx.scene.layout.StackPane;
 
 public class Carte implements Observer{
 	
@@ -23,7 +22,7 @@ public class Carte implements Observer{
 	private int hauteurFenetreJeu=1000;
 	private int largeurFenetreJeu=1000;
 	
-	public Carte(String repertoireImages, String[][] saisieCarte,double largeurFenetreJeu,double hauteurFenetreJeu,StackPane fenetre) {
+	public Carte(String repertoireImages, String[][] saisieCarte,double largeurFenetreJeu,double hauteurFenetreJeu) {
 		this.largeurFenetreJeu=(int) largeurFenetreJeu;
 		this.hauteurFenetreJeu=(int) hauteurFenetreJeu;
 		int nbLigne = saisieCarte.length;
