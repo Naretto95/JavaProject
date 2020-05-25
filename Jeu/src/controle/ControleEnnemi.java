@@ -1,14 +1,13 @@
 package controle;
 
 import java.util.Observable;
-import java.util.Observer;
 import java.util.Random;
 
 import Jeu.*;
 import javafx.scene.canvas.GraphicsContext;
 
 
-public class ControleEnnemi extends ControleEntite implements Observer {
+public class ControleEnnemi extends ControleEntite{
 
      public ControleEnnemi(String feuilleDeSpriteEntite, Carte carte, GraphicsContext gc, Entité entite,
                           int hauteurPixelEntite, int largeurPixelEntite) {
@@ -21,12 +20,14 @@ public class ControleEnnemi extends ControleEntite implements Observer {
 
 
     public void afficheEnnemi() {
-    	if (!this.entite.getEtat().equals(EtatEntité.Mort))
+		this.setPositionXPixel(((this.entite.getPositionX())*this.carte.getLargeurCasePixel()) - this.carte.getFenetreEcran().getPosXPixelEcran());
+		this.setPositionYPixel(((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran());
+    	if (!this.entite.getEtat().equals(EtatEntité.Mort)) {
     		gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,0,
                     this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel()-5,
                     this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite-15,
                     this.largeurPixelEntite+10,this.hauteurPixelEntite+15);
-    
+    	}
     }
 
 

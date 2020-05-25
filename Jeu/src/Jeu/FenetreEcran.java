@@ -19,11 +19,34 @@ public class FenetreEcran {
 	}
 	
 	public boolean deplaceFenetreEcran(int deltaX,int deltaY){
-		if (this.getPosXPixelEcran()+deltaX<this.limXPixelEcran && this.getPosYPixelEcran()+deltaY<this.limYPixelEcran) {
+		if (deltaX>0) {
+		if (this.getPosXPixelEcran()+deltaX<this.limXPixelEcran) {
 			this.setPosXPixelEcran(this.getPosXPixelEcran()+deltaX);
 			this.setPosYPixelEcran(this.getPosYPixelEcran()+deltaY);
 			return true;
 		}
+		}
+		if (deltaX<0) {
+			if (this.getPosXPixelEcran()+deltaX>0) {
+				this.setPosXPixelEcran(this.getPosXPixelEcran()+deltaX);
+				this.setPosYPixelEcran(this.getPosYPixelEcran()+deltaY);
+				return true;
+			}
+			}
+		if (deltaY>0) {
+			if (this.getPosYPixelEcran()+deltaY<this.limYPixelEcran) {
+				this.setPosXPixelEcran(this.getPosXPixelEcran()+deltaX);
+				this.setPosYPixelEcran(this.getPosYPixelEcran()+deltaY);
+				return true;
+			}
+			}
+		if (deltaY<0) {
+			if (this.getPosYPixelEcran()+deltaY>0 ) {
+				this.setPosXPixelEcran(this.getPosXPixelEcran()+deltaX);
+				this.setPosYPixelEcran(this.getPosYPixelEcran()+deltaY);
+				return true;
+			}
+			}
 		return false;
 	}
 
@@ -31,7 +54,7 @@ public class FenetreEcran {
 		return posXPixelEcran;
 	}
 
-	private void setPosXPixelEcran(int posXPixelEcran) {
+	public void setPosXPixelEcran(int posXPixelEcran) {
 		this.posXPixelEcran = posXPixelEcran;
 	}
 
@@ -39,7 +62,7 @@ public class FenetreEcran {
 		return posYPixelEcran;
 	}
 
-	private void setPosYPixelEcran(int posYPixelEcran) {
+	public void setPosYPixelEcran(int posYPixelEcran) {
 		this.posYPixelEcran = posYPixelEcran;
 	}
 

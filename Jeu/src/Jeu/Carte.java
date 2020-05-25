@@ -11,7 +11,10 @@ import java.util.Observer;
 import controle.ControleEntite;
 import javafx.scene.image.Image;
 
-public class Carte implements Observer{
+public class Carte extends Observable implements Observer{
+	
+
+	public static Integer CARTE_QUI_BOUGE = new Integer(40);
 	
 	private ArrayList<ArrayList<Image>> imagesCasesCarte;
 	private Map<String,Image> listeImagesElementsJeu;
@@ -103,6 +106,13 @@ public class Carte implements Observer{
 
 	public FenetreEcran getFenetreEcran() {
 		return fenetreEcran;
+	}
+	
+	public boolean deplaceFenetre(int deltaX, int deltaY) {
+		boolean result = this.fenetreEcran.deplaceFenetreEcran(deltaX, deltaY);
+		this.setChanged();
+		this.notifyObservers(CARTE_QUI_BOUGE);
+		return result;
 	}
 
 	public ArrayList<ArrayList<Image>> getImagesCasesCarte() {
