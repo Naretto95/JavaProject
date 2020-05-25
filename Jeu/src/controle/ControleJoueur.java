@@ -1,5 +1,7 @@
 package controle;
 
+import java.util.Observable;
+
 import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Ennemi;
@@ -17,8 +19,8 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	
 	private Joueur joueur;
 	private KeyCode lastDirection=KeyCode.DOWN;
-	private int distMinBordEcranX=20;
-	private int distMinBordEcranY=20;	
+	private int distMinBordEcranX=150;
+	private int distMinBordEcranY=200;	
 	private int speed=10;
 	private int distance = 0;
 	private int bouge=0;
@@ -132,24 +134,28 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		switch (kc) {
 		case UP:
 			if (!detecteCollisionsMouvement(0,-vitesse) && this.getPositionYPixel()-this.distMinBordEcranY-vitesse>0) {this.changerPositionPixel(0, -vitesse);}
+			else if (!detecteCollisionsMouvement(0,-vitesse)) {this.carte.deplaceFenetre(0, -vitesse);}
 			if(this.carte.getFenetreEcran().getPosYPixelEcran()+this.getPositionYPixel()+this.carte.getHauteurCasePixel()/2<(this.joueur.getPositionY())*this.carte.getHauteurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY()-1, this.joueur.getPositionX());
 			}
 			break;
 		case DOWN:
 			if (!detecteCollisionsMouvement(0,vitesse) && this.getPositionYPixel()+this.carte.getHauteurCasePixel()+this.distMinBordEcranY+vitesse<this.carte.getFenetreEcran().getHauteurPixelEcran()) {this.changerPositionPixel(0, vitesse);}
+			else if (!detecteCollisionsMouvement(0,vitesse)) {this.carte.deplaceFenetre(0, vitesse);}
 			if(this.carte.getFenetreEcran().getPosYPixelEcran()+this.getPositionYPixel()+this.carte.getHauteurCasePixel()/2>(this.joueur.getPositionY()+1)*this.carte.getHauteurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY()+1, this.joueur.getPositionX());
 			}
 			break;
 		case LEFT:
 			if (!detecteCollisionsMouvement(-vitesse,0) && this.getPositionXPixel()-this.distMinBordEcranX-vitesse>0) {this.changerPositionPixel(-vitesse, 0);}
+			else if (!detecteCollisionsMouvement(-vitesse,0)) {this.carte.deplaceFenetre(-vitesse, 0);}
 			if(this.carte.getFenetreEcran().getPosXPixelEcran()+this.getPositionXPixel()+this.carte.getLargeurCasePixel()/2<(this.joueur.getPositionX())*this.carte.getLargeurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY(), this.joueur.getPositionX()-1);
 			}
 			break;
 		case RIGHT:
 			if (!detecteCollisionsMouvement(vitesse,0) && this.getPositionXPixel()+this.carte.getLargeurCasePixel()+this.distMinBordEcranX+vitesse<this.carte.getFenetreEcran().getLargeurPixelEcran()) {this.changerPositionPixel(vitesse, 0);}
+			else if (!detecteCollisionsMouvement(vitesse,0)) {this.carte.deplaceFenetre(vitesse, 0);}
 			if(this.carte.getFenetreEcran().getPosXPixelEcran()+this.getPositionXPixel()+this.carte.getLargeurCasePixel()/2>(this.joueur.getPositionX()+1)*this.carte.getLargeurCasePixel()){
 				this.carte.mettreEntite(this.joueur, this.joueur.getPositionY(), this.joueur.getPositionX()+1);
 			}
@@ -293,5 +299,12 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 
 	public int getBouge() {
 		return bouge;
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }
