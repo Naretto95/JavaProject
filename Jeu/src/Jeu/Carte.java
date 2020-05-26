@@ -22,8 +22,8 @@ public class Carte extends Observable implements Observer{
 	private FenetreEcran fenetreEcran;
 	private int largeurCasePixel=50;
 	private int hauteurCasePixel=50;
-	private int hauteurFenetreJeu=1000;
-	private int largeurFenetreJeu=1000;
+	private int hauteurFenetreJeu=720;
+	private int largeurFenetreJeu=1280;
 	
 	public Carte(String repertoireImages, String[][] saisieCarte,double largeurFenetreJeu,double hauteurFenetreJeu) {
 		this.largeurFenetreJeu=(int) largeurFenetreJeu;

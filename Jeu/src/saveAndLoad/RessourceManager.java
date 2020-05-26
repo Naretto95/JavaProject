@@ -1,4 +1,3 @@
-  
 package saveAndLoad;
 
 import java.io.ObjectInputStream;

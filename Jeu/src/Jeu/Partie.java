@@ -21,7 +21,6 @@ import controle.ControleStatsRessourcesEntite;
 import javafx.concurrent.Service;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.FlowPane;
@@ -63,8 +62,6 @@ public class Partie implements Serializable {
 	private RunJoueurService threadJoueur;
 	private Service<Integer> threadAffichageJeu;
 
-	
-	
 	private Timer Duree;
 	private TypeIssus Issus;
 	public boolean paused;
@@ -130,7 +127,7 @@ public class Partie implements Serializable {
 		//on crée les composants 
 		this.MainPane = new StackPane();
 		this.GroupCanvasEtLifeBar = new Group();
-		this.canvas = new Canvas(1000,1000);
+		this.canvas = new Canvas(1280,720);
 		this.gc = canvas.getGraphicsContext2D();
 		this.fp = new FlowPane();
 		fp.setAlignment(Pos.BOTTOM_RIGHT);
@@ -141,7 +138,7 @@ public class Partie implements Serializable {
 		
 	//..........................................................................
 	
-	public Scene nouvellePartie() {
+	public StackPane nouvellePartie() {
 		
 		//on crée le dur du jeu (carte , joueur , ennemis)
 		this.carte = new Carte("images",saisieMain,canvas.getWidth(),canvas.getHeight());
@@ -156,11 +153,11 @@ public class Partie implements Serializable {
 		
 		this.preparerPartie();
 		
-		return new Scene(this.MainPane);
+		return this.MainPane;
 		
 	}
 	
-	public Scene choisirPartie() {
+	public StackPane choisirPartie() {
 		
 		JFileChooser dialogue = new JFileChooser(new File("sauvegardes"));
 		File fichier;
@@ -176,7 +173,7 @@ public class Partie implements Serializable {
 					this.listeEnnemi = partieChoisie.getListeEnnemi();
 							
 					this.preparerPartie();
-					return new Scene(this.MainPane);
+					return this.MainPane;
 					
 				} catch (IOException e) {
 					e.printStackTrace();
@@ -199,7 +196,7 @@ public class Partie implements Serializable {
 		this.ctlOP = new ControleOuverturePorte((ControleEntite)ctlJoueur);
 		this.ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
 		this.ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
-		this.ctlBdvJoueur = new ControleBarreDeVie(ctlJoueur,50,950,3);
+		this.ctlBdvJoueur = new ControleBarreDeVie(ctlJoueur,50,670,3);
 		this.listeControleEnnemi = new ArrayList<ControleEnnemi>();
 		this.listeCtlBdvEnnemi = new ArrayList<ControleBarreDeVie>();
 		for (int i =0;i<this.listeEnnemi.size();i++) {
@@ -257,7 +254,7 @@ public class Partie implements Serializable {
 		System.exit(0);
 	}
 	
-	public Scene recommencer() {
+	public StackPane recommencer() {
 		return this.nouvellePartie();
 	}
 	
