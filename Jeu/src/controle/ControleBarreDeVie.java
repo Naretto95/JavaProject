@@ -12,24 +12,24 @@ import javafx.scene.shape.Rectangle;
 public class ControleBarreDeVie  extends Group implements Observer{
 	
 	private ControleEntite ctlEntite;
+	private int largeurBarre=100;
+	private int hauteurBarre=10;
 	private boolean isDynamic=false;
-	private int vie;
-	private int vieMax;
-	private int zoom; 
+	private double vieMax;
 	private Rectangle barBorder;
 	private Rectangle unlife;
 	private Rectangle life;
 	
-	public ControleBarreDeVie(ControleEntite ctlEntite,int posX, int posY, int zoom) {
+	public ControleBarreDeVie(ControleEntite ctlEntite,int posX, int posY,int zoom) {
 		this.ctlEntite = ctlEntite;
-		this.vie=ctlEntite.getEntite().getVie();
-		this.vieMax=this.vie;
-		this.zoom=zoom;
-		barBorder = new Rectangle(posX,posY,zoom*vieMax+10,(zoom*vieMax+10)/10+6);
+		this.vieMax=ctlEntite.getEntite().getVie();
+		hauteurBarre *= zoom;
+		largeurBarre  *= zoom;
+		barBorder = new Rectangle(posX,posY,largeurBarre,hauteurBarre);
 		barBorder.setFill(Color.BLACK);
-		unlife = new Rectangle(posX+5,posY+3,zoom*(vieMax),(zoom*vieMax+10)/10);
+		unlife = new Rectangle(posX+5,posY+3,largeurBarre-10,hauteurBarre-6);
 		unlife.setFill(Color.RED);
-		life = new Rectangle(posX+5,posY+3,zoom*vie,(zoom*vieMax+10)/10);
+		life = new Rectangle(posX+5,posY+3,largeurBarre-10,hauteurBarre-6);
 		life.setFill(Color.GREEN);
 		ctlEntite.addObserver(this);
 		ctlEntite.getEntite().addObserver(this);
@@ -41,15 +41,15 @@ public class ControleBarreDeVie  extends Group implements Observer{
 	public ControleBarreDeVie(ControleEntite ctlEntite, int zoom) {
 		this.isDynamic=true;
 		this.ctlEntite = ctlEntite;
+		hauteurBarre *= zoom;
+		largeurBarre  *= zoom;
 		this.ctlEntite.carte.addObserver(this);
-		this.vie=ctlEntite.getEntite().getVie();
-		this.vieMax=this.vie;
-		this.zoom=zoom;
-		barBorder = new Rectangle(this.ctlEntite.getPositionXPixel(),this.ctlEntite.getPositionYPixel(),zoom*vieMax+10,(zoom*vieMax+10)/10+6);
+		this.vieMax=ctlEntite.getEntite().getVie();
+		barBorder = new Rectangle(this.ctlEntite.getPositionXPixel()+this.ctlEntite.largeurPixelEntite/2-largeurBarre/2,this.ctlEntite.getPositionYPixel()-hauteurBarre,largeurBarre,hauteurBarre);
 		barBorder.setFill(Color.BLACK);
-		unlife = new Rectangle(this.ctlEntite.getPositionXPixel()+5,this.ctlEntite.getPositionYPixel()+3,zoom*(vieMax),(zoom*vieMax+10)/10);
+		unlife = new Rectangle(this.ctlEntite.getPositionXPixel()+this.ctlEntite.largeurPixelEntite/2-largeurBarre/2+5,this.ctlEntite.getPositionYPixel()-hauteurBarre+3,largeurBarre-10,hauteurBarre-6);
 		unlife.setFill(Color.RED);
-		life = new Rectangle(this.ctlEntite.getPositionXPixel()+5,this.ctlEntite.getPositionYPixel()+3,zoom*vie,(zoom*vieMax+10)/10);
+		life = new Rectangle(this.ctlEntite.getPositionXPixel()+this.ctlEntite.largeurPixelEntite/2-largeurBarre/2+5,this.ctlEntite.getPositionYPixel()-hauteurBarre+3,largeurBarre-10,hauteurBarre-6);
 		life.setFill(Color.GREEN);
 		ctlEntite.addObserver(this);
 		ctlEntite.getEntite().addObserver(this);
@@ -62,17 +62,17 @@ public class ControleBarreDeVie  extends Group implements Observer{
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
 		if (arg.equals(Entité.VIE_MODIFIEE)) {
-			life.setWidth(zoom*this.ctlEntite.getEntite().getVie());
+			life.setWidth(largeurBarre*((double)this.ctlEntite.entite.getVie()/this.vieMax)-10);
 		}
 		if ((arg.equals(ControleEntite.A_BOUGE)||arg.equals(Carte.CARTE_QUI_BOUGE)) && (this.isDynamic)) {
 			if (this.ctlEntite.detecteCollision(ctlEntite.getPositionXPixel(), ctlEntite.getPositionYPixel(), ctlEntite.largeurPixelEntite, ctlEntite.hauteurPixelEntite, ctlEntite.carte.getFenetreEcran().getPosXPixelEcran(), ctlEntite.carte.getFenetreEcran().getPosYPixelEcran(), ctlEntite.carte.getFenetreEcran().getLargeurPixelEcran(), ctlEntite.carte.getFenetreEcran().getHauteurPixelEcran())) {this.setVisible(true);}
 			else {this.setVisible(false);}
-			barBorder.setX(this.ctlEntite.getPositionXPixel());
-			barBorder.setY(this.ctlEntite.getPositionYPixel());
-			unlife.setX(this.ctlEntite.getPositionXPixel()+5);
-			unlife.setY(this.ctlEntite.getPositionYPixel()+3);
-			life.setX(this.ctlEntite.getPositionXPixel()+5);
-			life.setY(this.ctlEntite.getPositionYPixel()+3);
+			barBorder.setX(this.ctlEntite.getPositionXPixel()+this.ctlEntite.largeurPixelEntite/2-largeurBarre/2);
+			barBorder.setY(this.ctlEntite.getPositionYPixel()-hauteurBarre);
+			unlife.setX(this.ctlEntite.getPositionXPixel()+this.ctlEntite.largeurPixelEntite/2-largeurBarre/2+5);
+			unlife.setY(this.ctlEntite.getPositionYPixel()-hauteurBarre+3);
+			life.setX(this.ctlEntite.getPositionXPixel()+this.ctlEntite.largeurPixelEntite/2-largeurBarre/2+5);
+			life.setY(this.ctlEntite.getPositionYPixel()-hauteurBarre+3);
 		}
 		if (arg.equals(Entité.EST_MORT)) {
 			

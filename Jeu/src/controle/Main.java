@@ -12,12 +12,15 @@ import Jeu.Carte;
 import Jeu.Categorie;
 import Jeu.Ennemi;
 import Jeu.Entité;
+import Jeu.EtatEntité;
 import Jeu.Joueur;
 import Jeu.Race;
 import Jeu.Ressource;
 import Jeu.TypeArme;
 import Jeu.TypeRessource;
 import javafx.application.Application;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -151,11 +154,11 @@ public class Main extends Application{
 		this.ctlJoueur = new ControleJoueur("link2.png",carte,joueur,gc,120,120);
 		ControleOuverturePorte ctlOP = new ControleOuverturePorte((ControleEntite)ctlJoueur);
 		ControleInventaireItemsEntite ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
-		ControleBarreDeVie ctlbdv2 = new ControleBarreDeVie(ctlJoueur,50,950,100);
-		ControleBarreDeVie ctlbdvEnnemi = new ControleBarreDeVie(ctlEnnemi ,10);
+		ControleBarreDeVie ctlbdv2 = new ControleBarreDeVie(ctlJoueur,50,950,3);
+		ControleBarreDeVie ctlbdvEnnemi = new ControleBarreDeVie(ctlEnnemi ,1);
 		GroupCanvasEtLifeBar.getChildren().add(ctlbdvEnnemi);
 		ControleStatsRessourcesEntite ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
-		joueur.Ramasser(new Arme(TypeArme.EpéeCourte,1));
+		joueur.Ramasser(new Arme(TypeArme.EpéeCourte,20));
 		GroupCanvasEtLifeBar.getChildren().add(ctlbdv2);
 		MainPane.getChildren().add(ctlSRE);
 		FlowPane fp = new FlowPane();
@@ -163,23 +166,37 @@ public class Main extends Application{
 		fp.setAlignment(Pos.BOTTOM_RIGHT);
 		MainPane.getChildren().add(fp);
 
-        new Thread(ctlJoueur).start();
-        new Thread(new Runnable() {
+        new ControleJoueur.RunService(ctlJoueur).start();
+        
+        new Service<Object>() {
 
 			@Override
-			public void run() {
+			protected Task<Object> createTask() {
 				// TODO Auto-generated method stub
-				while(true) {
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
+				return new Task<Object>() {
+
+					@Override
+					protected Object call() throws Exception {
+						// TODO Auto-generated method stub
+						while(ctlJoueur.getJoueur().getEtat()!=EtatEntité.Mort) {
+
+							try {
+								Thread.sleep(25);
+							} catch (InterruptedException e) {
+								e.printStackTrace();
+							}
+							
+							ctlCarte.afficheCarte();
+							ctlEnnemi.afficheEnnemi();
+							ctlJoueur.afficheJoueur(ctlJoueur.getLastDirection(), ctlJoueur.getBouge());
+							ctlEnnemi.afficheAttaque();
+							ctlJoueur.afficheAttaque();
+						}
+						return null;
 					}
-					ctlCarte.afficheCarte();
-					ctlJoueur.afficheJoueur(ctlJoueur.getLastDirection(), ctlJoueur.getBouge());
-					ctlEnnemi.afficheEnnemi();
-				}
-			}}).start();
+					
+				};
+			}}.start();
         Scene scene = new Scene(MainPane);
         scene.getStylesheets().add("file:css/styles.css");
 		return scene;

@@ -23,6 +23,7 @@ public class ControleEnnemi extends ControleEntite{
 		this.setPositionXPixel(((this.entite.getPositionX())*this.carte.getLargeurCasePixel()) - this.carte.getFenetreEcran().getPosXPixelEcran());
 		this.setPositionYPixel(((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran());
     	if (!this.entite.getEtat().equals(EtatEntité.Mort)) {
+    		
     		gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,0,
                     this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel()-5,
                     this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite-15,
@@ -34,6 +35,7 @@ public class ControleEnnemi extends ControleEntite{
     @Override
     public void update(Observable o, Object arg) {
     	if (arg.equals(Entité.EST_MORT)) {
+    		System.out.println(this.entite.getEtat());
 			this.entite.deleteObservers();
     	}
 

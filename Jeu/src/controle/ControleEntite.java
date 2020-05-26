@@ -3,16 +3,22 @@ package controle;
 import java.util.Observable;
 import java.util.Observer;
 
+import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Carte.Porte;
 import Jeu.Case;
 import Jeu.Entité;
+import Jeu.Item;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 
 public abstract class ControleEntite extends Observable implements Observer{
 	
 	public static Integer A_BOUGE = new Integer(10);
+	public static Image imageAttaque = new Image ("file:imagesitems/attaque.png");
 	
 	protected Entité entite;
 	protected Carte carte;
@@ -23,11 +29,16 @@ public abstract class ControleEntite extends Observable implements Observer{
 	protected boolean avanceG = false;
 	protected boolean avanceH = false;
 	protected boolean avanceB = false;
+	protected boolean attaqueEnCours = false;
 	protected int indiceSprite=0;
+	private KeyCode lastDirection=KeyCode.DOWN;	
+	private int speed=10;
+	private int distance = 0;
+	private int bouge=0;
 
 	protected int positionXPixel;
 	protected int positionYPixel;
-	protected int vitesse=5;
+	private int vitesse=5;
 	protected int hauteurPixelEntite;
 	protected int largeurPixelEntite;
 	protected int deltaXHitBox=0;
@@ -81,12 +92,155 @@ public abstract class ControleEntite extends Observable implements Observer{
 		}
 		return true;
 	}
+	public int attaque() {
+		Item itemEnMain = this.getEntite().getEnMain();
+			int portee=0;
+			if (itemEnMain instanceof Arme) {portee= ((Arme) itemEnMain).getPortée();}
+			int distance = 0;
+			while (distance <= portee) {
+				switch(this.lastDirection) {
+				case UP:
+					if (this.getEntite().getPositionY()-1-distance>-1) {
+					Object objet1 = this.carte.getCase(this.getEntite().getPositionY()-1-distance, this.getEntite().getPositionX()).getContenu();
+					if (objet1 instanceof Entité) {
+						this.getEntite().Utiliser((Entité) objet1);
+						return distance;
+					}
+					else {distance++;}
+					}
+					else {return -1;}
+					break;
+				case DOWN:
+					if (this.getEntite().getPositionY()+1+distance<this.carte.getImagesCasesCarte().size()) {
+					Object objet2 = this.carte.getCase(this.getEntite().getPositionY()+1+distance, this.getEntite().getPositionX()).getContenu();
+					if (objet2 instanceof Entité) {
+						this.getEntite().Utiliser((Entité) objet2);
+						return distance;
+					}
+					else {distance++;}
+					}
+					else {return -1;}
+					break;
+				case RIGHT:
+					if (this.getEntite().getPositionX()+1+distance<this.carte.getImagesCasesCarte().get(this.getEntite().getPositionY()).size()) {
+					Object objet3 = this.carte.getCase(this.getEntite().getPositionY(), this.getEntite().getPositionX()+1+distance).getContenu();
+					if (objet3 instanceof Entité) {
+						this.getEntite().Utiliser((Entité) objet3);
+						return distance; 
+					}
+					else {distance++;}
+					}
+					else {return -1;}
+					break;
+				case LEFT:
+					if (this.getEntite().getPositionX()-1-distance>-1) {
+					Object objet4 = this.carte.getCase(this.getEntite().getPositionY(), this.getEntite().getPositionX()-1-distance).getContenu();
+					if (objet4 instanceof Entité) {
+						this.getEntite().Utiliser((Entité) objet4);
+						return distance; 
+					}
+					else {distance++;}
+					}else  {return -1;}
+					break;
+				default:
+					break;
+				}
+			}
+		return -1;
+	}
+	
+
+	
+	
+	public void deplacer(KeyCode kc, int distMinBordEcranX, int distMinBordEcranY, boolean canMoveScreen) {
+
+		switch (kc) {
+		case UP:
+			if (!detecteCollisionsMouvement(0,-this.getVitesse()) && this.getPositionYPixel()-distMinBordEcranY-this.getVitesse()>0) {this.changerPositionPixel(0, -this.getVitesse());}
+			else if (!detecteCollisionsMouvement(0,-this.getVitesse()) && canMoveScreen) {this.carte.deplaceFenetre(0, -this.getVitesse());}
+			if(this.carte.getFenetreEcran().getPosYPixelEcran()+this.getPositionYPixel()+this.carte.getHauteurCasePixel()/2<(this.getEntite().getPositionY())*this.carte.getHauteurCasePixel()){
+				this.carte.mettreEntite(this.getEntite(), this.getEntite().getPositionY()-1, this.getEntite().getPositionX());
+			}
+			break;
+		case DOWN:
+			if (!detecteCollisionsMouvement(0,this.getVitesse()) && this.getPositionYPixel()+this.carte.getHauteurCasePixel()+distMinBordEcranY+this.getVitesse()<this.carte.getFenetreEcran().getHauteurPixelEcran()) {this.changerPositionPixel(0, this.getVitesse());}
+			else if (!detecteCollisionsMouvement(0,this.getVitesse()) && canMoveScreen) {this.carte.deplaceFenetre(0, this.getVitesse());}
+			if(this.carte.getFenetreEcran().getPosYPixelEcran()+this.getPositionYPixel()+this.carte.getHauteurCasePixel()/2>(this.getEntite().getPositionY()+1)*this.carte.getHauteurCasePixel()){
+				this.carte.mettreEntite(this.getEntite(), this.getEntite().getPositionY()+1, this.getEntite().getPositionX());
+			}
+			break;
+		case LEFT:
+			if (!detecteCollisionsMouvement(-this.getVitesse(),0) && this.getPositionXPixel()-distMinBordEcranX-this.getVitesse()>0) {this.changerPositionPixel(-this.getVitesse(), 0);}
+			else if (!detecteCollisionsMouvement(-this.getVitesse(),0) && canMoveScreen) {this.carte.deplaceFenetre(-this.getVitesse(), 0);}
+			if(this.carte.getFenetreEcran().getPosXPixelEcran()+this.getPositionXPixel()+this.carte.getLargeurCasePixel()/2<(this.getEntite().getPositionX())*this.carte.getLargeurCasePixel()){
+				this.carte.mettreEntite(this.getEntite(), this.getEntite().getPositionY(), this.getEntite().getPositionX()-1);
+			}
+			break;
+		case RIGHT:
+			if (!detecteCollisionsMouvement(this.getVitesse(),0) && this.getPositionXPixel()+this.carte.getLargeurCasePixel()+distMinBordEcranX+this.getVitesse()<this.carte.getFenetreEcran().getLargeurPixelEcran()) {this.changerPositionPixel(this.getVitesse(), 0);}
+			else if (!detecteCollisionsMouvement(this.getVitesse(),0) && canMoveScreen) {this.carte.deplaceFenetre(this.getVitesse(), 0);}
+			if(this.carte.getFenetreEcran().getPosXPixelEcran()+this.getPositionXPixel()+this.carte.getLargeurCasePixel()/2>(this.getEntite().getPositionX()+1)*this.carte.getLargeurCasePixel()){
+				this.carte.mettreEntite(this.getEntite(), this.getEntite().getPositionY(), this.getEntite().getPositionX()+1);
+			}
+			break;
+		default:
+			break;
+		}
+	}
 	
 	public void changerPositionPixel(int deltaXPixel, int deltaYPixel) {
 		this.setPositionXPixel(this.getPositionXPixel()+deltaXPixel);
 		this.setPositionYPixel(this.getPositionYPixel()+deltaYPixel);
 		this.setChanged();
 		this.notifyObservers(ControleEntite.A_BOUGE);
+	}
+	
+
+	
+	public void afficheAttaque() {
+		if (this.getDistance()>-1 && this.attaqueEnCours) {
+			switch (this.getLastDirection()) {
+			case UP:
+				gc.drawImage(ControleEntite.imageAttaque,91,49,240,222,(this.getEntite().getPositionX())*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),(this.getEntite().getPositionY()-1-this.getDistance())*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+				break;
+			case DOWN:
+				gc.drawImage(ControleEntite.imageAttaque,91,49,240,222,(this.getEntite().getPositionX())*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),(this.getEntite().getPositionY()+1+this.getDistance())*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+				break;
+			case LEFT:
+				gc.drawImage(ControleEntite.imageAttaque,91,49,240,222,(this.getEntite().getPositionX()-1-this.getDistance())*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),(this.getEntite().getPositionY())*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+				break;
+			case RIGHT:
+				gc.drawImage(ControleEntite.imageAttaque,91,49,240,222,(this.getEntite().getPositionX()+1+this.getDistance())*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran()+20,(this.getEntite().getPositionY())*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel());
+				break;
+			default:
+				break;
+			}
+		}
+	}
+	
+	public static class AttaqueService extends Service<Object>{
+		
+		private ControleEntite ctlEntite;
+
+		public AttaqueService(ControleEntite ctlEntite) {
+			this.ctlEntite = ctlEntite;
+		}
+		@Override
+		protected Task<Object> createTask() {
+			// TODO Auto-generated method stub
+			return new Task<Object>() {
+
+				@Override
+				protected Object call() throws Exception {
+					// TODO Auto-generated method stub
+					Thread.sleep(100);
+					ctlEntite.attaqueEnCours=false;
+					return null;
+				}
+				
+			};
+		}
+		
 	}
 	
 
@@ -112,5 +266,41 @@ public abstract class ControleEntite extends Observable implements Observer{
 
 	public Entité getEntite() {
 		return entite;
+	}
+
+	public KeyCode getLastDirection() {
+		return lastDirection;
+	}
+
+	public void setLastDirection(KeyCode lastDirection) {
+		this.lastDirection = lastDirection;
+	}
+
+	public int getSpeed() {
+		return speed;
+	}
+
+	public int getDistance() {
+		return distance;
+	}
+
+	public void setDistance(int distance) {
+		this.distance = distance;
+	}
+
+	public int getBouge() {
+		return bouge;
+	}
+
+	public void setBouge(int bouge) {
+		this.bouge = bouge;
+	}
+
+	public int getVitesse() {
+		return vitesse;
+	}
+
+	public void setVitesse(int vitesse) {
+		this.vitesse = vitesse;
 	}
 }
