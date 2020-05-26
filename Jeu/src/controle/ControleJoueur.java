@@ -4,10 +4,7 @@ import java.util.Observable;
 
 import Jeu.Carte;
 import Jeu.Entité;
-import Jeu.EtatEntité;
 import Jeu.Joueur;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
@@ -34,7 +31,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			switch(event.getCode()) {
 			case SPACE:
 				if (!this.attaqueEnCours) {
-					this.setBouge(0);;
+					this.setBouge(0);
 					this.attaqueEnCours=true;
 					avanceB=false;
 					avanceD=false;
@@ -107,7 +104,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	}
 	
 	public void deplacerJoueur(KeyCode kc) {
-		deplacer(kc,this.distMinBordEcranX,this.distMinBordEcranY,false);
+		deplacer(kc,this.distMinBordEcranX,this.distMinBordEcranY,true);
 	}
 	
 	
@@ -135,49 +132,6 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 
 	}
 	
-	public static class RunService extends Service<Integer>{
-
-		private ControleJoueur ctlJoueur;
-		
-		public RunService(ControleJoueur ctlJoueur) {
-			this.ctlJoueur=ctlJoueur;
-		}
-		@Override
-		protected Task<Integer> createTask() {
-			// TODO Auto-generated method stub
-			return new Task<Integer>() {
-				
-				@Override
-				protected Integer call() throws Exception {
-					// TODO Auto-generated method stub
-					while(ctlJoueur.getJoueur().getEtat()!=EtatEntité.Mort) {
-						try {
-							Thread.sleep(25);
-						} catch (InterruptedException e) {
-							e.printStackTrace();
-						}
-						if(ctlJoueur.avanceD) {
-							ctlJoueur.deplacerJoueur(KeyCode.RIGHT);
-						}
-						if(ctlJoueur.avanceH) {
-							ctlJoueur.deplacerJoueur(KeyCode.UP);
-						}
-						if(ctlJoueur.avanceB) {
-							ctlJoueur.deplacerJoueur(KeyCode.DOWN);
-						}
-						if(ctlJoueur.avanceG) {
-							ctlJoueur.deplacerJoueur(KeyCode.LEFT);
-						}
-					}
-					return null;
-				}
-				
-			};
-		}
-		
-	}
-
-
 	@Override
 	public void update(Observable o, Object arg) {
 		// TODO Auto-generated method stub
