@@ -29,8 +29,8 @@ public class ExitButton extends Application {
 	    });
 
 	    Pane root = new Pane();
-	    ExitButton.setLayoutX(250);
-	    ExitButton.setLayoutY(220);
+	    ExitButton.setLayoutX(250); //temporary
+	    ExitButton.setLayoutY(220); //temporary
 	    root.getChildren().add(ExitButton);
 	    primaryStage.setScene(new Scene(root, 300, 250));
 	    primaryStage.show();
