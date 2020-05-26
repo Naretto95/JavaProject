@@ -252,6 +252,22 @@ public abstract class ControleEntite extends Observable implements Observer{
 		return positionXPixel;
 	}
 
+	public boolean isAvanceD() {
+		return avanceD;
+	}
+
+	public boolean isAvanceG() {
+		return avanceG;
+	}
+
+	public boolean isAvanceH() {
+		return avanceH;
+	}
+
+	public boolean isAvanceB() {
+		return avanceB;
+	}
+
 	public void setPositionXPixel(int positionXPixel) {
 		this.positionXPixel = positionXPixel;
 	}
