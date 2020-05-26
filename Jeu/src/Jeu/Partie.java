@@ -1,11 +1,15 @@
 package Jeu;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Timer;
 
 import javax.swing.JFileChooser;
@@ -25,6 +29,8 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import saveAndLoad.RessourceManager;
 import threadService.AffichageService;
 import threadService.RunJoueurService;
@@ -35,6 +41,8 @@ public class Partie implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	private Media media;
+	private MediaPlayer mediaPlayer;
 	//les composants graphiques
 	private StackPane MainPane;//le composant graphique principal
 	private Group GroupCanvasEtLifeBar;//le composant qui contient le canvas et les barres de vie des persos
@@ -131,6 +139,14 @@ public class Partie implements Serializable {
 		this.gc = canvas.getGraphicsContext2D();
 		this.fp = new FlowPane();
 		fp.setAlignment(Pos.BOTTOM_RIGHT);
+		try {
+			File file = new File("src/com/res/song2.mp3");
+			this.media = new Media(file.toURI().toString());
+			this.mediaPlayer = new MediaPlayer(this.media);
+		}catch(Exception e) {
+			e.printStackTrace();
+			e.getMessage();
+		}
 		
 		this.Duree = new Timer();
     	this.paused = false;
@@ -138,15 +154,43 @@ public class Partie implements Serializable {
 		
 	//..........................................................................
 	
-	public StackPane nouvellePartie() {
+	public StackPane nouvellePartie() throws IOException {
+		
+		//import d'une autre carte faite avec un csv
+		List<List<String>> records = new ArrayList<>();
+		@SuppressWarnings("resource")
+		BufferedReader br = new BufferedReader(new FileReader("carte9.csv"));
+		String line;
+		while ((line = br.readLine()) != null) {
+		        String[] values = line.split(",");
+		        records.add(Arrays.asList(values));
+		}
+		String[][] records2= new String[84][35];
+		for (int i =0;i<records.size();i++) {
+		   for (int j =0;j<records.get(i).size();j++) {
+		    	switch (records.get(i).get(j)){
+		    		case "0":
+		    			records2[i][j]="plancher.jpg";
+		    			break;
+		    		case "1":
+		    			records2[i][j]="tiles.png";
+		    			break;
+		    		case "2":
+		    			records2[i][j]="door.png";
+		    			break;
+		    		default:
+		    			break;
+		    	}
+		    }
+		}
 		
 		//on crée le dur du jeu (carte , joueur , ennemis)
-		this.carte = new Carte("images",saisieMain,canvas.getWidth(),canvas.getHeight());
+		this.carte = new Carte("images",records2,canvas.getWidth(),canvas.getHeight());
 		carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Cle));
 		this.joueur = new Joueur("Bob",21,7,7);
 		joueur.Ramasser(new Arme(TypeArme.EpéeCourte,20));
 		this.listeEnnemi = new ArrayList<Ennemi>();
-		this.listeEnnemi.add(new Ennemi(20,16,5,Categorie.Boss,Race.Nain));
+		this.listeEnnemi.add(new Ennemi(10,16,5,Categorie.Normal,Race.Nain));
 		//Joueur heros = new Joueur("Lilian",1,0,0);
     	//Ennemi monstre = new Ennemi(1,1,0,Categorie.Normal,Race.Humain);
 		
@@ -224,6 +268,8 @@ public class Partie implements Serializable {
 		//on lance les threads du jeu pour lancer la partie
 		this.threadJoueur.start();
 		this.threadAffichageJeu.start();
+		if (mediaPlayer!=null) {this.mediaPlayer.play();}
+		
 		
 	}
 	
@@ -255,7 +301,13 @@ public class Partie implements Serializable {
 	}
 	
 	public StackPane recommencer() {
-		return this.nouvellePartie();
+		try {
+			return this.nouvellePartie();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public void jouer() {

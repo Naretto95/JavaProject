@@ -1,6 +1,5 @@
 package controle;
 
-import java.util.Observable;
 import java.util.Random;
 
 import Jeu.*;
@@ -13,8 +12,6 @@ public class ControleEnnemi extends ControleEntite{
                           int hauteurPixelEntite, int largeurPixelEntite) {
 
         super(feuilleDeSpriteEntite, carte, gc, entite, hauteurPixelEntite, largeurPixelEntite);
-       // ControleCarte.afficheCarte();
-        this.entite.addObserver(this);
 
     }
 
@@ -22,23 +19,13 @@ public class ControleEnnemi extends ControleEntite{
     public void afficheEnnemi() {
 		this.setPositionXPixel(((this.entite.getPositionX())*this.carte.getLargeurCasePixel()) - this.carte.getFenetreEcran().getPosXPixelEcran());
 		this.setPositionYPixel(((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran());
-    	if (!this.entite.getEtat().equals(EtatEntité.Mort)) {
+    	if (this.entite.getEtat()!=EtatEntité.Mort) {
     		
     		gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,0,
                     this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel()-5,
                     this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite-15,
                     this.largeurPixelEntite+10,this.hauteurPixelEntite+15);
     	}
-    }
-
-
-    @Override
-    public void update(Observable o, Object arg) {
-    	if (arg.equals(Entité.EST_MORT)) {
-    		System.out.println(this.entite.getEtat());
-			this.entite.deleteObservers();
-    	}
-
     }
 
     ////////////// quelques methodes qui nous servirons par la suite, mais appartiennent pas à cette classe ////////////////////

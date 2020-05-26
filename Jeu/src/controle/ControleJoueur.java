@@ -1,7 +1,5 @@
 package controle;
 
-import java.util.Observable;
-
 import Jeu.Carte;
 import Jeu.Entité;
 import Jeu.Joueur;
@@ -132,11 +130,6 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 
 	}
 	
-	@Override
-	public void update(Observable o, Object arg) {
-		// TODO Auto-generated method stub
-		
-	}
 
 
 	public Joueur getJoueur() {

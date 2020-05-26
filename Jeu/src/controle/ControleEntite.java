@@ -1,8 +1,7 @@
 package controle;
 
+import java.io.File;
 import java.util.Observable;
-import java.util.Observer;
-
 import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Carte.Porte;
@@ -14,12 +13,17 @@ import javafx.concurrent.Task;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
-public abstract class ControleEntite extends Observable implements Observer{
+public abstract class ControleEntite extends Observable{
 	
 	public static Integer A_BOUGE = new Integer(10);
 	public static Image imageAttaque = new Image ("file:imagesitems/attaque.png");
 	
+	private Media sonEpee;
+	private MediaPlayer mediaPlayer;
 	protected Entité entite;
 	protected Carte carte;
 	protected GraphicsContext gc;
@@ -60,7 +64,14 @@ public abstract class ControleEntite extends Observable implements Observer{
 		this.positionYPixel=((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran();
 		this.paddingX=5;
 		this.paddingY=20;
-		this.entite.addObserver(this);
+		try {
+			File file = new File("src/com/res/song3.mp3");
+			this.sonEpee = new Media(file.toURI().toString());
+	        this.mediaPlayer = new MediaPlayer(sonEpee);
+		}catch(Exception e) {
+			e.printStackTrace();
+			e.getMessage();
+		}
 	}
 	
 	public boolean detecteCollision(int rect1x,int rect1y, int rect1w, int rect1h,int rect2x,int rect2y, int rect2w, int rect2h) {
@@ -93,6 +104,7 @@ public abstract class ControleEntite extends Observable implements Observer{
 		return true;
 	}
 	public int attaque() {
+		if (this.mediaPlayer!=null) {this.mediaPlayer.seek(Duration.ZERO);this.mediaPlayer.play();}
 		Item itemEnMain = this.getEntite().getEnMain();
 			int portee=0;
 			if (itemEnMain instanceof Arme) {portee= ((Arme) itemEnMain).getPortée();}
@@ -243,11 +255,6 @@ public abstract class ControleEntite extends Observable implements Observer{
 		
 	}
 	
-
-	@Override
-	public void update(Observable o, Object arg) {
-	}
-
 	public int getPositionXPixel() {
 		return positionXPixel;
 	}
@@ -318,5 +325,9 @@ public abstract class ControleEntite extends Observable implements Observer{
 
 	public void setVitesse(int vitesse) {
 		this.vitesse = vitesse;
+	}
+
+	public MediaPlayer getMediaPlayer() {
+		return mediaPlayer;
 	}
 }
