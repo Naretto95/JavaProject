@@ -48,8 +48,7 @@ public class Partie {
 		
 	}
 	public void exit() {
-		if (/*the player presses the exit button*/) {System.out.println("you ended the game")
-			System.exit(0);}
+		System.exit(0);
 	}
 	
 	
