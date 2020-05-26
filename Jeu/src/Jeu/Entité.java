@@ -35,7 +35,7 @@ public class Entité extends Observable{
 		this.setInventaireRessource(_InventaireRessource);
 		this.setPositionX(_PositionX);
 		this.setPositionY(PositionY);
-		this.setVie(3);
+		this.setVie(_Niveau*100);
 		this.getInventaireArme().add(new Arme(TypeArme.Main,this.getNiveau()));
 		this.getInventaireRessource().put(new Ressource(TypeRessource.Cle),0);
 		this.getInventaireRessource().put(new Ressource(TypeRessource.Bois),0);
@@ -238,6 +238,10 @@ public class Entité extends Observable{
 				}
 			}
 		}
+		this.ActualiserInventaire();
+		this.setChanged();
+		this.notifyObservers(CHANGEMENT_ITEM);
+		
 	}
 	
 	public void Empoisonner(Entité _Entité) {
