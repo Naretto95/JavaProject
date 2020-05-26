@@ -114,6 +114,17 @@ public class Carte extends Observable implements Observer{
 		this.notifyObservers(CARTE_QUI_BOUGE);
 		return result;
 	}
+	
+	public void majImagesCasesCarte() {
+		for (int i = 0;i <this.imagesCasesCarte.size();i++) {
+			for (int j = 0;j <this.imagesCasesCarte.get(i).size();j++) {
+				if (this.casesCarte.get(i).get(j).getContenu() instanceof Porte && ((Porte)this.casesCarte.get(i).get(j).getContenu()).isOpen) {
+					this.imagesCasesCarte.get(i).set(j,this.listeImagesElementsJeu.get("plancher.jpg"));
+				}
+				
+			}
+		}
+	}
 
 	public ArrayList<ArrayList<Image>> getImagesCasesCarte() {
 		return imagesCasesCarte;
@@ -163,6 +174,7 @@ public class Carte extends Observable implements Observer{
 		}
 		public void setOpen(boolean isOpen) {
 			this.isOpen = isOpen;
+			majImagesCasesCarte();
 			this.setChanged();
 			this.notifyObservers(Case.OUVERTURE_PORTE);
 		}
