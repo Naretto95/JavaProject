@@ -29,8 +29,8 @@ public class PauseButton extends Application {
 	    });
 
 	    Pane root = new Pane();
-	    PauseButton.setLayoutX(0);
-	    PauseButton.setLayoutY(0);
+	    PauseButton.setLayoutX(0); //temporary
+	    PauseButton.setLayoutY(0); //temporary
 	    root.getChildren().add(PauseButton);
 	    primaryStage.setScene(new Scene(root, 300, 250));
 	    primaryStage.show();
