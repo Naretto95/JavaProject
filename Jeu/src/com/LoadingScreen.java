@@ -20,9 +20,7 @@ public class LoadingScreen extends Pane {
     private Timeline timeline = new Timeline();
 
     public LoadingScreen(int width, int height, Runnable action) {
-        ImageView bg = new ImageView(new Image(
-                getClass().getResource("res/Fallout4_loading.jpg").toExternalForm()
-        ));
+        ImageView bg = new ImageView(new Image("imagesmenu/Fallout4_loading.jpg"));
         bg.setFitWidth(width);
         bg.setFitHeight(height);
 

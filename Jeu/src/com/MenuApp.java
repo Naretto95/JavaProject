@@ -33,8 +33,7 @@ public class MenuApp extends Application {
 
         Pane root = new Pane();
         
-        ImageView imageView = new ImageView(new Image(getClass()
-                .getResource("res/Fallout4_bg.jpg").toExternalForm()));
+        ImageView imageView = new ImageView(new Image("file:imagesmenu/Fallout4_bg.jpg"));
 
         //ImageView imgIcone = new ImageView(new Image(getClass().getResource("icon.png").toExternalForm())); sert plus a rien
 
@@ -196,7 +195,7 @@ public class MenuApp extends Application {
     }
 
     public void music(){
-		File file = new File("src/com/res/song.mp3");
+		File file = new File("musiques/song.mp3");
 		Media hit = new Media(file.toURI().toString());
         mediaPlayer = new MediaPlayer(hit);
         mediaPlayer.play();
@@ -210,7 +209,7 @@ public class MenuApp extends Application {
         primaryStage.setTitle(title);
 
 
-        Image Imgicon = new Image(getClass().getResourceAsStream("res/icon.png"));
+        Image Imgicon = new Image("file:imagesmenu/icon.png");
         primaryStage.getIcons().add(Imgicon);
 
 

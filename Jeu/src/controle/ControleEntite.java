@@ -70,7 +70,7 @@ public abstract class ControleEntite extends Observable implements Serializable 
 		this.paddingX=5;
 		this.paddingY=20;
 		try {
-			File file = new File("src/com/res/song3.mp3");
+			File file = new File("musiques/song3.mp3");
 			this.sonEpee = new Media(file.toURI().toString());
 	        this.mediaPlayer = new MediaPlayer(sonEpee);
 		}catch(Exception e) {

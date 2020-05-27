@@ -159,7 +159,7 @@ public class Partie implements Serializable {
 		this.playButton.setAlignment(Pos.TOP_RIGHT);
 		this.playButton.setOnMouseClicked((e)->{this.jouer();});
 		try {
-			File file = new File("src/com/res/song2.mp3");
+			File file = new File("musiques/song2.mp3");
 			this.media = new Media(file.toURI().toString());
 			this.mediaPlayer = new MediaPlayer(this.media);
 		}catch(Exception e) {
@@ -179,7 +179,7 @@ public class Partie implements Serializable {
 		//import d'une autre carte faite avec un csv
 		List<List<String>> records = new ArrayList<>();
 		try {
-			BufferedReader br = new BufferedReader(new FileReader("carte9.csv"));
+			BufferedReader br = new BufferedReader(new FileReader("cartes/carte9.csv"));
 			String line;
 			while ((line = br.readLine()) != null) {
 			        String[] values = line.split(",");
@@ -266,7 +266,7 @@ public class Partie implements Serializable {
 		
 		//on crée les controles du jeu qui se souscrivent automatiquement auprès des observables qui les concernent
 		this.ctlCarte = new ControleCarte(carte,gc);
-		this.ctlJoueur = new ControleJoueur("link2.png",carte,joueur,gc,120,120);
+		this.ctlJoueur = new ControleJoueur("imagesmonstres/link2.png",carte,joueur,gc,120,120);
 		this.ctlOP = new ControleOuverturePorte((ControleEntite)ctlJoueur);
 		this.ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
 		this.ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
