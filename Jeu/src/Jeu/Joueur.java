@@ -4,6 +4,10 @@ import java.util.Map.Entry;
 
 public class Joueur extends Entité {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int Experience;
 	private String Nom;
 	

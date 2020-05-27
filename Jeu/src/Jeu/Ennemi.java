@@ -1,11 +1,16 @@
 package Jeu;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
 
-public class Ennemi extends Entité {
+public class Ennemi extends Entité implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Categorie Categorie;
 	private Race Race;
 	private int ExperienceMonstre;

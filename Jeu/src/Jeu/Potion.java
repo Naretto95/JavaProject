@@ -2,6 +2,10 @@ package Jeu;
 
 public class Potion extends Item {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Effet Effet;
 	
 	public Potion(Effet _Effet, int _Niveau) {

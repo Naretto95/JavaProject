@@ -34,7 +34,7 @@ public class AffichageService extends Service<Integer>{
 					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
-					
+					partie.getGc().restore();
 					ctlCarte.afficheCarte();
 					for (int i = 0 ;i< listeCtlEnnemi.size();i++) {
 						listeCtlEnnemi.get(i).afficheEnnemi();

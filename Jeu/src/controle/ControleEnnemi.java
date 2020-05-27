@@ -8,7 +8,11 @@ import javafx.scene.canvas.GraphicsContext;
 
 public class ControleEnnemi extends ControleEntite{
 
-     public ControleEnnemi(String feuilleDeSpriteEntite, Carte carte, GraphicsContext gc, Entité entite,
+     /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public ControleEnnemi(String feuilleDeSpriteEntite, Carte carte, GraphicsContext gc, Entité entite,
                           int hauteurPixelEntite, int largeurPixelEntite) {
 
         super(feuilleDeSpriteEntite, carte, gc, entite, hauteurPixelEntite, largeurPixelEntite);

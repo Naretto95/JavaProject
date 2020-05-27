@@ -12,6 +12,10 @@ import javafx.scene.input.KeyEvent;
 public class ControleJoueur extends ControleEntite implements EventHandler<KeyEvent>{
 	
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Joueur joueur;
 	private int distMinBordEcranX=150;
 	private int distMinBordEcranY=200;

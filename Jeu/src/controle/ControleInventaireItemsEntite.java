@@ -39,7 +39,7 @@ public class ControleInventaireItemsEntite extends FlowPane implements EventHand
 		this.barre.getCaseArmeEnMain().setOnMouseClicked((e)->{this.entite.ChangerItem(new Arme(TypeArme.Main,1));});
 		this.getChildren().add(barre);
 		this.setAlignment(Pos.BOTTOM_RIGHT);
-		FlowPane.setMargin(barre, new Insets(0, 150, 10, 0));
+		FlowPane.setMargin(barre, new Insets(0, 10, 10, 0));
 	}
 	@Override
 	public void update(Observable arg0, Object arg1) {

@@ -1,6 +1,12 @@
 package Jeu;
 
-public class Objet {
+import java.io.Serializable;
+
+public class Objet implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private boolean Ramassé;
 
 	public boolean isRamassé() {

@@ -1,5 +1,6 @@
 package Jeu;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -7,8 +8,12 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Random;
 
-public class Entité extends Observable{
+public class Entité extends Observable implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Integer VIE_MODIFIEE = new Integer(0);
 	public static Integer EST_MORT = new Integer(1);
 	public static Integer RESSOURCES_MODIFIEES = new Integer(2);

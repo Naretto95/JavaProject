@@ -1,6 +1,7 @@
 package Jeu;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.Serializable;
@@ -27,10 +28,12 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 import saveAndLoad.RessourceManager;
 import threadService.AffichageService;
 import threadService.RunJoueurService;
@@ -49,6 +52,10 @@ public class Partie implements Serializable {
 	private Canvas canvas; // le canvas
 	private GraphicsContext gc;//son GraphicsContext
 	private FlowPane fp;//le FlowPane qui contient le bouton des portes et la barre d'inventaire du joueur
+	private Button btnSave;
+	private Button exitButton;
+	private Button pauseButton;
+	private Button playButton;
 	
 	//le dur de la partie
 	private Carte carte;//la carte de cette partie
@@ -138,7 +145,19 @@ public class Partie implements Serializable {
 		this.canvas = new Canvas(1280,720);
 		this.gc = canvas.getGraphicsContext2D();
 		this.fp = new FlowPane();
-		fp.setAlignment(Pos.BOTTOM_RIGHT);
+		fp.setAlignment(Pos.BOTTOM_CENTER);
+		this.btnSave = new Button("Sauvegarder");
+		this.btnSave.setAlignment(Pos.TOP_RIGHT);
+		this.btnSave.setOnMouseClicked((e)->{this.save();});
+		this.exitButton = new Button("Quitter");
+		this.exitButton.setAlignment(Pos.TOP_RIGHT);
+		this.exitButton.setOnMouseClicked((e)->{this.quitter();});
+		this.pauseButton = new Button("Pause");
+		this.pauseButton.setAlignment(Pos.TOP_RIGHT);
+		this.pauseButton.setOnMouseClicked((e)->{this.pause();});
+		this.playButton = new Button("Jouer");
+		this.playButton.setAlignment(Pos.TOP_RIGHT);
+		this.playButton.setOnMouseClicked((e)->{this.jouer();});
 		try {
 			File file = new File("src/com/res/song2.mp3");
 			this.media = new Media(file.toURI().toString());
@@ -154,50 +173,61 @@ public class Partie implements Serializable {
 		
 	//..........................................................................
 	
-	public StackPane nouvellePartie() throws IOException {
+	@SuppressWarnings("resource")
+	public StackPane nouvellePartie(){
 		
 		//import d'une autre carte faite avec un csv
 		List<List<String>> records = new ArrayList<>();
-		@SuppressWarnings("resource")
-		BufferedReader br = new BufferedReader(new FileReader("carte9.csv"));
-		String line;
-		while ((line = br.readLine()) != null) {
-		        String[] values = line.split(",");
-		        records.add(Arrays.asList(values));
+		try {
+			BufferedReader br = new BufferedReader(new FileReader("carte9.csv"));
+			String line;
+			while ((line = br.readLine()) != null) {
+			        String[] values = line.split(",");
+			        records.add(Arrays.asList(values));
+			}
+			String[][] records2= new String[84][35];
+			for (int i =0;i<records.size();i++) {
+			   for (int j =0;j<records.get(i).size();j++) {
+			    	switch (records.get(i).get(j)){
+			    		case "0":
+			    			records2[i][j]="plancher.jpg";
+			    			break;
+			    		case "1":
+			    			records2[i][j]="tiles.png";
+			    			break;
+			    		case "2":
+			    			records2[i][j]="door.png";
+			    			break;
+			    		default:
+			    			break;
+			    	}
+			    }
+			}
+			
+			//on crée le dur du jeu (carte , joueur , ennemis)
+			this.carte = new Carte("images",records2,canvas.getWidth(),canvas.getHeight());
+			carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Cle));
+			this.joueur = new Joueur("Bob",21,7,7);
+			joueur.Ramasser(new Arme(TypeArme.EpéeCourte,20));
+			this.listeEnnemi = new ArrayList<Ennemi>();
+			this.listeEnnemi.add(new Ennemi(10,16,5,Categorie.Normal,Race.Nain));
+			this.listeEnnemi.add(new Ennemi(10,18,6,Categorie.Normal,Race.Nain));
+			this.listeEnnemi.add(new Ennemi(10,16,7,Categorie.Normal,Race.Nain));
+			//Joueur heros = new Joueur("Lilian",1,0,0);
+	    	//Ennemi monstre = new Ennemi(1,1,0,Categorie.Normal,Race.Humain);
+			
+			
+			this.preparerPartie();
+			
+			return this.MainPane;
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
-		String[][] records2= new String[84][35];
-		for (int i =0;i<records.size();i++) {
-		   for (int j =0;j<records.get(i).size();j++) {
-		    	switch (records.get(i).get(j)){
-		    		case "0":
-		    			records2[i][j]="plancher.jpg";
-		    			break;
-		    		case "1":
-		    			records2[i][j]="tiles.png";
-		    			break;
-		    		case "2":
-		    			records2[i][j]="door.png";
-		    			break;
-		    		default:
-		    			break;
-		    	}
-		    }
-		}
-		
-		//on crée le dur du jeu (carte , joueur , ennemis)
-		this.carte = new Carte("images",records2,canvas.getWidth(),canvas.getHeight());
-		carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Cle));
-		this.joueur = new Joueur("Bob",21,7,7);
-		joueur.Ramasser(new Arme(TypeArme.EpéeCourte,20));
-		this.listeEnnemi = new ArrayList<Ennemi>();
-		this.listeEnnemi.add(new Ennemi(10,16,5,Categorie.Normal,Race.Nain));
-		//Joueur heros = new Joueur("Lilian",1,0,0);
-    	//Ennemi monstre = new Ennemi(1,1,0,Categorie.Normal,Race.Humain);
-		
-		
-		this.preparerPartie();
-		
-		return this.MainPane;
+		return null;
 		
 	}
 	
@@ -251,14 +281,14 @@ public class Partie implements Serializable {
 		
 		//on relie les controles de jeu aux composants graphiques du jeu
 		GroupCanvasEtLifeBar.getChildren().add(canvas);
-		this.fp.getChildren().addAll(ctlOP,ctlInventaireJoueur);
+		this.fp.getChildren().addAll(ctlOP,ctlInventaireJoueur,btnSave,exitButton,pauseButton,playButton);
 		for (int i =0 ; i<this.listeCtlBdvEnnemi.size();i++) {
 			this.GroupCanvasEtLifeBar.getChildren().add(this.listeCtlBdvEnnemi.get(i));
 		}
 		this.GroupCanvasEtLifeBar.getChildren().add(this.ctlBdvJoueur);
 		this.MainPane.getChildren().add(GroupCanvasEtLifeBar);
 		this.MainPane.getChildren().add(ctlSRE);
-		MainPane.getChildren().add(fp);
+		this.MainPane.getChildren().add(fp);
 		
 
 		//on crée les threads du jeu
@@ -270,7 +300,6 @@ public class Partie implements Serializable {
 		this.threadAffichageJeu.start();
 		if (mediaPlayer!=null) {this.mediaPlayer.play();}
 		
-		
 	}
 	
 	public boolean gameOver() {
@@ -279,9 +308,8 @@ public class Partie implements Serializable {
 	
 	public void pause() {
 		this.paused=true;
+		if (this.mediaPlayer!=null) {this.mediaPlayer.stop();}
 		this.Duree.cancel();
-		
-		//show pause screen
 	}
 		
 	public void save() {
@@ -289,7 +317,7 @@ public class Partie implements Serializable {
 		DateFormat format = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
 		Date date = new Date();
 		try {
-			RessourceManager.save(this, "sauvegardes/save_"+format.format(date));
+			RessourceManager.save(this.getCarte().getCasesCarte(), "sauvegardes/save_"+format.format(date));
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -301,25 +329,35 @@ public class Partie implements Serializable {
 	}
 	
 	public StackPane recommencer() {
-		try {
-			return this.nouvellePartie();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
+		return this.nouvellePartie();
 	}
 	
 	public void jouer() {
 		/*la fonction permet de relancer les threads de la partie après une pause*/
-		
+		this.paused = false;
+		this.Duree = new Timer();
+		if (this.mediaPlayer!=null) {this.mediaPlayer.seek(Duration.ZERO);this.mediaPlayer.play();}
 		this.threadJoueur.restart();
 		this.threadAffichageJeu.restart();
 		
 		
 	}
 	
+	public void quitter() {
+		this.paused=true;
+		try {
+			Thread.sleep(2000);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		System.exit(0);
+	}
 	
+	public GraphicsContext getGc() {
+		return gc;
+	}
+
 	//..................................................................................
 	public Timer getDuree() {
 		return Duree;

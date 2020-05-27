@@ -1,13 +1,18 @@
 
 package Jeu;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 import java.util.Stack;
 
-public class Case implements Observer{
+public class Case implements Observer,Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Integer VIDE = new Integer(0);
 	public static Integer OBSTACLE = new Integer(1);
 	public static Integer PORTE = new Integer(2);
