@@ -9,8 +9,6 @@ import Jeu.Carte.Porte;
 import Jeu.Case;
 import Jeu.Entité;
 import Jeu.Item;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
@@ -29,32 +27,32 @@ public abstract class ControleEntite extends Observable implements Serializable 
 	
 	private Media sonEpee;
 	private MediaPlayer mediaPlayer;
-	protected Entité entite;
-	protected Carte carte;
-	protected GraphicsContext gc;
-	protected Image feuilleDeSpriteEntite;
+	private Entité entite;
+	private Carte carte;
+	private GraphicsContext gc;
+	private Image feuilleDeSpriteEntite;
 	
-	protected boolean avanceD = false;
-	protected boolean avanceG = false;
-	protected boolean avanceH = false;
-	protected boolean avanceB = false;
-	protected boolean attaqueEnCours = false;
-	protected int indiceSprite=0;
+	private boolean avanceD = false;
+	private boolean avanceG = false;
+	private boolean avanceH = false;
+	private boolean avanceB = false;
+	private boolean attaqueEnCours = false;
+	private int indiceSprite=0;
 	private KeyCode lastDirection=KeyCode.DOWN;	
 	private int speed=10;
 	private int distance = 0;
 	private int bouge=0;
 
-	protected int positionXPixel;
-	protected int positionYPixel;
+	private int positionXPixel;
+	private int positionYPixel;
 	private int vitesse=5;
-	protected int hauteurPixelEntite;
-	protected int largeurPixelEntite;
-	protected int deltaXHitBox=0;
-	protected int deltaYHitBox=0;
-	protected int paddingX;
-	protected int paddingY;
-	protected int facteurTaille=2;
+	private int hauteurPixelEntite;
+	private int largeurPixelEntite;
+	private int deltaXHitBox=0;
+	private int deltaYHitBox=0;
+	private int paddingX;
+	private int paddingY;
+	private int facteurTaille=2;
 
 	
 	public ControleEntite(String feuilleDeSpriteEntite,Carte carte, GraphicsContext gc,Entité entite,int hauteurPixelEntite,int largeurPixelEntite) {
@@ -205,6 +203,46 @@ public abstract class ControleEntite extends Observable implements Serializable 
 		}
 	}
 	
+	public Carte getCarte() {
+		return carte;
+	}
+
+	public GraphicsContext getGc() {
+		return gc;
+	}
+
+	public Image getFeuilleDeSpriteEntite() {
+		return feuilleDeSpriteEntite;
+	}
+
+	public void setEntite(Entité entite) {
+		this.entite = entite;
+	}
+
+	public int getIndiceSprite() {
+		return indiceSprite;
+	}
+
+	public void setIndiceSprite(int indiceSprite) {
+		this.indiceSprite = indiceSprite;
+	}
+
+	public void setAvanceD(boolean avanceD) {
+		this.avanceD = avanceD;
+	}
+
+	public void setAvanceG(boolean avanceG) {
+		this.avanceG = avanceG;
+	}
+
+	public void setAvanceH(boolean avanceH) {
+		this.avanceH = avanceH;
+	}
+
+	public void setAvanceB(boolean avanceB) {
+		this.avanceB = avanceB;
+	}
+
 	public void changerPositionPixel(int deltaXPixel, int deltaYPixel) {
 		this.setPositionXPixel(this.getPositionXPixel()+deltaXPixel);
 		this.setPositionYPixel(this.getPositionYPixel()+deltaYPixel);
@@ -235,30 +273,7 @@ public abstract class ControleEntite extends Observable implements Serializable 
 		}
 	}
 	
-	public static class AttaqueService extends Service<Object>{
-		
-		private ControleEntite ctlEntite;
-
-		public AttaqueService(ControleEntite ctlEntite) {
-			this.ctlEntite = ctlEntite;
-		}
-		@Override
-		protected Task<Object> createTask() {
-			// TODO Auto-generated method stub
-			return new Task<Object>() {
-
-				@Override
-				protected Object call() throws Exception {
-					// TODO Auto-generated method stub
-					Thread.sleep(100);
-					ctlEntite.attaqueEnCours=false;
-					return null;
-				}
-				
-			};
-		}
-		
-	}
+	
 	
 	public int getPositionXPixel() {
 		return positionXPixel;
@@ -282,6 +297,14 @@ public abstract class ControleEntite extends Observable implements Serializable 
 
 	public void setPositionXPixel(int positionXPixel) {
 		this.positionXPixel = positionXPixel;
+	}
+
+	public boolean isAttaqueEnCours() {
+		return attaqueEnCours;
+	}
+
+	public void setAttaqueEnCours(boolean attaqueEnCours) {
+		this.attaqueEnCours = attaqueEnCours;
 	}
 
 	public int getPositionYPixel() {
@@ -316,6 +339,18 @@ public abstract class ControleEntite extends Observable implements Serializable 
 		this.distance = distance;
 	}
 
+	public int getHauteurPixelEntite() {
+		return hauteurPixelEntite;
+	}
+
+	public int getLargeurPixelEntite() {
+		return largeurPixelEntite;
+	}
+
+	public int getFacteurTaille() {
+		return facteurTaille;
+	}
+
 	public int getBouge() {
 		return bouge;
 	}
@@ -334,5 +369,21 @@ public abstract class ControleEntite extends Observable implements Serializable 
 
 	public MediaPlayer getMediaPlayer() {
 		return mediaPlayer;
+	}
+
+	public int getDeltaXHitBox() {
+		return deltaXHitBox;
+	}
+
+	public void setDeltaXHitBox(int deltaXHitBox) {
+		this.deltaXHitBox = deltaXHitBox;
+	}
+
+	public int getDeltaYHitBox() {
+		return deltaYHitBox;
+	}
+
+	public void setDeltaYHitBox(int deltaYHitBox) {
+		this.deltaYHitBox = deltaYHitBox;
 	}
 }

@@ -7,6 +7,7 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import threadService.AttaqueService;
 
 
 public class ControleJoueur extends ControleEntite implements EventHandler<KeyEvent>{
@@ -32,39 +33,39 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		if (event.getEventType()==KeyEvent.KEY_PRESSED) {
 			switch(event.getCode()) {
 			case SPACE:
-				if (!this.attaqueEnCours) {
+				if (!this.isAttaqueEnCours()) {
 					this.setBouge(0);
-					this.attaqueEnCours=true;
-					avanceB=false;
-					avanceD=false;
-					avanceG=false;
-					avanceH=false;
+					setAttaqueEnCours(true);
+					setAvanceB(false);
+					setAvanceD(false);
+					setAvanceG(false);
+					setAvanceH(false);
 					this.setDistance(this.attaque());
 					(new AttaqueService(this)).start();
 				}
 				break;
 			case Z:
 				this.setBouge(1);
-				avanceB=false;
-				avanceH=true;
+				setAvanceB(false);
+				setAvanceH(true);
 				this.setLastDirection(KeyCode.UP);
 				break;
 			case S:
 				this.setBouge(1);
-				avanceH=false;
-				avanceB=true;
+				setAvanceH(false);
+				setAvanceB(true);
 				this.setLastDirection(KeyCode.DOWN);
 				break;
 			case Q:
 				this.setBouge(1);
-				avanceD=false;
-				avanceG=true;
+				setAvanceD(false);
+				setAvanceG(true);
 				this.setLastDirection(KeyCode.LEFT);
 				break;
 			case D:
 				this.setBouge(1);
-				avanceG=false;
-				avanceD=true;
+				setAvanceG(false);
+				setAvanceD(true);
 				this.setLastDirection(KeyCode.RIGHT);
 				break;
 			case SHIFT:
@@ -82,16 +83,16 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 					this.setBouge(1);
 					break;
 				case Z:
-					avanceH=false;
+					setAvanceH(false);
 					break;
 				case S:
-					avanceB=false;
+					setAvanceB(false);
 					break;
 				case Q:
-					avanceG=false;
+					setAvanceG(false);
 					break;
 				case D:
-					avanceD=false;
+					setAvanceD(false);
 					break;
 				case SHIFT:
 					this.setVitesse(5);
@@ -99,7 +100,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 					break;
 		
 			}
-			if (!(this.avanceG||this.avanceD||this.avanceH||this.avanceB)) {
+			if (!(this.isAvanceG()||this.isAvanceD()||this.isAvanceH()||this.isAvanceB())) {
 				this.setBouge(0);
 			}
 		}
@@ -113,20 +114,20 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	
 	public void afficheJoueur(KeyCode keycode,int bouge) {
 		//l'affichage des entites est variable pour chaque feuille de Sprite qui lui correspond
-		indiceSprite=(indiceSprite+1);//on change l'image affichée par celle qui suit dans la feuille
+		setIndiceSprite((getIndiceSprite()+1));//on change l'image affichée par celle qui suit dans la feuille
 		switch(keycode) {
 		//pour le joueur qui se déplace dans plusieurs directions il faut adapter l'image au sens du mouvement
 		case RIGHT:
-			gc.drawImage(this.feuilleDeSpriteEntite,(((indiceSprite%10)*bouge+4)%10)*this.largeurPixelEntite,925,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			getGc().drawImage(this.getFeuilleDeSpriteEntite(),(((getIndiceSprite()%10)*bouge+4)%10)*this.getLargeurPixelEntite(),925,this.getLargeurPixelEntite(),this.getHauteurPixelEntite(),this.getPositionXPixel(),this.getPositionYPixel()+this.getCarte().getHauteurCasePixel()-this.getHauteurPixelEntite()/this.getFacteurTaille(),this.getLargeurPixelEntite()/this.getFacteurTaille(),this.getHauteurPixelEntite()/this.getFacteurTaille());
 			break;
 		case LEFT:
-			gc.drawImage(this.feuilleDeSpriteEntite,(indiceSprite%10)*bouge*this.largeurPixelEntite,660,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			getGc().drawImage(this.getFeuilleDeSpriteEntite(),(getIndiceSprite()%10)*bouge*this.getLargeurPixelEntite(),660,this.getLargeurPixelEntite(),this.getHauteurPixelEntite(),this.getPositionXPixel(),this.getPositionYPixel()+this.getCarte().getHauteurCasePixel()-this.getHauteurPixelEntite()/this.getFacteurTaille(),this.getLargeurPixelEntite()/this.getFacteurTaille(),this.getHauteurPixelEntite()/this.getFacteurTaille());
 			break;
 		case UP:
-			gc.drawImage(this.feuilleDeSpriteEntite,(indiceSprite%10)*bouge*this.largeurPixelEntite,785,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			getGc().drawImage(this.getFeuilleDeSpriteEntite(),(getIndiceSprite()%10)*bouge*this.getLargeurPixelEntite(),785,this.getLargeurPixelEntite(),this.getHauteurPixelEntite(),this.getPositionXPixel(),this.getPositionYPixel()+this.getCarte().getHauteurCasePixel()-this.getHauteurPixelEntite()/this.getFacteurTaille(),this.getLargeurPixelEntite()/this.getFacteurTaille(),this.getHauteurPixelEntite()/this.getFacteurTaille());
 			break;
 		case DOWN:
-			gc.drawImage(this.feuilleDeSpriteEntite,(indiceSprite%10)*bouge*this.largeurPixelEntite,530,this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel(),this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite/this.facteurTaille,this.largeurPixelEntite/this.facteurTaille,this.hauteurPixelEntite/this.facteurTaille);
+			getGc().drawImage(this.getFeuilleDeSpriteEntite(),(getIndiceSprite()%10)*bouge*this.getLargeurPixelEntite(),530,this.getLargeurPixelEntite(),this.getHauteurPixelEntite(),this.getPositionXPixel(),this.getPositionYPixel()+this.getCarte().getHauteurCasePixel()-this.getHauteurPixelEntite()/this.getFacteurTaille(),this.getLargeurPixelEntite()/this.getFacteurTaille(),this.getHauteurPixelEntite()/this.getFacteurTaille());
 			break;
 		default:
 			break;
