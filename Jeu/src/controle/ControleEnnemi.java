@@ -21,14 +21,14 @@ public class ControleEnnemi extends ControleEntite{
 
 
     public void afficheEnnemi() {
-		this.setPositionXPixel(((this.entite.getPositionX())*this.carte.getLargeurCasePixel()) - this.carte.getFenetreEcran().getPosXPixelEcran());
-		this.setPositionYPixel(((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran());
-    	if (this.entite.getEtat()!=EtatEntité.Mort) {
-    		
-    		gc.drawImage(this.feuilleDeSpriteEntite,indiceSprite*this.largeurPixelEntite,0,
-                    this.largeurPixelEntite,this.hauteurPixelEntite,this.getPositionXPixel()-5,
-                    this.getPositionYPixel()+this.carte.getHauteurCasePixel()-this.hauteurPixelEntite-15,
-                    this.largeurPixelEntite+10,this.hauteurPixelEntite+15);
+		this.setPositionXPixel(((this.getEntite().getPositionX())*this.getCarte().getLargeurCasePixel()) - this.getCarte().getFenetreEcran().getPosXPixelEcran());
+		this.setPositionYPixel(((this.getEntite().getPositionY())*this.getCarte().getHauteurCasePixel()) - this.getCarte().getFenetreEcran().getPosYPixelEcran());
+    	if (this.getEntite().getEtat()!=EtatEntité.Mort) {
+    		System.out.println(this.getEntite().getEtat());
+    		getGc().drawImage(this.getFeuilleDeSpriteEntite(),getIndiceSprite()*this.getLargeurPixelEntite(),0,
+                    this.getLargeurPixelEntite(),this.getHauteurPixelEntite(),this.getPositionXPixel()-5,
+                    this.getPositionYPixel()+this.getCarte().getHauteurCasePixel()-this.getHauteurPixelEntite()-15,
+                    this.getLargeurPixelEntite()+10,this.getHauteurPixelEntite()+15);
     	}
     }
 
