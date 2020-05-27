@@ -18,6 +18,7 @@ public class MenuItem extends StackPane {
 
     static {
         font = Font.loadFont(MenuItem.class.getResource("res/RobotoCondensed-Regular.ttf").toExternalForm(), 26);
+        System.out.println(MenuItem.class.getResource("res/RobotoCondensed-Regular.ttf").toExternalForm());
     }
 
     private Text text;

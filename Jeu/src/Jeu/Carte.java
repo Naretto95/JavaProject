@@ -13,7 +13,6 @@ import controle.ControleEntite;
 import javafx.scene.image.Image;
 
 public class Carte extends Observable implements Observer,Serializable{
-	
 
 	/**
 	 * 
@@ -22,8 +21,8 @@ public class Carte extends Observable implements Observer,Serializable{
 
 	public static Integer CARTE_QUI_BOUGE = new Integer(40);
 	
-	private ArrayList<ArrayList<Image>> imagesCasesCarte;
-	private Map<String,Image> listeImagesElementsJeu;
+	private transient ArrayList<ArrayList<Image>> imagesCasesCarte;
+	private transient Map<String,Image> listeImagesElementsJeu;
 	private ArrayList<ArrayList<Case>> casesCarte;
 	private FenetreEcran fenetreEcran;
 	private int largeurCasePixel=50;
