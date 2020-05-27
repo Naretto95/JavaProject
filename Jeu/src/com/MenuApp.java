@@ -18,7 +18,6 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
-import java.io.IOException;
 
 
 public class MenuApp extends Application {
@@ -77,16 +76,13 @@ public class MenuApp extends Application {
 
             ft.setOnFinished(a -> {
             	this.mediaPlayer.stop();
-                try {
-					root.getChildren().setAll(this.partie.nouvellePartie());
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-                primaryStage.addEventFilter(KeyEvent.ANY,this.partie.getCtlJoueur());
+				root.getChildren().setAll(this.partie.nouvellePartie());
+				primaryStage.addEventFilter(KeyEvent.ANY,this.partie.getCtlJoueur());
+                
             });
 
             ft.play();
+            
             
             
         });

@@ -1,7 +1,13 @@
 package Jeu;
 
-public class Arme extends Item {
+import java.io.Serializable;
+
+public class Arme extends Item implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private int Durabilité;
 	private TypeArme Type;
 	private int Degats;

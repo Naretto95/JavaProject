@@ -1,6 +1,7 @@
 package controle;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.Observable;
 import Jeu.Arme;
 import Jeu.Carte;
@@ -17,8 +18,12 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-public abstract class ControleEntite extends Observable{
+public abstract class ControleEntite extends Observable implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	public static Integer A_BOUGE = new Integer(10);
 	public static Image imageAttaque = new Image ("file:imagesitems/attaque.png");
 	

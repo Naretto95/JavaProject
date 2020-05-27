@@ -1,6 +1,8 @@
 package Jeu;
 
-public enum EtatEntité {
+import java.io.Serializable;
+
+public enum EtatEntité implements Serializable {
 	Vivant,
 	Mort,
 	Etourdis

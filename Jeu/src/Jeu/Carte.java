@@ -1,6 +1,7 @@
 package Jeu;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,8 +12,13 @@ import java.util.Observer;
 import controle.ControleEntite;
 import javafx.scene.image.Image;
 
-public class Carte extends Observable implements Observer{
+public class Carte extends Observable implements Observer,Serializable{
 	
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public static Integer CARTE_QUI_BOUGE = new Integer(40);
 	
@@ -138,9 +144,13 @@ public class Carte extends Observable implements Observer{
 		return hauteurCasePixel;
 	}
 	
-	public final class Porte extends Observable{
+	public final class Porte extends Observable implements Serializable {
 		
 		
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
 		private int nbCle;
 		private boolean isOpen=false;
 		
@@ -188,5 +198,9 @@ public class Carte extends Observable implements Observer{
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public ArrayList<ArrayList<Case>> getCasesCarte() {
+		return casesCarte;
 	}
 }

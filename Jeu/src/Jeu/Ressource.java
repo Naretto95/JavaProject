@@ -2,6 +2,10 @@ package Jeu;
 
 public class Ressource extends Objet {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private TypeRessource Type;
 	
 	public Ressource(TypeRessource _Type) {

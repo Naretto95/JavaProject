@@ -1,6 +1,8 @@
 package Jeu;
 
-public enum Effet {
+import java.io.Serializable;
+
+public enum Effet implements Serializable {
 	Etourdissement,
 	Poison,
 	GainDeVie,
