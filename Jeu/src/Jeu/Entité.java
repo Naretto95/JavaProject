@@ -245,6 +245,9 @@ public class Entité extends Observable implements Serializable {
 							if (this.getInventaireArme().get(i).getType()!=TypeArme.Main && this.getInventaireArme().get(i).isDegatsUp()==false) {
 								this.getInventaireArme().get(i).setDegatsUp(true);
 								this.getInventaireArme().get(i).setDegats(this.getInventaireArme().get(i).getDegats()+((Potion)this.enMain).getNiveau());
+								((Potion)this.enMain).setEtat(false);
+								this.ActualiserInventaire();
+								break;
 							}
 						}
 						break;
