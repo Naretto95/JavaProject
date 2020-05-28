@@ -23,7 +23,6 @@ import controle.ControleInventaireItemsEntite;
 import controle.ControleJoueur;
 import controle.ControleOuverturePorte;
 import controle.ControleStatsRessourcesEntite;
-import javafx.concurrent.Service;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
@@ -75,7 +74,7 @@ public class Partie implements Serializable {
 	
 	//les threads de la partie
 	private RunJoueurService threadJoueur;
-	private Service<Integer> threadAffichageJeu;
+	private AffichageService threadAffichageJeu;
 
 	private Timer Duree;
 	private TypeIssus Issus;
@@ -300,6 +299,7 @@ public class Partie implements Serializable {
 	
 	public void pause() {
 		this.paused=true;
+		this.threadAffichageJeu.stop();
 		if (this.mediaPlayer!=null) {this.mediaPlayer.stop();}
 		this.Duree.cancel();
 	}
@@ -330,7 +330,7 @@ public class Partie implements Serializable {
 		this.Duree = new Timer();
 		if (this.mediaPlayer!=null) {this.mediaPlayer.seek(Duration.ZERO);this.mediaPlayer.play();}
 		this.threadJoueur.restart();
-		this.threadAffichageJeu.restart();
+		this.threadAffichageJeu.start();
 		
 		
 	}
