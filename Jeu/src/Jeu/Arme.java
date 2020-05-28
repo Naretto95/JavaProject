@@ -74,9 +74,6 @@ public class Arme extends Item implements Serializable {
 		default:
 			break;
 		}
-		if (this.isDegatsUp()==true) {
-			this.setDegats(this.getDegats()+_Joueur.getNiveau());
-		}
 	}
 	
 	public void Reparer(Entité _Entité) {
