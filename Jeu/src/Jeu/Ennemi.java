@@ -66,6 +66,7 @@ public class Ennemi extends Entité implements Serializable {
 		for (int i = 0; i < this.getInventaireArme().size(); i++) {
 			if (this.getInventaireArme().get(i).getType()!=TypeArme.Main) {
 				this.getInventaireArme().get(i).setRamassé(false);
+				this.getInventaireArme().get(i).Reparer(this);
 				Liste.add(this.getInventaireArme().get(i));
 				this.getInventaireArme().remove(i);
 			}

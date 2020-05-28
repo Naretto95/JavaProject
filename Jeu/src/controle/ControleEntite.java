@@ -67,14 +67,6 @@ public abstract class ControleEntite extends Observable implements Serializable 
 		this.positionYPixel=((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran();
 		this.paddingX=5;
 		this.paddingY=20;
-		try {
-			File file = new File("musiques/song3.mp3");
-			this.sonEpee = new Media(file.toURI().toString());
-	        this.mediaPlayer = new MediaPlayer(sonEpee);
-		}catch(Exception e) {
-			e.printStackTrace();
-			e.getMessage();
-		}
 	}
 	
 	public boolean detecteCollision(int rect1x,int rect1y, int rect1w, int rect1h,int rect2x,int rect2y, int rect2w, int rect2h) {
