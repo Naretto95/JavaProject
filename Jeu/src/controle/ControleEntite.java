@@ -11,12 +11,14 @@ import Jeu.Carte.Porte;
 import Jeu.Case;
 import Jeu.Entité;
 import Jeu.Item;
+import Jeu.Joueur;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
+import threadService.AttaqueService;
 
 public abstract class ControleEntite extends Observable implements Observer,Serializable {
 	
@@ -38,7 +40,6 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 	private boolean avanceG = false;
 	private boolean avanceH = false;
 	private boolean avanceB = false;
-	private boolean est_mort = false;
 	private boolean attaqueEnCours = false;
 	private int indiceSprite=0;
 	private KeyCode lastDirection=KeyCode.DOWN;	
@@ -79,10 +80,10 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 	
 	public boolean detecteCollisionCaseMouvement(int i, int j,int deltaX, int deltaY) {
 		if(i>=0 && j>=0 && i<this.carte.getImagesCasesCarte().size() && j<this.carte.getImagesCasesCarte().get(i).size()) {
-			Case caseR = this.carte.getCase(i, j);
-			if (caseR.getContenu() instanceof Porte) {this.setChanged();this.notifyObservers(caseR.getContenu());}
-			//if (caseR.getContenu() instanceof Enclume) {this.setChanged();this.notifyObservers(caseR.getContenu());}
-			return detecteCollision(this.getPositionXPixel()+deltaX,this.getPositionYPixel()+deltaY,this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel(),j*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),i*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel()) && (caseR.getContenu()!=Case.VIDE);
+			Object objet = this.carte.getCase(i, j).getContenu();
+			if (this.getEntite() instanceof Joueur && objet instanceof Porte) {this.setChanged();this.notifyObservers(objet);}
+			//if (this.getEntite() instanceof Joueur && objet instanceof Enclume) {this.setChanged();this.notifyObservers(objet);}
+			return detecteCollision(this.getPositionXPixel()+deltaX,this.getPositionYPixel()+deltaY,this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel(),j*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),i*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel()) && (objet!=Case.VIDE);
 		}
 		return true;
 	}
@@ -104,6 +105,9 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		return true;
 	}
 	public int attaque() {
+		if (!this.isAttaqueEnCours()) {
+		setAttaqueEnCours(true);
+		(new AttaqueService(this)).start();
 		if (this.mediaPlayer!=null) {this.mediaPlayer.seek(Duration.ZERO);this.mediaPlayer.play();}
 		Item itemEnMain = this.getEntite().getEnMain();
 			int portee=0;
@@ -158,6 +162,7 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 					break;
 				}
 			}
+		}
 		return -1;
 	}
 	
@@ -200,14 +205,6 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		}
 	}
 	
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		// TODO Auto-generated method stub
-		if (arg1 instanceof Integer && arg1.equals(Entité.EST_MORT)) {
-			System.out.println("je suis mort");
-			this.est_mort=true;
-		}
-	}
 
 	public Carte getCarte() {
 		return carte;
@@ -233,9 +230,6 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		this.indiceSprite = indiceSprite;
 	}
 
-	public boolean isEst_mort() {
-		return est_mort;
-	}
 
 	public void setAvanceD(boolean avanceD) {
 		this.avanceD = avanceD;
