@@ -19,6 +19,7 @@ import controle.ControleBarreDeVie;
 import controle.ControleCarte;
 import controle.ControleEnnemi;
 import controle.ControleEntite;
+import controle.ControleExpBarre;
 import controle.ControleInventaireItemsEntite;
 import controle.ControleJoueur;
 import controle.ControleOuverturePorte;
@@ -64,6 +65,7 @@ public class Partie implements Serializable {
 	//les controleurs de la partie
 	private ControleCarte ctlCarte;
 	private ControleJoueur ctlJoueur;
+	private ControleExpBarre ctlExpJoueur;
 	private ControleBarreDeVie ctlBdvJoueur;//le controle de la barre de vie du joueur
 	private ControleInventaireItemsEntite ctlInventaireJoueur;
 	private ControleStatsRessourcesEntite ctlSRE;//le controle des ressources du joueur
@@ -262,6 +264,7 @@ public class Partie implements Serializable {
 		this.ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
 		this.ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
 		this.ctlBdvJoueur = new ControleBarreDeVie(ctlJoueur,50,670,3);
+		this.ctlExpJoueur = new ControleExpBarre(joueur,1050,10,2);
 		this.listeControleEnnemi = new ArrayList<ControleEnnemi>();
 		this.listeCtlBdvEnnemi = new ArrayList<ControleBarreDeVie>();
 		for (int i =0;i<this.listeEnnemi.size();i++) {
@@ -277,6 +280,7 @@ public class Partie implements Serializable {
 			this.GroupCanvasEtLifeBar.getChildren().add(this.listeCtlBdvEnnemi.get(i));
 		}
 		this.GroupCanvasEtLifeBar.getChildren().add(this.ctlBdvJoueur);
+		this.GroupCanvasEtLifeBar.getChildren().add(this.ctlExpJoueur);
 		this.MainPane.getChildren().add(GroupCanvasEtLifeBar);
 		this.MainPane.getChildren().add(ctlSRE);
 		this.MainPane.getChildren().add(fp);

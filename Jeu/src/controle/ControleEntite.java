@@ -3,6 +3,8 @@ package controle;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Observable;
+import java.util.Observer;
+
 import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Carte.Porte;
@@ -16,7 +18,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 
-public abstract class ControleEntite extends Observable implements Serializable {
+public abstract class ControleEntite extends Observable implements Observer,Serializable {
 	
 	/**
 	 * 
@@ -36,6 +38,7 @@ public abstract class ControleEntite extends Observable implements Serializable 
 	private boolean avanceG = false;
 	private boolean avanceH = false;
 	private boolean avanceB = false;
+	private boolean est_mort = false;
 	private boolean attaqueEnCours = false;
 	private int indiceSprite=0;
 	private KeyCode lastDirection=KeyCode.DOWN;	
@@ -67,6 +70,7 @@ public abstract class ControleEntite extends Observable implements Serializable 
 		this.positionYPixel=((this.entite.getPositionY())*this.carte.getHauteurCasePixel()) - this.carte.getFenetreEcran().getPosYPixelEcran();
 		this.paddingX=5;
 		this.paddingY=20;
+		this.entite.addObserver(this);
 	}
 	
 	public boolean detecteCollision(int rect1x,int rect1y, int rect1w, int rect1h,int rect2x,int rect2y, int rect2w, int rect2h) {
@@ -195,6 +199,15 @@ public abstract class ControleEntite extends Observable implements Serializable 
 		}
 	}
 	
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		if (arg1 instanceof Integer && arg1.equals(Entité.EST_MORT)) {
+			System.out.println("je suis mort");
+			this.est_mort=true;
+		}
+	}
+
 	public Carte getCarte() {
 		return carte;
 	}
@@ -217,6 +230,10 @@ public abstract class ControleEntite extends Observable implements Serializable 
 
 	public void setIndiceSprite(int indiceSprite) {
 		this.indiceSprite = indiceSprite;
+	}
+
+	public boolean isEst_mort() {
+		return est_mort;
 	}
 
 	public void setAvanceD(boolean avanceD) {

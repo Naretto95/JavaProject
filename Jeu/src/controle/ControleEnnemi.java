@@ -23,8 +23,7 @@ public class ControleEnnemi extends ControleEntite{
     public void afficheEnnemi() {
 		this.setPositionXPixel(((this.getEntite().getPositionX())*this.getCarte().getLargeurCasePixel()) - this.getCarte().getFenetreEcran().getPosXPixelEcran());
 		this.setPositionYPixel(((this.getEntite().getPositionY())*this.getCarte().getHauteurCasePixel()) - this.getCarte().getFenetreEcran().getPosYPixelEcran());
-    	if (this.getEntite().getEtat()!=EtatEntité.Mort) {
-    		System.out.println(this.getEntite().getEtat());
+    	if (!this.isEst_mort()) {
     		getGc().drawImage(this.getFeuilleDeSpriteEntite(),getIndiceSprite()*this.getLargeurPixelEntite(),0,
                     this.getLargeurPixelEntite(),this.getHauteurPixelEntite(),this.getPositionXPixel()-5,
                     this.getPositionYPixel()+this.getCarte().getHauteurCasePixel()-this.getHauteurPixelEntite()-15,
