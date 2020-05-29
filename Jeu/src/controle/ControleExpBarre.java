@@ -5,8 +5,10 @@ import java.util.Observer;
 
 import Jeu.Joueur;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Font;
 
 public class ControleExpBarre  extends Group implements Observer{
 	
@@ -16,9 +18,13 @@ public class ControleExpBarre  extends Group implements Observer{
 	private Rectangle barBorder;
 	private Rectangle unlife;
 	private Rectangle life;
+	private Label niveau;
 	
 	public ControleExpBarre(Joueur joueur,int posX, int posY,int zoom) {
 		this.joueur =joueur;
+		this.niveau = new Label(joueur.getNiveau()+"");
+		this.niveau.setFont(new Font(40));
+		this.niveau.setLayoutX(1000);
 		hauteurBarre *= zoom;
 		largeurBarre  *= zoom;
 		barBorder = new Rectangle(posX,posY,largeurBarre,hauteurBarre);
@@ -28,6 +34,7 @@ public class ControleExpBarre  extends Group implements Observer{
 		life = new Rectangle(posX+5,posY+3,(joueur.getExperience()/(joueur.getNiveau()*100))*largeurBarre-10,hauteurBarre-6);
 		life.setFill(Color.GREEN);
 		joueur.addObserver(this);
+		this.getChildren().add(this.niveau);
 		this.getChildren().add(barBorder);
 		this.getChildren().add(unlife);
 		this.getChildren().add(life);
@@ -38,6 +45,8 @@ public class ControleExpBarre  extends Group implements Observer{
 		// TODO Auto-generated method stub
 		if (arg1 instanceof Integer && arg1.equals(Joueur.GAIN_EXP)) {
 			this.life.setWidth((joueur.getExperience()/(joueur.getNiveau()*100))*largeurBarre-10);
+			this.niveau.setText(this.joueur.getNiveau()+"");
+			System.out.println("j'ai gagné en expériece"+joueur.getExperience());
 		}
 	}
 }
