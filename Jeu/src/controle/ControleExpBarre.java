@@ -31,7 +31,7 @@ public class ControleExpBarre  extends Group implements Observer{
 		barBorder.setFill(Color.BLACK);
 		unlife = new Rectangle(posX+5,posY+3,largeurBarre-10,hauteurBarre-6);
 		unlife.setFill(Color.RED);
-		life = new Rectangle(posX+5,posY+3,(joueur.getExperience()/(joueur.getNiveau()*100))*largeurBarre-10,hauteurBarre-6);
+		life = new Rectangle(posX+5,posY+3,((double)joueur.getExperience()/(double)(joueur.getNiveau()*100))*largeurBarre-10,hauteurBarre-6);
 		life.setFill(Color.GREEN);
 		joueur.addObserver(this);
 		this.getChildren().add(this.niveau);
@@ -44,9 +44,9 @@ public class ControleExpBarre  extends Group implements Observer{
 	public void update(Observable arg0, Object arg1) {
 		// TODO Auto-generated method stub
 		if (arg1 instanceof Integer && arg1.equals(Joueur.GAIN_EXP)) {
-			this.life.setWidth((joueur.getExperience()/(joueur.getNiveau()*100))*largeurBarre-10);
+			this.life.setWidth((double)((double)joueur.getExperience()/((double)joueur.getNiveau()*100))*largeurBarre-10);
 			this.niveau.setText(this.joueur.getNiveau()+"");
-			System.out.println("j'ai gagné en expériece"+joueur.getExperience());
+			System.out.println("j'ai gagné en expériece"+joueur.getExperience()+"sur"+joueur.getNiveau()*100);
 		}
 	}
 }
