@@ -65,10 +65,10 @@ public class Entité extends Observable implements Serializable {
 				if (rater==false) {
 					boolean etourdis = new Random().nextInt(5)==0;
 					if (Math.abs(_Entité.getPositionX()-this.getPositionX())<= _Arme.getPortée() && _Entité.getPositionY()==this.getPositionY() || Math.abs(_Entité.getPositionY()-this.getPositionY())<= _Arme.getPortée() && _Entité.getPositionX()==this.getPositionX() ) {
-						_Entité.DegatsReçues(_Arme);
 						if (etourdis==true) {
 							_Entité.setEtat(EtatEntité.Etourdis);
-						}
+						}_Entité.DegatsReçues(_Arme);
+						
 						_Arme.setDurabilité(_Arme.getDurabilité()-1);
 						if (_Arme.getDurabilité()<=0) {
 							_Arme.setEtat(false);
