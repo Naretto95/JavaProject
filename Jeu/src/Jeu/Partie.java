@@ -19,11 +19,11 @@ import controle.ControleBarreDeVie;
 import controle.ControleCarte;
 import controle.ControleEnnemi;
 import controle.ControleEntite;
+import controle.ControleExpBarre;
 import controle.ControleInventaireItemsEntite;
 import controle.ControleJoueur;
 import controle.ControleOuverturePorte;
 import controle.ControleStatsRessourcesEntite;
-import javafx.concurrent.Service;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.canvas.Canvas;
@@ -65,6 +65,7 @@ public class Partie implements Serializable {
 	//les controleurs de la partie
 	private ControleCarte ctlCarte;
 	private ControleJoueur ctlJoueur;
+	private ControleExpBarre ctlExpJoueur;
 	private ControleBarreDeVie ctlBdvJoueur;//le controle de la barre de vie du joueur
 	private ControleInventaireItemsEntite ctlInventaireJoueur;
 	private ControleStatsRessourcesEntite ctlSRE;//le controle des ressources du joueur
@@ -75,7 +76,7 @@ public class Partie implements Serializable {
 	
 	//les threads de la partie
 	private RunJoueurService threadJoueur;
-	private Service<Integer> threadAffichageJeu;
+	private AffichageService threadAffichageJeu;
 
 	private Timer Duree;
 	private TypeIssus Issus;
@@ -158,14 +159,6 @@ public class Partie implements Serializable {
 		this.playButton = new Button("Jouer");
 		this.playButton.setAlignment(Pos.TOP_RIGHT);
 		this.playButton.setOnMouseClicked((e)->{this.jouer();});
-		try {
-			File file = new File("musiques/song2.mp3");
-			this.media = new Media(file.toURI().toString());
-			this.mediaPlayer = new MediaPlayer(this.media);
-		}catch(Exception e) {
-			e.printStackTrace();
-			e.getMessage();
-		}
 		
 		this.Duree = new Timer();
     	this.paused = false;
@@ -271,6 +264,7 @@ public class Partie implements Serializable {
 		this.ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
 		this.ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
 		this.ctlBdvJoueur = new ControleBarreDeVie(ctlJoueur,50,670,3);
+		this.ctlExpJoueur = new ControleExpBarre(joueur,1050,10,2);
 		this.listeControleEnnemi = new ArrayList<ControleEnnemi>();
 		this.listeCtlBdvEnnemi = new ArrayList<ControleBarreDeVie>();
 		for (int i =0;i<this.listeEnnemi.size();i++) {
@@ -286,6 +280,7 @@ public class Partie implements Serializable {
 			this.GroupCanvasEtLifeBar.getChildren().add(this.listeCtlBdvEnnemi.get(i));
 		}
 		this.GroupCanvasEtLifeBar.getChildren().add(this.ctlBdvJoueur);
+		this.GroupCanvasEtLifeBar.getChildren().add(this.ctlExpJoueur);
 		this.MainPane.getChildren().add(GroupCanvasEtLifeBar);
 		this.MainPane.getChildren().add(ctlSRE);
 		this.MainPane.getChildren().add(fp);
@@ -308,6 +303,7 @@ public class Partie implements Serializable {
 	
 	public void pause() {
 		this.paused=true;
+		this.threadAffichageJeu.stop();
 		if (this.mediaPlayer!=null) {this.mediaPlayer.stop();}
 		this.Duree.cancel();
 	}
@@ -338,7 +334,7 @@ public class Partie implements Serializable {
 		this.Duree = new Timer();
 		if (this.mediaPlayer!=null) {this.mediaPlayer.seek(Duration.ZERO);this.mediaPlayer.play();}
 		this.threadJoueur.restart();
-		this.threadAffichageJeu.restart();
+		this.threadAffichageJeu.start();
 		
 		
 	}

@@ -7,6 +7,7 @@ public class Joueur extends Entité {
 	/**
 	 * 
 	 */
+	public static Integer GAIN_EXP = new Integer(737);
 	private static final long serialVersionUID = 1L;
 	private int Experience;
 	private String Nom;
@@ -25,6 +26,8 @@ public class Joueur extends Entité {
 			this.getInventaireArme().get(0).setDegats(this.getNiveau());
 			this.getInventaireArme().get(0).setNiveau(this.getNiveau());
 		}
+		this.setChanged();
+		this.notifyObservers(GAIN_EXP);
 	}
 	
 	public void Ameliorer() {

@@ -6,10 +6,9 @@ import Jeu.Partie;
 import controle.ControleCarte;
 import controle.ControleEnnemi;
 import controle.ControleJoueur;
-import javafx.concurrent.Service;
-import javafx.concurrent.Task;
+import javafx.animation.AnimationTimer;
 
-public class AffichageService extends Service<Integer>{
+public class AffichageService extends AnimationTimer{
 	
 	private Partie partie;
 	private ControleCarte ctlCarte;
@@ -22,31 +21,19 @@ public class AffichageService extends Service<Integer>{
 		this.ctlJoueur = partie.getCtlJoueur();
 		this.listeCtlEnnemi=partie.getListeControleEnnemi();
 	}
-
-	protected Task<Integer> createTask() {
-		return new Task<Integer>() {
-
-			protected Integer call() throws Exception {
-				while(!partie.isPaused() && !partie.gameOver()) {
-
-					try {
-						Thread.sleep(25);
-					} catch (InterruptedException e) {
-						e.printStackTrace();
-					}
-					partie.getGc().restore();
-					ctlCarte.afficheCarte();
-					for (int i = 0 ;i< listeCtlEnnemi.size();i++) {
-						listeCtlEnnemi.get(i).afficheEnnemi();
-					}
-					ctlJoueur.afficheJoueur(ctlJoueur.getLastDirection(), ctlJoueur.getBouge());
-					for (int i = 0 ;i< listeCtlEnnemi.size();i++) {
-						listeCtlEnnemi.get(i).afficheAttaque();
-					}
-					ctlJoueur.afficheAttaque();
-				}
-				return null;
-			}
-		};
+	@Override
+	public void handle(long arg0) {
+		// TODO Auto-generated method stub
+		if(!partie.isPaused() && !partie.gameOver()) {
+		ctlCarte.afficheCarte();
+		for (int i = 0 ;i< listeCtlEnnemi.size();i++) {
+			listeCtlEnnemi.get(i).afficheEnnemi();
+		}
+		ctlJoueur.afficheJoueur(ctlJoueur.getLastDirection(), ctlJoueur.getBouge());
+		for (int i = 0 ;i< listeCtlEnnemi.size();i++) {
+			listeCtlEnnemi.get(i).afficheAttaque();
+		}
+		ctlJoueur.afficheAttaque();
+		}
 	}
 }

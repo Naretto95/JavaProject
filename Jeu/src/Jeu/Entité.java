@@ -23,6 +23,7 @@ public class Entité extends Observable implements Serializable {
 	private int PositionX;
 	private int PositionY;
 	private int Niveau;
+	private int Etourdissement;
 	private Item enMain;
 	private EtatEntité Etat;
 	private List<Arme> InventaireArme;
@@ -36,6 +37,7 @@ public class Entité extends Observable implements Serializable {
 		this.setInventaireArme(_InventaireArme);
 		this.setInventairePotion(_InventairePotion);
 		this.setEtat(EtatEntité.Vivant);
+		this.setEtourdissement(0);
 		this.setNiveau(_Niveau);
 		this.setInventaireRessource(_InventaireRessource);
 		this.setPositionX(_PositionX);
@@ -135,6 +137,14 @@ public class Entité extends Observable implements Serializable {
 					}
 				}
 			}
+		}else {
+			if (this.getEtat()==EtatEntité.Etourdis) {
+				this.setEtourdissement(this.getEtourdissement()+1);
+				if (this.getEtourdissement()==5) {
+					this.setEtourdissement(0);
+					this.setEtat(EtatEntité.Vivant);
+				}
+			}
 		}
 		this.setChanged();
 		this.notifyObservers(CHANGEMENT_ITEM);
@@ -183,7 +193,7 @@ public class Entité extends Observable implements Serializable {
 		}
 	}
 	
-	public void Utiliser(Entité _Entité) {
+	public void Utiliser(Entité _Entité){
 		if (this.getEtat()==EtatEntité.Vivant) {
 			if (this.enMain instanceof Arme) {
 				if (_Entité.getEtat()==EtatEntité.Vivant || _Entité.getEtat()==EtatEntité.Etourdis) {
@@ -192,8 +202,6 @@ public class Entité extends Observable implements Serializable {
 						if (_Entité.getEtat()==EtatEntité.Mort) {
 							((Joueur)this).setExperience(((Joueur)this).getExperience()+((Ennemi)_Entité).getExperienceMonstre());
 							((Joueur)this).levelup();
-							((Ennemi)_Entité).Jeter();
-							_Entité=null;
 						}
 					}
 				}
@@ -233,8 +241,15 @@ public class Entité extends Observable implements Serializable {
 						break;
 						
 					case GainDegats :
-
-						// A remplir
+						for (int i = 0; i < this.getInventaireArme().size(); i++) {
+							if (this.getInventaireArme().get(i).getType()!=TypeArme.Main && this.getInventaireArme().get(i).isDegatsUp()==false) {
+								this.getInventaireArme().get(i).setDegatsUp(true);
+								this.getInventaireArme().get(i).setDegats(this.getInventaireArme().get(i).getDegats()+((Potion)this.enMain).getNiveau());
+								((Potion)this.enMain).setEtat(false);
+								this.ActualiserInventaire();
+								break;
+							}
+						}
 						break;
 						
 					default:
@@ -242,11 +257,18 @@ public class Entité extends Observable implements Serializable {
 					}
 				}
 			}
+		}else {
+			if (this.getEtat()==EtatEntité.Etourdis) {
+				this.setEtourdissement(this.getEtourdissement()+1);
+				if (this.getEtourdissement()==5) {
+					this.setEtourdissement(0);
+					this.setEtat(EtatEntité.Vivant);
+				}
+			}
 		}
 		this.ActualiserInventaire();
 		this.setChanged();
 		this.notifyObservers(CHANGEMENT_ITEM);
-		
 	}
 	
 	public void Empoisonner(Entité _Entité) {
@@ -355,6 +377,14 @@ public class Entité extends Observable implements Serializable {
 
 	public void setInventairePotion(List<Potion> inventairePotion) {
 		InventairePotion = inventairePotion;
+	}
+
+	public int getEtourdissement() {
+		return Etourdissement;
+	}
+
+	public void setEtourdissement(int etourdissement) {
+		Etourdissement = etourdissement;
 	}
 	
 	
