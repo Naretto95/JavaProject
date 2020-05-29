@@ -1,5 +1,7 @@
 package controle;
 
+import java.util.Observable;
+
 import Jeu.Carte;
 import Jeu.Entité;
 import Jeu.Joueur;
@@ -7,7 +9,6 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import threadService.AttaqueService;
 
 
 public class ControleJoueur extends ControleEntite implements EventHandler<KeyEvent>{
@@ -17,6 +18,9 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private Joueur joueur;
 	private int distMinBordEcranX=150;
 	private int distMinBordEcranY=200;
@@ -35,13 +39,11 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 			case SPACE:
 				if (!this.isAttaqueEnCours()) {
 					this.setBouge(0);
-					setAttaqueEnCours(true);
 					setAvanceB(false);
 					setAvanceD(false);
 					setAvanceG(false);
 					setAvanceH(false);
 					this.setDistance(this.attaque());
-					(new AttaqueService(this)).start();
 				}
 				break;
 			case Z:
@@ -144,5 +146,12 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 
 	public void setJoueur(Joueur joueur) {
 		this.joueur = joueur;
+	}
+
+
+	@Override
+	public void update(Observable o, Object arg) {
+		// TODO Auto-generated method stub
+		
 	}
 }
