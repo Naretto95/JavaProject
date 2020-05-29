@@ -81,6 +81,7 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		if(i>=0 && j>=0 && i<this.carte.getImagesCasesCarte().size() && j<this.carte.getImagesCasesCarte().get(i).size()) {
 			Case caseR = this.carte.getCase(i, j);
 			if (caseR.getContenu() instanceof Porte) {this.setChanged();this.notifyObservers(caseR.getContenu());}
+			//if (caseR.getContenu() instanceof Enclume) {this.setChanged();this.notifyObservers(caseR.getContenu());}
 			return detecteCollision(this.getPositionXPixel()+deltaX,this.getPositionYPixel()+deltaY,this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel(),j*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),i*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel()) && (caseR.getContenu()!=Case.VIDE);
 		}
 		return true;
