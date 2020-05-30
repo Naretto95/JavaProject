@@ -9,6 +9,7 @@ import Jeu.Arme;
 import Jeu.Carte;
 import Jeu.Carte.Porte;
 import Jeu.Case;
+import Jeu.Enclume;
 import Jeu.Entité;
 import Jeu.Item;
 import Jeu.Joueur;
@@ -90,7 +91,7 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		if(i>=0 && j>=0 && i<this.carte.getImagesCasesCarte().size() && j<this.carte.getImagesCasesCarte().get(i).size()) {
 			Object objet = this.carte.getCase(i, j).getContenu();
 			if (this.getEntite() instanceof Joueur && objet instanceof Porte) {this.setChanged();this.notifyObservers(objet);}
-			//if (this.getEntite() instanceof Joueur && objet instanceof Enclume) {this.setChanged();this.notifyObservers(objet);}
+			if (this.getEntite() instanceof Joueur && objet instanceof Enclume) {this.setChanged();this.notifyObservers(objet);}
 			return detecteCollision(this.getPositionXPixel()+deltaX,this.getPositionYPixel()+deltaY,this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel(),j*this.carte.getLargeurCasePixel()-this.carte.getFenetreEcran().getPosXPixelEcran(),i*this.carte.getHauteurCasePixel()-this.carte.getFenetreEcran().getPosYPixelEcran(),this.carte.getLargeurCasePixel(),this.carte.getHauteurCasePixel()) && (objet!=Case.VIDE);
 		}
 		return true;

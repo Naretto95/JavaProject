@@ -17,6 +17,7 @@ import javax.swing.JFileChooser;
 
 import controle.ControleBarreDeVie;
 import controle.ControleCarte;
+import controle.ControleEnclume;
 import controle.ControleEnnemi;
 import controle.ControleEntite;
 import controle.ControleExpBarre;
@@ -70,6 +71,7 @@ public class Partie implements Serializable {
 	private ControleInventaireItemsEntite ctlInventaireJoueur;
 	private ControleStatsRessourcesEntite ctlSRE;//le controle des ressources du joueur
 	private ControleOuverturePorte ctlOP;
+	private ControleEnclume ctlEnclume;
 	private ArrayList<ControleEnnemi> listeControleEnnemi;
 	private ArrayList<ControleBarreDeVie> listeCtlBdvEnnemi;
 	
@@ -195,6 +197,8 @@ public class Partie implements Serializable {
 			    		case "2":
 			    			records2[i][j]="door.png";
 			    			break;
+			    		case "3":
+			    			records2[i][j]="enclume_ameliore.png";
 			    		default:
 			    			break;
 			    	}
@@ -203,7 +207,11 @@ public class Partie implements Serializable {
 			
 			//on crée le dur du jeu (carte , joueur , ennemis)
 			this.carte = new Carte("images",records2,canvas.getWidth(),canvas.getHeight());
-			carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Cle));
+			for (int i = 0;i<20;i++) {
+				carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Cle));
+			}for (int i = 0;i<20;i++) {
+				carte.getCase(6, 6).addRessource(new Ressource(TypeRessource.Bois));
+			}
 			this.joueur = new Joueur("Bob",21,7,7);
 			joueur.Ramasser(new Arme(TypeArme.EpéeCourte,20));
 			this.listeEnnemi = new ArrayList<Ennemi>();
@@ -271,6 +279,7 @@ public class Partie implements Serializable {
 		this.ctlCarte = new ControleCarte(carte,gc);
 		this.ctlJoueur = new ControleJoueur("imagesmonstres/link2.png",carte,joueur,gc,120,120);
 		this.ctlOP = new ControleOuverturePorte((ControleEntite)ctlJoueur);
+		this.ctlEnclume = new ControleEnclume((ControleEntite)ctlJoueur);
 		this.ctlInventaireJoueur = new ControleInventaireItemsEntite((Entité)joueur);
 		this.ctlSRE = new ControleStatsRessourcesEntite(joueur,50,50,100);
 		this.ctlBdvJoueur = new ControleBarreDeVie(ctlJoueur,50,670,3);
@@ -285,7 +294,7 @@ public class Partie implements Serializable {
 		
 		//on relie les controles de jeu aux composants graphiques du jeu
 		GroupCanvasEtLifeBar.getChildren().add(canvas);
-		this.fp.getChildren().addAll(ctlOP,ctlInventaireJoueur,btnSave,exitButton,pauseButton,playButton);
+		this.fp.getChildren().addAll(ctlEnclume,ctlOP,ctlInventaireJoueur,btnSave,exitButton,pauseButton,playButton);
 		for (int i =0 ; i<this.listeCtlBdvEnnemi.size();i++) {
 			this.GroupCanvasEtLifeBar.getChildren().add(this.listeCtlBdvEnnemi.get(i));
 		}
