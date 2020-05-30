@@ -1,26 +1,27 @@
 package Jeu;
+
 /**
  * 
  * @author Lilian Naretto
  *
  */
-public class Enclume {
+
+public class Enclume{
+	public static Integer UTILISATION_ENCLUME = new Integer(800);
 	private TypeEnclume Type;
-	private Joueur Joueur;
 	
-	public Enclume(TypeEnclume _Type,Joueur _Joueur) {
-		this.setJoueur(_Joueur);
+	public Enclume(TypeEnclume _Type) {
 		this.setType(_Type);
 	}
 	
-	public void Utiliser() {
+	public void Utiliser(Joueur joueur) {
 		switch (this.getType()) {
 		case EnclumeReparer:
-			this.getJoueur().Ameliorer();
+			joueur.Reparer();
 			break;
 			
 		case EnclumeAmeliorer:
-			this.getJoueur().Reparer();
+			joueur.Ameliorer();
 			break;			
 			
 		default:
@@ -34,14 +35,5 @@ public class Enclume {
 
 	public void setType(TypeEnclume type) {
 		Type = type;
-	}
-
-	public Joueur getJoueur() {
-		return Joueur;
-	}
-
-	public void setJoueur(Joueur joueur) {
-		Joueur = joueur;
-	}
-	
+	}	
 }

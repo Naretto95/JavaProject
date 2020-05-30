@@ -4,6 +4,7 @@ package controle;
 import java.util.Observable;
 import java.util.Observer;
 
+import Jeu.Enclume;
 import javafx.scene.control.Button;
 /**
  * @date 27/05/2020
@@ -25,12 +26,12 @@ public class ControleEnclume extends Button implements Observer,Runnable{
 
 	@Override
 	public void update(Observable arg0, Object arg1) {
-		/*
+		
 		if (arg1 instanceof Enclume) {
 			(new Thread(this)).start();
-			this.setOnMouseClicked(e->{((Enclume)arg1).ouvre(this.ctlEntite);});
+			this.setOnMouseClicked(e->{((Enclume)arg1).Utiliser(((ControleJoueur) this.ctlEntite).getJoueur());});
 		}
-		*/
+
 	}
 
 	@Override

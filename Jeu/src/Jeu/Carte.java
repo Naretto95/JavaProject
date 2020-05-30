@@ -72,6 +72,14 @@ public class Carte extends Observable implements Observer,Serializable{
 					porte.addObserver(this.getCase(i, casesCarte.get(i).size()-1));
 					porte.addObserver(this);
 					break;
+				case "enclume_ameliore.png":
+					Enclume enclume = new Enclume(TypeEnclume.EnclumeAmeliorer);
+					casesCarte.get(i).add(new Case(enclume));
+					break;
+				case "enclume_repare.png":
+					Enclume enclume2 = new Enclume(TypeEnclume.EnclumeReparer);
+					casesCarte.get(i).add(new Case(enclume2));
+					break;
 				default:
 					casesCarte.get(i).add(new Case());
 					break;				
