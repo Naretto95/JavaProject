@@ -4,6 +4,11 @@ import Jeu.EtatEntité;
 import controle.ControleEnnemi;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+/**
+ * @date 28/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class EnnemiService extends Service<Object>{
 	

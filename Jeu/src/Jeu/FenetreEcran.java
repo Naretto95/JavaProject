@@ -1,7 +1,11 @@
 package Jeu;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author Corentin BRILLANT
+ *
+ */
 public class FenetreEcran implements Serializable{
 	
 	/**

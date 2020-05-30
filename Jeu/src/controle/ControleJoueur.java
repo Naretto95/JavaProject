@@ -9,7 +9,10 @@ import javafx.event.EventHandler;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-
+/**
+ * @date 16/05/2020
+ * @author Corentin BRILLANT
+ */
 
 public class ControleJoueur extends ControleEntite implements EventHandler<KeyEvent>{
 	
@@ -32,6 +35,7 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 	
 	
 	//gestion des input clavier pour le joueur
+	/**{@literal le gestionnaire des input clavier du joueur}*/
 	public void handle(KeyEvent event){
 		//si on appuye sur une touche
 		if (event.getEventType()==KeyEvent.KEY_PRESSED) {
@@ -108,12 +112,13 @@ public class ControleJoueur extends ControleEntite implements EventHandler<KeyEv
 		}
 	}
 	
+	/**{@literal la méthode pour déplacer le joueur}*/
 	public void deplacerJoueur(KeyCode kc) {
 		deplacer(kc,this.distMinBordEcranX,this.distMinBordEcranY,true);
 	}
 	
 	
-	
+	/**{@literal la méthode pour afficher le joueur}*/
 	public void afficheJoueur(KeyCode keycode,int bouge) {
 		//l'affichage des entites est variable pour chaque feuille de Sprite qui lui correspond
 		setIndiceSprite((getIndiceSprite()+1));//on change l'image affichée par celle qui suit dans la feuille

@@ -1,7 +1,11 @@
 package Jeu;
 
 import java.util.Map.Entry;
-
+/**
+ * 
+ * @author Lilian Naretto
+ *
+ */
 public class Joueur extends Entité {
 	
 	/**

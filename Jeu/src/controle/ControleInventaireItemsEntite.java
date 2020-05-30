@@ -14,6 +14,11 @@ import affichage.AffichageBarreInventaire;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.layout.FlowPane;
+/**
+ * @date 23/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class ControleInventaireItemsEntite extends FlowPane implements Observer{
 
@@ -46,6 +51,7 @@ public class ControleInventaireItemsEntite extends FlowPane implements Observer{
 		}
 	}
 	
+	/**{@literal met à jour l'affichage de l'inventaire en fonction de l'inventaire du joueur}*/
 	public void majBarre() {
 		this.barre.videCases();
 		Item enMain = this.entite.getEnMain();

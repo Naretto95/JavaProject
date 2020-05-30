@@ -18,7 +18,11 @@ import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.io.File;
-
+/**
+ * 
+ * @author Hassan Yazane
+ *
+ */
 
 public class MenuApp extends Application {
     String title="Beat the Zombies"; // pour pouvoir le changer partout d'un coup

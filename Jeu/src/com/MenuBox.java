@@ -5,7 +5,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 
-
+/**
+ * 
+ * @author Hassan Yazane
+ *
+ */
 public class MenuBox extends Pane {
 
     private VBox box;

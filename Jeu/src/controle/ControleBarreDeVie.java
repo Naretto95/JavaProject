@@ -1,6 +1,7 @@
 package controle;
 
 import java.util.Observable;
+
 import java.util.Observer;
 
 import Jeu.Carte;
@@ -8,6 +9,11 @@ import Jeu.Entité;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+/**
+ * @date 20/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class ControleBarreDeVie  extends Group implements Observer{
 	

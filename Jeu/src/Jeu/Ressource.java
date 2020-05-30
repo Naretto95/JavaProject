@@ -1,5 +1,9 @@
 package Jeu;
-
+/**
+ * 
+ * @author Lilian Naretto
+ *
+ */
 public class Ressource extends Objet {
 	
 	/**

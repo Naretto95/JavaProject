@@ -24,6 +24,7 @@ public class ControleEnnemi extends ControleEntite{
         this.ennemiService.start();
     }
 	
+	/**{@literal l'ennemi cherche a attaquer dans toutes les directions et frappe si il y a un joueur}*/
 	public void autoDefenseCollision() {
 		int i = this.getEntite().getPositionY();
 		int j = this.getEntite().getPositionX();
@@ -33,6 +34,7 @@ public class ControleEnnemi extends ControleEntite{
 		autoDefenseCollisionCase(i,j-1);
 	}
 	
+	/**{@literal l'ennemi frappe si il y a un joueur dans la case i,j}*/
 	public void autoDefenseCollisionCase(int i,int j) {
 		if(i>=0 && j>=0 && i<this.getCarte().getImagesCasesCarte().size() && j<this.getCarte().getImagesCasesCarte().get(i).size()) {
 			Object objet = this.getCarte().getCase(i, j).getContenu();

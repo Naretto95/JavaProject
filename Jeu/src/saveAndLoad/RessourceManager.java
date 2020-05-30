@@ -5,7 +5,11 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-
+/**
+ * 
+ * @author Hassan Yazane
+ *
+ */
 public class RessourceManager {
     public static void  save(Serializable data, String filename) throws Exception {
 

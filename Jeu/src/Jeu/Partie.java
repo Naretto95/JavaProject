@@ -37,12 +37,12 @@ import javafx.util.Duration;
 import saveAndLoad.RessourceManager;
 import threadService.AffichageService;
 import threadService.RunJoueurService;
-
+/**
+ * @author Ilham Laatarsi
+ */
 public class Partie implements Serializable {
 	
-	/**
-	 * 
-	 */
+	
 	private static final long serialVersionUID = 1L;
 	private Media media;
 	private MediaPlayer mediaPlayer;
@@ -167,6 +167,10 @@ public class Partie implements Serializable {
 	//..........................................................................
 	
 	@SuppressWarnings("resource")
+	/**
+	 * @date 26/05/20
+	 * @author Corentin BRILLANT
+	 */
 	public StackPane nouvellePartie(){
 		
 		//import d'une autre carte faite avec un csv
@@ -223,7 +227,10 @@ public class Partie implements Serializable {
 		return null;
 		
 	}
-	
+	/**
+	 * @date 26/05/20
+	 * @author Corentin BRILLANT
+	 */
 	public StackPane choisirPartie() {
 		
 		JFileChooser dialogue = new JFileChooser(new File("sauvegardes"));
@@ -252,7 +259,10 @@ public class Partie implements Serializable {
 		System.out.println("Il y a eu une erreur lors de la sélection du fichier");
 		return null;
 	}
-	
+	/**
+	 * @date 26/05/20
+	 * @author Corentin BRILLANT
+	 */
 	public void preparerPartie() {
 		
 		/* Les observables ne sont pas serialisables, ils faut donc les recharger à chaque chargement de partie, de même que pour les liaisons entre les composants graphiques */
@@ -327,6 +337,12 @@ public class Partie implements Serializable {
 	public StackPane recommencer() {
 		return this.nouvellePartie();
 	}
+	
+	/**
+	 * 
+	 * @author Corentin BRILLANT
+	 *
+	 */
 	
 	public void jouer() {
 		/*la fonction permet de relancer les threads de la partie après une pause*/

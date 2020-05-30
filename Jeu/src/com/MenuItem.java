@@ -11,7 +11,11 @@ import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.util.Duration;
 
-
+/**
+ * 
+ * @author Hassan Yazane
+ *
+ */
 public class MenuItem extends StackPane {
 
     private static final Font font;

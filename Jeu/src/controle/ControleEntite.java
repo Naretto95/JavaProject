@@ -19,6 +19,12 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.util.Duration;
 import threadService.AttaqueService;
+/**
+ * @date 15/05/2020
+ * @author Corentin BRILLANT
+ */
+
+
 
 public abstract class ControleEntite extends Observable implements Observer,Serializable {
 	
@@ -74,10 +80,12 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		this.entite.addObserver(this);
 	}
 	
+	/**{@literal cette méthode détecte la collision entre deux rectangles, elle retourne true si il y a collision}*/
 	public boolean detecteCollision(int rect1x,int rect1y, int rect1w, int rect1h,int rect2x,int rect2y, int rect2w, int rect2h) {
 		return ((rect1x +paddingX< rect2x + rect2w) && (rect1x-paddingX + rect1w > rect2x) && ( rect1y+paddingY < rect2y + rect2h) && ( rect1h + rect1y > rect2y));
 	}
 	
+	/**{@literal cette méthode détecte la collision entre la case actuelle du joueur dont le déplacement est (deltaX,deltaY) en pixels et la case de coordonnées (i,j), elle retourne true si le mouvement est impossible et false sinon}*/
 	public boolean detecteCollisionCaseMouvement(int i, int j,int deltaX, int deltaY) {
 		if(i>=0 && j>=0 && i<this.carte.getImagesCasesCarte().size() && j<this.carte.getImagesCasesCarte().get(i).size()) {
 			Object objet = this.carte.getCase(i, j).getContenu();
@@ -88,6 +96,7 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		return true;
 	}
 	
+	/**{@literal cette méthode retourne true si le deplacement (int deltaX,int deltaY) en pixels est impossible et false sinon}*/
 	public boolean detecteCollisionsMouvement(int deltaX,int deltaY) {
 		//soit deltax est nul soit deltay est nul
 		if (deltaX>0) {
@@ -104,6 +113,8 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		}
 		return true;
 	}
+	
+	/**{@literal cette méthode permet de lancer une attaque dans la derniere direction selon laquelle le personnage est orientée, elle retourne la distance de l'ennemi si l'attaque a été portée et -1 si l'attaque est impossible}*/
 	public int attaque() {
 		if (!this.isAttaqueEnCours()) {
 		setAttaqueEnCours(true);
@@ -168,7 +179,7 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 	
 
 	
-	
+	/**{@literal cette méthode déplace l'entite si c'est possible dans la direction KeyCode kc avec sa vitesse, elle prend en paramètres la direction et les distances minimales de l'entite avec le bord de l'écran, elle prend également le booléen indiquant si l'entité peut déplacer l'ecran sur la carte. Cette méthode a été conçu pour le joueur mais devra être modifiée pour déplacer les ennemis lorsque ceux -ci bougeront}*/
 	public void deplacer(KeyCode kc, int distMinBordEcranX, int distMinBordEcranY, boolean canMoveScreen) {
 
 		switch (kc) {
@@ -247,6 +258,7 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		this.avanceB = avanceB;
 	}
 
+	/**{@literal cette méthode change la position en pixels de l'entite}*/
 	public void changerPositionPixel(int deltaXPixel, int deltaYPixel) {
 		this.setPositionXPixel(this.getPositionXPixel()+deltaXPixel);
 		this.setPositionYPixel(this.getPositionYPixel()+deltaYPixel);
@@ -255,7 +267,7 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 	}
 	
 
-	
+	/**{@literal cette méthode affiche l'image d'attaque sur l'entite que l'entite est en train d'attaquer}*/
 	public void afficheAttaque() {
 		if (this.getDistance()>-1 && this.attaqueEnCours) {
 			switch (this.getLastDirection()) {

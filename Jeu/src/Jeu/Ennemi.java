@@ -4,7 +4,11 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map.Entry;
-
+/**
+ * 
+ * @author Lilian Naretto
+ *
+ */
 public class Ennemi extends Entité implements Serializable {
 	
 	/**

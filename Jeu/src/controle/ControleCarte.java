@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import Jeu.Carte;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+/**
+ * @date 20/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class ControleCarte {
 	

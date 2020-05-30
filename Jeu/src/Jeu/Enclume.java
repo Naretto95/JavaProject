@@ -1,5 +1,9 @@
 package Jeu;
-
+/**
+ * 
+ * @author Lilian Naretto
+ *
+ */
 public class Enclume {
 	private TypeEnclume Type;
 	private Joueur Joueur;

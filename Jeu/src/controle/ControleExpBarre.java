@@ -9,6 +9,11 @@ import javafx.scene.control.Label;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
+/**
+ * @date 28/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class ControleExpBarre  extends Group implements Observer{
 	

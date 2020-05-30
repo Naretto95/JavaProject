@@ -5,6 +5,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import javafx.scene.control.Button;
+/**
+ * @date 27/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class ControleEnclume extends Button implements Observer,Runnable{
 	

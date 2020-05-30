@@ -1,7 +1,11 @@
 package Jeu;
 
 import java.io.Serializable;
-
+/**
+ * 
+ * @author Lilian Naretto
+ *
+ */
 public class Objet implements Serializable {
 	/**
 	 * 

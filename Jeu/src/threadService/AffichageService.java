@@ -7,6 +7,11 @@ import controle.ControleCarte;
 import controle.ControleEnnemi;
 import controle.ControleJoueur;
 import javafx.animation.AnimationTimer;
+/**
+ * @date 24/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class AffichageService extends AnimationTimer{
 	
