@@ -13,7 +13,11 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
-
+/**
+ * 
+ * @author Hassan Yazane
+ *
+ */
 
 public class LoadingScreen extends Pane {
 

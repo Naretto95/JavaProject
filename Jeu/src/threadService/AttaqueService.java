@@ -3,6 +3,12 @@ package threadService;
 import controle.ControleEntite;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
+/**
+ * @date 25/05/2020
+ * @author Corentin BRILLANT
+ */
+
+
 
 public class AttaqueService extends Service<Object>{
 	

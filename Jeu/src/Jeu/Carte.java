@@ -11,7 +11,12 @@ import java.util.Observer;
 
 import controle.ControleEntite;
 import javafx.scene.image.Image;
-
+/**
+ * 
+ * @date 21/05/20
+ * @author Corentin BRILLANT
+ *
+ */
 public class Carte extends Observable implements Observer,Serializable{
 
 	/**
@@ -76,6 +81,8 @@ public class Carte extends Observable implements Observer,Serializable{
 		
 	}
 	
+	/** {@literal met l'entité entite en case i,j si cela est possible}
+	 *  */	
 	public boolean mettreEntite(Entité entite,int i , int j) {
 		Case _case = this.getCase(i, j);
 		if (_case.getContenu()==Case.VIDE) {
@@ -113,6 +120,9 @@ public class Carte extends Observable implements Observer,Serializable{
 		return fenetreEcran;
 	}
 	
+	/**{@literal déplacer la fenetre de l'ecran sur la carte d'un mouvement (deltaX, deltaY) en pixels}
+	*/
+	
 	public boolean deplaceFenetre(int deltaX, int deltaY) {
 		boolean result = this.fenetreEcran.deplaceFenetreEcran(deltaX, deltaY);
 		this.setChanged();
@@ -120,6 +130,7 @@ public class Carte extends Observable implements Observer,Serializable{
 		return result;
 	}
 	
+	/**{@literal met à jour les images de la carte en fonction du contenu des cases}*/
 	public void majImagesCasesCarte() {
 		for (int i = 0;i <this.imagesCasesCarte.size();i++) {
 			for (int j = 0;j <this.imagesCasesCarte.get(i).size();j++) {
@@ -142,6 +153,7 @@ public class Carte extends Observable implements Observer,Serializable{
 	public int getHauteurCasePixel() {
 		return hauteurCasePixel;
 	}
+	/**{@literal la classe statique des portes}*/
 	
 	public final class Porte extends Observable implements Serializable {
 		
@@ -159,6 +171,7 @@ public class Carte extends Observable implements Observer,Serializable{
 			
 		}
 		
+		/**{@literal permet à l'entite controlée par ctlEntite d'ouvrir la porte uniquement si elle a assez de clés}*/
 		public boolean ouvre(ControleEntite ctlEntite) {
 			int nbClees=0;
 			Entité entite = ctlEntite.getEntite();

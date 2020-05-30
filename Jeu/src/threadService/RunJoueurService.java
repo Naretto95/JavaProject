@@ -4,6 +4,11 @@ import Jeu.Partie;
 import javafx.concurrent.Service;
 import javafx.concurrent.Task;
 import javafx.scene.input.KeyCode;
+/**
+ * @date 19/05/2020
+ * @author Corentin BRILLANT
+ */
+
 
 public class RunJoueurService extends Service<Integer>{
 

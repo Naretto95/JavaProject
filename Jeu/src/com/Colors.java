@@ -2,7 +2,11 @@ package com;
 
 import javafx.scene.paint.Color;
 
-
+/**
+ * 
+ * @author Hassan Yazane
+ *
+ */
 public class Colors {
 
     public static final Color MENU_TEXT = Color.rgb(25, 250, 25); // ça

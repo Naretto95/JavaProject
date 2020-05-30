@@ -1,6 +1,11 @@
 package Jeu;
 
 import java.io.Serializable;
+/**
+ * 
+ * @author Lilian Naretto
+ *
+ */
 
 public class Arme extends Item implements Serializable {
 	

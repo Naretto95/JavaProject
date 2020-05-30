@@ -7,12 +7,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Observable;
 import java.util.Random;
-
+/**
+ * 
+ * @author Lilian Naretto
+ *
+ */
 public class Entité extends Observable implements Serializable {
 	
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
 	public static Integer VIE_MODIFIEE = new Integer(0);
 	public static Integer EST_MORT = new Integer(1);
