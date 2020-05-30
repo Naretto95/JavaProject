@@ -26,31 +26,31 @@ public class Ennemi extends Entité implements Serializable {
 		}
 		switch (this.getRace()) {
 		case Orc:
-			this.setEnMain(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
 			this.getInventaireArme().add(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
+			this.ChangerItem(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
 			this.getInventairePotion().add(new Potion(Effet.Poison,this.getNiveau()));
 			this.getInventaireRessource().put(new Ressource(TypeRessource.Fer),1);
 			this.getInventaireRessource().put(new Ressource(TypeRessource.Or),1);
 			break;
 			
 		case Humain:
-			this.setEnMain(new Arme(TypeArme.EpéeCourte,this.getNiveau()));
 			this.getInventaireArme().add(new Arme(TypeArme.EpéeCourte,this.getNiveau()));
+			this.ChangerItem(new Arme(TypeArme.EpéeCourte,this.getNiveau()));
 			this.getInventaireRessource().put(new Ressource(TypeRessource.Bois),2);
 			this.getInventairePotion().add(new Potion(Effet.GainDeVie,this.getNiveau()));
 			break;
 			
 		case Dragon:
-			this.setEnMain(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
 			this.getInventaireArme().add(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
+			this.ChangerItem(new Arme(TypeArme.EpéeLongue,this.getNiveau()));
 			this.getInventairePotion().add(new Potion(Effet.GainDegats,this.getNiveau()));
 			this.getInventaireRessource().put(new Ressource(TypeRessource.Or),2);
 			
 			break;
 			
 		case Nain:
-			this.setEnMain(new Arme(TypeArme.Arc,this.getNiveau()));
 			this.getInventaireArme().add(new Arme(TypeArme.Arc,this.getNiveau()));
+			this.ChangerItem(new Arme(TypeArme.Arc,this.getNiveau()));
 			this.getInventairePotion().add(new Potion(Effet.Etourdissement,this.getNiveau()));
 			this.getInventaireRessource().put(new Ressource(TypeRessource.Fer),2);
 			
