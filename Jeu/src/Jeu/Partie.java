@@ -161,6 +161,14 @@ public class Partie implements Serializable {
 		this.playButton = new Button("Jouer");
 		this.playButton.setAlignment(Pos.TOP_RIGHT);
 		this.playButton.setOnMouseClicked((e)->{this.jouer();});
+		try {
+			File file = new File("musiques/song2.mp3");
+			this.media = new Media(file.toURI().toString());
+			this.mediaPlayer = new MediaPlayer(this.media);
+		}catch(Exception e) {
+			e.printStackTrace();
+			e.getMessage();
+		}
 		
 		this.Duree = new Timer();
     	this.paused = false;
