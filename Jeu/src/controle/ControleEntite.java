@@ -79,6 +79,14 @@ public abstract class ControleEntite extends Observable implements Observer,Seri
 		this.paddingX=5;
 		this.paddingY=20;
 		this.entite.addObserver(this);
+		try {
+			File file = new File("musiques/song3.mp3");
+			this.sonEpee = new Media(file.toURI().toString());
+	        this.mediaPlayer = new MediaPlayer(sonEpee);
+		}catch(Exception e) {
+			e.printStackTrace();
+			e.getMessage();
+		}
 	}
 	
 	/**{@literal cette méthode détecte la collision entre deux rectangles, elle retourne true si il y a collision}*/

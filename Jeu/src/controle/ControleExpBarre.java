@@ -35,9 +35,9 @@ public class ControleExpBarre  extends Group implements Observer{
 		barBorder = new Rectangle(posX,posY,largeurBarre,hauteurBarre);
 		barBorder.setFill(Color.BLACK);
 		unlife = new Rectangle(posX+5,posY+3,largeurBarre-10,hauteurBarre-6);
-		unlife.setFill(Color.RED);
+		unlife.setFill(Color.BLACK);
 		life = new Rectangle(posX+5,posY+3,((double)joueur.getExperience()/(double)(joueur.getNiveau()*100))*largeurBarre-10,hauteurBarre-6);
-		life.setFill(Color.GREEN);
+		life.setFill(Color.BLUE);
 		joueur.addObserver(this);
 		this.getChildren().add(this.niveau);
 		this.getChildren().add(barBorder);
